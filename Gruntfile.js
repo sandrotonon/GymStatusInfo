@@ -61,22 +61,18 @@ module.exports = function (grunt) {
                     port: 21,
                     authKey: 'user'
                 },
-                src: '<%= config.app %>/public/',
+                src: '<%= config.app %>/',
                 dest: '/',
                 exclusions: [
                     '.git',
-                    'node_modules',
-                    '.DS_Store',
-                    '.gitignore',
-                    '.ftppass'
+                    '.DS_Store'
                 ]
-            }
-        },
+            }        },
 
     });
 
     grunt.registerTask('default', ['less', 'cssmin', 'watch']);
     grunt.registerTask('build', ['uglify', 'less', 'cssmin']);
-    grunt.registerTask('deploy', ['ftp-deploy']);
+    grunt.registerTask('deploy', ['ftp-deploy:frontend', 'ftp-deploy:backend']);
 
 };
