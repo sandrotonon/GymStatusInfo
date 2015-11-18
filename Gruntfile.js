@@ -9,42 +9,23 @@ module.exports = function (grunt) {
 
         // Settings
         config: {
-            app: '.'
-        },
-
-        connect: {
-            options: {
-                port: 9001,
-                livereload: 35729,
-                base: '<%= config.app %>'
-            },
-            livereload: {
-                options: {
-                    open: true,
-                    base: [
-                        '<%= config.app %>'
-                    ]
-                }
-            }
+            app: './public'
         },
 
         uglify: {
             scripts: {
                 expand: true,
-                cwd: 'js',
+                cwd: '<%= config.app %>/js',
                 src: '**.js',
-                dest: 'js/dist',
+                dest: '<%= config.app %>/js/dist',
                 ext: '.min.js'
             }
         },
 
         less: {
             styles: {
-                options: {
-                    paths: ['css/styles/']
-                },
                 files: {
-                    'css/styles.css': 'less/styles.less'
+                    '<%= config.app %>/css/styles.css': '<%= config.app %>/less/styles.less'
                 }
             }
         },
@@ -53,9 +34,9 @@ module.exports = function (grunt) {
             target: {
                 files: [{
                     expand: true,
-                    cwd: 'css',
+                    cwd: '<%= config.app %>/css',
                     src: ['*.css', '!*.min.css'],
-                    dest: 'css/dist',
+                    dest: '<%= config.app %>/css/dist',
                     ext: '.min.css'
                 }]
             }
@@ -63,25 +44,14 @@ module.exports = function (grunt) {
 
         watch: {
             scripts: {
-                files: 'js/custom/**.js',
+                files: '<%= config.app %>/js/custom/**.js',
                 task: 'jshint:scripts'
             },
 
             styles: {
-                files: 'less/**.less',
+                files: '<%= config.app %>/less/**.less',
                 tasks: ['less', 'cssmin']
             },
-
-            livereload: {
-                options: {
-                    livereload: '<%= connect.options.livereload %>'
-                },
-                files: [
-                    '<%= config.app %>/{,*/}*.html',
-                    '<%= config.app %>/css/{,*/}*.css',
-                    '<%= config.app %>/img/{,*/}*'
-                ]
-            }
         },
 
         'ftp-deploy': {
@@ -91,7 +61,7 @@ module.exports = function (grunt) {
                     port: 21,
                     authKey: 'user'
                 },
-                src: '<%= config.app %>/',
+                src: '<%= config.app %>/public/',
                 dest: '/',
                 exclusions: [
                     '.git',
@@ -105,7 +75,7 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.registerTask('default', ['less', 'cssmin', 'connect:livereload', 'watch']);
+    grunt.registerTask('default', ['less', 'cssmin', 'watch']);
     grunt.registerTask('build', ['uglify', 'less', 'cssmin']);
     grunt.registerTask('deploy', ['ftp-deploy']);
 
