@@ -16,7 +16,7 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
-require 'laravel-app/bootstrap/autoload.php';
+require '../laravel-app/bootstrap/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Turn On The Lights
@@ -28,7 +28,7 @@ require 'laravel-app/bootstrap/autoload.php';
 | the responses back to the browser and delight our users.
 |
 */
-$app = require_once 'laravel-app/bootstrap/app.php';
+$app = require_once '../laravel-app/bootstrap/app.php';
 /*
 |--------------------------------------------------------------------------
 | Run The Application
