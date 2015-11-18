@@ -404,3 +404,23 @@ section {
 .panel {
   margin-top: 30px;
 }
+.row.keys {
+  margin-top: 30px;
+}
+.row.keys .key {
+  display: inline-block;
+  width: 21px;
+  overflow: hidden;
+}
+.row.keys .key.key-success {
+  background-color: #18bc9c;
+  color: #18bc9c;
+}
+.row.keys .key.key-warning {
+  background-color: #f39c12;
+  color: #f39c12;
+}
+.row.keys .key.key-danger {
+  background-color: #e74c3c;
+  color: #e74c3c;
+}

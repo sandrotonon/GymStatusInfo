@@ -41,3 +41,29 @@ section {
 .panel {
   margin-top: 30px;
 }
+
+// Keys for gyms
+.row.keys {
+  margin-top: 30px;
+
+  .key {
+    display: inline-block;
+    width: 21px;
+    overflow: hidden;
+
+    &.key-success {
+      background-color: @status-success;
+      color: @status-success;
+    }
+
+    &.key-warning {
+      background-color: @status-warning;
+      color: @status-warning;
+    }
+
+    &.key-danger {
+      background-color: @status-danger;
+      color: @status-danger;
+    }
+  }
+}
