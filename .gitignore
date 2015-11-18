@@ -28,3 +28,4 @@ Temporary Items
 # Project stuff
 node_modules
 bower_components
+.ftppass
