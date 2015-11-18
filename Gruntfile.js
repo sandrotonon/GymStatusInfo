@@ -73,6 +73,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['less', 'cssmin', 'watch']);
     grunt.registerTask('build', ['uglify', 'less', 'cssmin']);
-    grunt.registerTask('deploy', ['ftp-deploy:frontend', 'ftp-deploy:backend']);
+    grunt.registerTask('deploy', ['ftp-deploy']);
 
 };
