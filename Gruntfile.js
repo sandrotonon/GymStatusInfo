@@ -14,9 +14,9 @@ module.exports = function(grunt) {
         uglify: {
             scripts: {
                 expand: true,
-                cwd: 'js/custom/',
+                cwd: 'js',
                 src: '**.js',
-                dest: 'js/custom/',
+                dest: 'js/dist',
                 ext: '.min.js'
             }
         },
