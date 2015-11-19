@@ -1,0 +1,22 @@
+{
+  "name": "gymstatusinfo",
+  "description": "",
+  "main": "public/core/resources/views/index.blade.php",
+  "authors": [
+    "Sandro Tonon",
+    "Andreas Birreck"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/glur4k/GymStatusInfo",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
