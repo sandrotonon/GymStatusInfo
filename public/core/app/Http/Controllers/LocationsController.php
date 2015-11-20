@@ -31,7 +31,7 @@ class LocationsController extends Controller
 
     public function create()
     {
-        return view('locations.create');
+        return view('location.create');
     }
 
     public function store()

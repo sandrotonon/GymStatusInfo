@@ -392,38 +392,16 @@ body {
     padding-top: 110px;
   }
 }
-.panel a.edit-link {
-  color: #fff;
-  padding: 5px;
-  margin-right: -5px;
-}
-.panel a.edit-link:hover,
-.panel a.edit-link:focus {
-  color: #2C3E50;
-}
-.panel .panel-title {
-  padding-top: 2px;
-}
 .btn.btn-success {
   margin-top: 20px;
 }
-.row.keys {
-  margin: 30px 0 10px;
+@media (min-width: 768px) {
+  .form-horizontal label.text-left.control-label {
+    text-align: left;
+  }
 }
-.row.keys .key {
-  display: inline-block;
-  width: 21px;
-  overflow: hidden;
-}
-.row.keys .key.key-success {
-  background-color: #18bc9c;
-  color: #18bc9c;
-}
-.row.keys .key.key-warning {
-  background-color: #f39c12;
-  color: #f39c12;
-}
-.row.keys .key.key-danger {
-  background-color: #e74c3c;
-  color: #e74c3c;
+@media (min-width: 992px) {
+  .form-horizontal label.text-left.control-label {
+    text-align: right;
+  }
 }

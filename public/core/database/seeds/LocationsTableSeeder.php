@@ -17,24 +17,27 @@ class LocationsTableSeeder extends Seeder {
         DB::table('locations')->insert([
             'name' => 'Stadthalle Stühlingen',
             'slug' => 'stadthalle-stuehlingen',
-            'description' => 'Hier eine Beschreibung',
-            'status' => 'free',
+            'country' => 'Deutschland',
+            'city' => 'Stühlingen',
+            'street' => 'Straße X 1',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
         DB::table('locations')->insert([
             'name' => 'Andere Sporthalle',
             'slug' => 'andere-sporthalle',
-            'description' => 'Hier noch eine weitere Beschreibung',
-            'status' => 'partial',
+            'country' => 'Deutschland',
+            'city' => 'Andere',
+            'street' => 'Straße Y 2',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
         DB::table('locations')->insert([
             'name' => 'Letzte Sporthalle',
             'slug' => 'letzte-sporthalle',
-            'description' => 'Lorem ipsum dolor sit amet.',
-            'status' => 'occupied',
+            'country' => 'Deutschland',
+            'city' => 'Letzte',
+            'street' => 'Straße Z 3',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

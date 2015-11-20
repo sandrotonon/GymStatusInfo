@@ -57,26 +57,39 @@
 
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Freie Zeit hinzufügen</h3>
+                        <h3 class="panel-title">Zeit 1</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
-                            {!! Form::label('time', 'Uhrzeit', ['class' => 'col-md-4 control-label']) !!}
-                            <div class="col-md-4">
-                                {!! Form::time('time', old('time'), ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('places', 'Plätze', ['class' => 'col-md-4 control-label']) !!}
-                            <div class="col-md-4">
-                                {!! Form::number('places', old('places'), ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
+                        test
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-6">
-                                {!! Form::button('Zeit hinzufügen', ['class' => 'btn btn-success']) !!}
-                            </div>
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8">
+                      <div class="panel panel-success">
+                          <div class="panel-heading">
+                              <h3 class="panel-title">Freie Zeit hinzufügen</h3>
+                          </div>
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  {!! Form::label('time', 'Uhrzeit', ['class' => 'col-md-4 control-label']) !!}
+                                  <div class="col-md-6">
+                                      {!! Form::time('time', old('time'), ['class' => 'form-control']) !!}
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  {!! Form::label('places', 'Plätze', ['class' => 'col-md-4 control-label']) !!}
+                                  <div class="col-md-6">
+                                      {!! Form::number('places', old('places'), ['class' => 'form-control']) !!}
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <div class="col-md-offset-4 col-md-6">
+                                      {!! Form::button('Zeit hinzufügen', ['id' => 'add-time', 'class' => 'btn btn-success']) !!}
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>

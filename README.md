@@ -14,8 +14,32 @@ Project for an informing website about gyms, according to the current refugee si
 - run `PATH=$PATH:~/.composer/vendor/bin` to add Composer to the PATH
 - run `cd /var/www/public/core` to change to the core directory
 - run `composer install` to install the php dependencies
+- create a `.env` file in the `public/core` folder with the contents below
 - run `php artisan key:generate` to generate the application key
-- rename the `.env.examle` in `/public/core/` to `.env`
+
+#### .env file
+
+```
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=SomeRandomString
+
+DB_HOST=localhost
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+```
 
 
 ### Frontend development
