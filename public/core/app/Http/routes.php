@@ -24,7 +24,12 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
-
 Route::controllers([
    'password' => 'Auth\PasswordController',
 ]);
+
+// Location routes...
+Route::get('hallen', 'LocationsController@index');
+Route::get('hallen/neu', 'LocationsController@create');
+Route::get('hallen/{slug}', 'LocationsController@show');
+Route::post('hallen', 'LocationsController@store');

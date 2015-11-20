@@ -9,7 +9,6 @@
 
         <title>Hallenbelegungen</title>
 
-
         <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
         {!! Html::style('/css/vendor/bootstrap.min.css') !!}
 
@@ -17,7 +16,7 @@
         {!! Html::style('/css/dist/styles.min.css') !!}
 
         <!-- Custom Fonts -->
-        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        {!! Html::style('/font-awesome/css/font-awesome.min.css') !!}
         <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -41,7 +40,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#page-top">Hallenbelegungen</a>
+                    <a class="navbar-brand" href="/">Hallenbelegungen</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,18 +65,20 @@
             <!-- /.container-fluid -->
         </nav>
 
-        @yield('content');
+        <div class="content">
+            @yield('content');
+        </div>
 
         <!-- Footer -->
         <footer class="text-center">
             <div class="footer-above">
                 <div class="container">
                     <div class="row">
-                        <div class="footer-col col-md-6">
+                        <div class="footer-col col-md-4">
                             <h3>Wo sind wir</h3>
                             <p>Bahnhofstraße 10<br>79780 Stühlingen<br>Deutschland</p>
                         </div>
-                        <div class="footer-col col-md-6">
+                        <div class="footer-col col-md-4">
                             <h3>Wir im Internet</h3>
                             <ul class="list-inline">
                                 <li>
@@ -87,6 +88,14 @@
                                     <a href="https://www.facebook.com/TTFStuehlingen/" target="_blank" title="Neues Fenster: Unsere Facebook Seite" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="footer-col col-md-4">
+                            <h3>Verwaltung</h3>
+                            @if (Auth::check())
+                                <a href="/auth/logout">Abmelden</a>
+                            @else
+                                <a href="/auth/login">Anmelden</a>
+                            @endif
                         </div>
                     </div>
                 </div>

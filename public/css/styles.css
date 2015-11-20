@@ -392,20 +392,23 @@ body {
     padding-top: 110px;
   }
 }
-h2 {
-  padding-top: 30px;
+.panel a.edit-link {
+  color: #fff;
+  padding: 5px;
+  margin-right: -5px;
 }
-section {
-  padding: 80px 0;
+.panel a.edit-link:hover,
+.panel a.edit-link:focus {
+  color: #2C3E50;
+}
+.panel .panel-title {
+  padding-top: 2px;
 }
 .btn.btn-success {
   margin-top: 20px;
 }
-.panel {
-  margin-top: 30px;
-}
 .row.keys {
-  margin-top: 30px;
+  margin: 30px 0 10px;
 }
 .row.keys .key {
   display: inline-block;
