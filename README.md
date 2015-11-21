@@ -17,7 +17,7 @@ Project for an informing website about gyms, according to the current refugee si
 - create a `.env` file in the `public/core` folder with the contents below
 - run `php artisan key:generate` to generate the application key
 
-#### .env file
+#### `.env` file
 
 ```
 APP_ENV=local
@@ -25,9 +25,9 @@ APP_DEBUG=true
 APP_KEY=SomeRandomString
 
 DB_HOST=localhost
-DB_DATABASE=homestead
-DB_USERNAME=homestead
-DB_PASSWORD=secret
+DB_DATABASE=scotchbox
+DB_USERNAME=root
+DB_PASSWORD=root
 
 CACHE_DRIVER=file
 SESSION_DRIVER=file
@@ -69,17 +69,12 @@ SSH-Key:    *choose the private_key in the .vagrant folder`
 - change to the core directory with `cd /var/www/public/core`
 - run `php artisan migrate` to create the tables
 - run `php artisan migrate:rollback` to rollback the migration
+- run `php artisan migrate:refresh`to rollback and create everything clean
 
-#### Connect Laravel with the database
+#### Fill the database with dummy data
 
-Edit the `/var/www/public/core/.env` file and set the following settings
-
-```
-DB_HOST=localhost
-DB_DATABASE=scotchbox
-DB_USERNAME=root
-DB_PASSWORD=root
-```
+- change to the core directory with `cd /var/www/public/core`
+- run `php artisan db:seed` to insert the dummy data
 
 
 ## Deployment
