@@ -46,7 +46,8 @@ MAIL_ENCRYPTION=null
 
 - change to project root with `cd /var/www`
 - run `npm install` to install all the dependencies
-- run `grunt` to start the watch task
+- run `gulp` to compile the styles and the scripts
+- run `gulp watch` to start the watch task
 
 
 ### Connect to the MySQL database
@@ -79,9 +80,9 @@ SSH-Key:    *choose the private_key in the .vagrant folder`
 
 ## Deployment
 
-The gruntfile contains a deploy task to push the files to the deployment server. A .ftppass file is neccessary for deployment!
+The gruntfile contains a deploy task to push the files to the deployment server. A ftppass.json file is neccessary for deployment!
 
-- create a `.ftpass` file in the project's root
+- create a `ftpass.json` file in the project's root
 - paste following contents
 
 ```json
