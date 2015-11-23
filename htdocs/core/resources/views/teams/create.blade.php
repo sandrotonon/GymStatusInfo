@@ -2,15 +2,20 @@
 
 @section('content')
 
+@include('partials._breadcrumbs')
+
 <section>
     <div class="container">
-        <div class="row">
-            <div class="col-md-offset-2 col-md-8">
+        <h1 class="text-center">Mannschaft hinzufügen</h1>
+        <hr class="star-primary">
 
-                Neue Mannschaft anlegen
+        @include('errors._list')
 
-            </div>
-        </div>
+        {!! Form::open(['action' => 'TeamsController@store', 'class' => 'form-horizontal form-loaction']) !!}
+
+            @include('teams._form', ['submitButtonText' => 'Mannschaft hinzufügen', 'editUser' => false])
+
+        {!! Form::close() !!}
     </div>
 </section>
 

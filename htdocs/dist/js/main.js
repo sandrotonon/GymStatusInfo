@@ -2549,9 +2549,18 @@ $('body').scrollspy({
 
 // Closes the Responsive Menu on Menu Item Click
 $('.navbar-collapse ul li a').click(function() {
-    $('.navbar-toggle:visible').click();
+    if ($(this).attr("class") != 'dropdown-toggle') {
+        $('.navbar-toggle:visible').click();
+    }
 });
 
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.TimeSlots.init();
+});
 'use strict';
 
 var tsModules = tsModules || {};
@@ -2578,10 +2587,3 @@ tsModules.TimeSlots = (function() {
     }
   };
 })();
-'use strict';
-
-var tsModules = tsModules || {};
-
-$(function () {
-    tsModules.TimeSlots.init();
-});

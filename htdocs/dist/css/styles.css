@@ -313,7 +313,7 @@ footer .footer-below {
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  line-height: 28px;
+  line-height: 24px;
 }
 .scroll-top .btn:focus {
   outline: none;
@@ -377,23 +377,55 @@ footer .footer-below {
   display: none;
 }
 body {
-  padding-top: 30px;
+  padding-top: 60px;
 }
 @media only screen and (min-width: 768px) and (max-width: 949px), only screen and (min-width: 950px) and (max-width: 1128px), only screen and (min-width: 1129px) {
   body {
     padding-top: 110px;
   }
 }
+.inline-form {
+  display: inline-block;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle {
+  border: none;
+  padding: 3px 15px;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle:hover,
+.navbar.navbar-default .navbar-header button.navbar-toggle:focus,
+.navbar.navbar-default .navbar-header button.navbar-toggle:active {
+  background-color: transparent;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle:hover .icon-bar,
+.navbar.navbar-default .navbar-header button.navbar-toggle:focus .icon-bar,
+.navbar.navbar-default .navbar-header button.navbar-toggle:active .icon-bar {
+  background-color: #18BC9C;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle:hover .button-text,
+.navbar.navbar-default .navbar-header button.navbar-toggle:focus .button-text,
+.navbar.navbar-default .navbar-header button.navbar-toggle:active .button-text {
+  color: #18BC9C;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle .hamburger-menu {
+  display: inline-block;
+}
+.navbar.navbar-default .navbar-header button.navbar-toggle .button-text {
+  font-size: 19px;
+  display: inline-block;
+  text-transform: uppercase;
+  color: white;
+}
 .btn.btn-success {
   margin-top: 20px;
 }
-.form-location .location-controls .row {
-  margin-bottom: 15px;
+.row.management {
+  padding-bottom: 20px;
 }
-@media only screen and (min-width: 768px) and (max-width: 949px), only screen and (min-width: 950px) and (max-width: 1128px), only screen and (min-width: 1129px) {
-  .form-location .location-controls .btn {
-    margin-bottom: 0px;
-  }
+div.breadcrumbs {
+  background-color: #eeeeee;
+}
+div.breadcrumbs .breadcrumb {
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=htdocs/dist/css/styles.css.map */

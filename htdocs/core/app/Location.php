@@ -13,4 +13,14 @@ class Location extends Model
         'city',
         'street'
     ];
+
+    /**
+     * A location can hold many timeslots
+     *
+     * @return HasMany
+     */
+    public function timelots()
+    {
+        return $this->hasMany('App\Timeslot');
+    }
 }

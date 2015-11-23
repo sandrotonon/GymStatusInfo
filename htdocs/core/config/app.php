@@ -110,6 +110,8 @@ return [
 
     'providers' => [
 
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+
         /*
          * Laravel Framework Service Providers...
          */
@@ -161,6 +163,8 @@ return [
     */
 
     'aliases' => [
+
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,

@@ -1,6 +1,7 @@
 // jshint ignore: start
 
-var gulp = require('gulp'),
+var gulp         = require('gulp'),
+    fs           = require('fs'),
     less         = require('gulp-less'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss    = require('gulp-minify-css'),
@@ -13,7 +14,8 @@ var gulp = require('gulp'),
     del          = require('del'),
     gutil        = require('gulp-util'),
     ftp          = require('vinyl-ftp')
-    passes       = require('./ftppass.json') || {};
+    passes       = fs.existsSync('./ftppass.json') ? require('./ftppass.json') : {};
+
 
 
 // Custom
@@ -88,29 +90,33 @@ gulp.task('watch', function() {
 
 
 gulp.task('deploy', function(){
-    var conn = ftp.create({
-        host:     'th9014-web495.vorschau.server15.tophoster.de',
-        user:     passes.user.username,
-        password: passes.user.password,
-        parallel: 10,
-        log:      gutil.log
-    });
+  if (passes != 'undefined') {
+    return process.stdout.write('\nYou have to set up the ftppass.json before you can deploy!\n');
+  }
 
-    var globs = [
-        // customThemeDir + 'core/**',
-        // customThemeDir + 'dist/**',
-        // customThemeDir + 'font-awesome/**',
-        // customThemeDir + 'fonts/**',
-        // customThemeDir + '.htaccess',
-        // customThemeDir + 'favicon.ico',
-        // customThemeDir + 'index.php',
-        customThemeDir + 'infos.php',
-        customThemeDir + 'robots.txt'
-    ];
+  var conn = ftp.create({
+    host:     'th9014-web495.vorschau.server15.tophoster.de',
+    user:     passes.user.username,
+    password: passes.user.password,
+    parallel: 10,
+    log:      gutil.log
+  });
 
-    // turn off buffering in gulp.src for best performance
+  var globs = [
+    // customThemeDir + 'core/**',
+    // customThemeDir + 'dist/**',
+    // customThemeDir + 'font-awesome/**',
+    // customThemeDir + 'fonts/**',
+    // customThemeDir + '.htaccess',
+    // customThemeDir + 'favicon.ico',
+    // customThemeDir + 'index.php',
+    customThemeDir + 'infos.php',
+    customThemeDir + 'robots.txt'
+  ];
 
-    return gulp.src(globs, {base: 'htdocs', buffer: false})
-        .pipe(conn.newer('/')) // only upload newer files
-        .pipe(conn.dest('/'));
+  // turn off buffering in gulp.src for best performance
+
+  return gulp.src(globs, {base: 'htdocs', buffer: false})
+    .pipe(conn.newer('/')) // only upload newer files
+    .pipe(conn.dest('/'));
 });

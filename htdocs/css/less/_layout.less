@@ -10,10 +10,45 @@
 @desktop-xl:  ~"only screen and (min-width: 1129px)";
 
 body {
-  padding-top: 30px;
+  padding-top: 60px;
 
   @media @tablet, @desktop, @desktop-xl {
     padding-top: 110px;
+  }
+}
+
+.inline-form {
+  display: inline-block;
+}
+
+// Navigation
+.navbar.navbar-default .navbar-header button.navbar-toggle {
+  border: none;
+  padding: 3px 15px;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: transparent;
+
+    .icon-bar {
+      background-color: @brand-success;
+    }
+
+    .button-text {
+      color: @brand-success;
+    }
+  }
+
+  .hamburger-menu {
+    display: inline-block;
+  }
+
+  .button-text {
+    font-size: 19px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: white;
   }
 }
 
@@ -24,19 +59,15 @@ body {
   }
 }
 
-.form-location {
-  .location-controls {
-    .row {
-      margin-bottom: 15px;
-    }
-  }
+.row.management {
+  padding-bottom: 20px;
 }
-@media @tablet, @desktop, @desktop-xl {
-  .form-location {
-    .location-controls {
-      .btn {
-        margin-bottom: 0px;
-      }
-    }
+
+// Breadcrumbs
+div.breadcrumbs {
+  background-color: @gray-lighter;
+
+  .breadcrumb {
+    margin-bottom: 0;
   }
 }

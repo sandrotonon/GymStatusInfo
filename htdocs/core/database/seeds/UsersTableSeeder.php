@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder {
         User::create([
           'name' => 'Test Admin User',
           'team' => 'Mannschaft 1',
+          'slug' => 'mannschaft-1',
           'email' => 'admin@bar.com',
           'password' => bcrypt('test12')
         ]);
@@ -24,6 +25,7 @@ class UsersTableSeeder extends Seeder {
         User::create([
           'name' => 'Test Mannschaftsführer User',
           'team' => 'Mannschaft 2',
+          'slug' => 'mannschaft-2',
           'email' => 'teamer@bar.com',
           'password' => bcrypt('test12')
         ]);

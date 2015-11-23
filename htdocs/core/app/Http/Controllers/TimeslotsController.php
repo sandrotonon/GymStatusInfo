@@ -4,20 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\TeamRequest;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
 
-class TeamsController extends Controller
+class TimeslotsController extends Controller
 {
-    /**
-     * Constructor function
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +16,7 @@ class TeamsController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name')->get();
-
-        return view('teams.index', compact('users'));
+        //
     }
 
     /**
@@ -37,7 +26,7 @@ class TeamsController extends Controller
      */
     public function create()
     {
-        return view('teams.create');
+        //
     }
 
     /**
@@ -46,11 +35,20 @@ class TeamsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TeamRequest $request)
+    public function store(Request $request)
     {
-        User::create($request->all());
+        //
+    }
 
-        return redirect(route('Teams.index'));
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -59,11 +57,9 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit($id)
     {
-        $user = User::where('slug', $slug)->first();
-
-        return view('teams.edit', compact('user'));
+        //
     }
 
     /**
@@ -73,14 +69,9 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($slug, TeamRequest $request)
+    public function update(Request $request, $id)
     {
-        $user = User::where('slug', $slug)->first();
-
-        $user->update($request->all());
-
-
-        return redirect(route('Teams.index'));
+        //
     }
 
     /**
@@ -91,12 +82,19 @@ class TeamsController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        //
+    }
 
-        // TODO: timeslots constraints
+    /**
+     * Book a specific timeslot.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function book(Request $request)
+    {
+        $timeslot = new Timeslot($request->all());
 
-        $user->delete();
-
-        return redirect(route('Teams.index'));
+        Auth::user()->timeslots()->save($timeslot);
     }
 }

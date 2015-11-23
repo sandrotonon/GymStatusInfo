@@ -31,22 +31,20 @@
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header page-scroll">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                    <button type="button" tabindex="2" class="navbar-toggle" data-toggle="collapse" data-target="#mobile-menu">
+                        <div class="hamburger-menu">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </div>
+                        <div class="button-text">Menü</div>
                     </button>
-                    <a class="navbar-brand" href="/">Hallenbelegungen</a>
+                    <a class="navbar-brand" href="{{ route('index') }}" tabindex="1">Hallenbelegungen</a>
                 </div>
 
                 @if (isset($showNav))
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" id="mobile-menu">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="hidden">
-                                <a href="#page-top"></a>
-                            </li>
                             <li class="page-scroll">
                                 <a href="#hallen">Hallen</a>
                             </li>
@@ -56,6 +54,20 @@
                             <li class="page-scroll">
                                 <a href="#kontakt">Kontakt</a>
                             </li>
+                            @if (Auth::check())
+                                @include('partials._nav_management')
+                            @endif
+                        </ul>
+                    </div>
+                @elseif (Auth::check())
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden">
+                                <a href="#page-top"></a>
+                            </li>
+                            @if (Auth::check())
+                                @include('partials._nav_management')
+                            @endif
                         </ul>
                     </div>
                 @endif
@@ -92,9 +104,9 @@
                         <div class="footer-col col-md-4">
                             <h3>Verwaltung</h3>
                             @if (Auth::check())
-                                <a href="/auth/logout">Abmelden</a>
+                                <a href="{{ route('logout') }}">Abmelden</a>
                             @else
-                                <a href="/auth/login">Anmelden</a>
+                                <a href="{{ route('login') }}">Anmelden</a>
                             @endif
                         </div>
                     </div>

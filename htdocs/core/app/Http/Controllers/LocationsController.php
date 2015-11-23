@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Location;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\LocationRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Location;
 
 class LocationsController extends Controller
 {
@@ -14,7 +15,7 @@ class LocationsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'index']);
+        $this->middleware('auth');
     }
 
     /**
@@ -24,10 +25,9 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        $showNav = true;
         $locations = Location::orderBy('name')->get();
 
-        return view('index', compact('locations', 'showNav'));
+        return view('locations.index', compact('locations'));
     }
 
     /**
@@ -50,7 +50,7 @@ class LocationsController extends Controller
     {
         Location::create($request->all());
 
-        return redirect('/');
+        return redirect(route('Locations.index'));
     }
 
     /**
@@ -78,6 +78,23 @@ class LocationsController extends Controller
 
         $location->update($request->all());
 
-        return redirect('/');
+        return redirect(route('Locations.index'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $location = Location::findOrFail($id);
+
+        // TODO: timeslots constraints
+
+        $location->delete();
+
+        return redirect(route('Locations.index'));
     }
 }

@@ -1,27 +1,27 @@
 <div class="form-group">
-    {!! Form::label('name', 'Name*', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-8">
+    {!! Form::label('name', 'Name*', ['class' => 'col-sm-4 control-label']) !!}
+    <div class="col-sm-8">
         {!! Form::text('name', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
 <div class="form-group">
-    {!! Form::label('city', 'Stadt', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-8">
+    {!! Form::label('city', 'Stadt', ['class' => 'col-sm-4 control-label']) !!}
+    <div class="col-sm-8">
         {!! Form::text('city', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
 <div class="form-group">
-    {!! Form::label('street', 'Straße und Hausnummer', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-8">
+    {!! Form::label('street', 'Straße und Hausnummer', ['class' => 'col-sm-4 control-label']) !!}
+    <div class="col-sm-8">
         {!! Form::text('street', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
 <div class="form-group">
-    {!! Form::label('country', 'Land', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-8">
+    {!! Form::label('country', 'Land', ['class' => 'col-sm-4 control-label']) !!}
+    <div class="col-sm-8">
         {!! Form::select('country', array('Deutschland' => 'Deutschland'), 'Deutschland', ['class' => 'form-control']) !!}
     </div>
 </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="panel-footer text-center">
-                <button href="#removeItem" class="btn btn-danger"><i class="fa fa-trash"></i> Zeit Löschen</button>
+                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Zeit Löschen</button>
             </div>
         </div>
     </div>
@@ -81,18 +81,10 @@
     </div>
 </div>
 
-<div class="form-group location-controls">
-    <div class="col-sm-8">
-        <div class="row">
-            <div class="col-xs-6 col-sm-5">
-                {!! Form::submit('Sporthalle löschen', ['class' => 'btn btn-danger pull-left btn-block']) !!}
-            </div>
-            <div class="col-xs-6 col-sm-offset-2 col-sm-5">
-                {!! Form::submit('Abbrechen', ['class' => 'btn btn-dedfault pull-right btn-block']) !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4 text-right">
-        {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary btn-block']) !!}
+
+<div class="row">
+    <div class="col-sm-12 text-right">
+        <a href="{{ route('Locations.index') }}" class="btn btn-default">Abbrechen</a>
+        {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
     </div>
 </div>
