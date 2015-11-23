@@ -78,6 +78,17 @@ SSH-Key:    *choose the private_key in the .vagrant folder`
 - run `php artisan db:seed` to insert the dummy data
 
 
+### Clean URL for development
+
+To have a nice url for local development, edit your `hosts` file and insert
+
+```
+192.168.33.10 klick.dev
+```
+
+Now the project can be opend in the browser via `klick.dev`. Change this url to anything you like. :-)
+
+
 ## Deployment
 
 The gruntfile contains a deploy task to push the files to the deployment server. A ftppass.json file is neccessary for deployment!
