@@ -14,7 +14,7 @@ Project for an informing website about gyms, according to the current refugee si
 - run `PATH=$PATH:~/.composer/vendor/bin` to add Composer to the PATH
 - run `cd /var/www/public/core` to change to the core directory
 - run `composer install` to install the php dependencies
-- create a `.env` file in the `html/core` folder with the contents below
+- create a `.env` file in the `htdocs/core` folder with the contents below
 - run `php artisan key:generate` to generate the application key
 
 #### `.env` file
