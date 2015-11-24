@@ -37,26 +37,32 @@ class HomeController extends Controller
 
             $relevantDates = array(
                 'Sporthalle Stühlingen' => array(
-                    '16:00' => array(
-                        '1' => null,
-                        '2' => '2',
-                        '3' => '3',
-                    ),
-                    '19:00' => array(
-                        '4' => null,
-                        '5' => null,
-                        '6' => '6',
-                    );
+                    'city' => 'Stühlingen',
+                    'street' => 'Straße 1',
+                    'times' => array(
+                        '16:00' => array(
+                            array('id' => '1', 'user_id' => '1'),
+                            array('id' => '2' => 'user_id' => '1'),
+                        ),
+                        '17:00' => array(
+                            array('id' => '3', 'user_id' => 1),
+                            array('id' => '4' => 'user_id' =>1),
+                        )
+                    )
                 ),
                 'Sporthalle Eggingen' => array(
-                    '17:00' => array(
-                        '7' => '1',
-                        '8' => null,
-                    ),
-                    '20:00' => array(
-                        '9' => '4',
-                    );
-                );
+                    'city' => 'Stühlingen',
+                    'street' => 'Straße 1',
+                    'times' => array(
+                        '16:00' => array(
+                            array('id' => '5', 'user_id' => '1'),
+                        ),
+                        '17:00' => array(
+                            array('id' => '6', 'user_id' => null),
+                            array('id' => '7' => 'user_id' => null),
+                        )
+                    )
+                )
             );
 
         */
