@@ -6,6 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'locations';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'slug',
@@ -19,7 +31,7 @@ class Location extends Model
      *
      * @return HasMany
      */
-    public function timelots()
+    public function timeslots()
     {
         return $this->hasMany('App\Timeslot');
     }

@@ -48,7 +48,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @return HasMany
      */
-    public function timelots()
+    public function timeslots()
     {
         return $this->hasMany('App\Timeslot');
     }
