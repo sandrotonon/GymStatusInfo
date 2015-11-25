@@ -27,6 +27,13 @@ class Location extends Model
     ];
 
     /**
+     * Collection with times at this location
+     *
+     * @var string
+     */
+    protected $times;
+
+    /**
      * A location can hold many timeslots
      *
      * @return HasMany
@@ -34,5 +41,15 @@ class Location extends Model
     public function timeslots()
     {
         return $this->hasMany('App\Timeslot');
+    }
+
+    public function setTimes($times)
+    {
+        $this->times = $times;
+    }
+
+    public function getTimes()
+    {
+        return $this->times;
     }
 }

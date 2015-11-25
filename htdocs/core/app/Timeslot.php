@@ -6,10 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Timeslot extends Model
 {
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'timeslots';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'date',
         'time',
-        'available'
+        'user_id',
+        'location_id',
     ];
 
     protected $dates = ['date'];

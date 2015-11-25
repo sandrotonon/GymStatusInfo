@@ -6,9 +6,9 @@
 <section id="hallen">
     <div class="container">
         <div class="row">
-            @for ($i = 0; $i < 3; $i++)
-                @include('partials._location-card')
-            @endfor
+            @foreach($locations as $location)
+                @include('partials._location-card', ['location' => $location])
+            @endforeach
         </div>
     </div>
 </section>

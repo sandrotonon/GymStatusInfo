@@ -15,7 +15,7 @@ class CreateTimeslotsTable extends Migration
         Schema::create('timeslots', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->integer('location_id')->unsigned()->nullable();
+            $table->integer('location_id')->unsigned();
             $table->date('date');
             $table->time('time');
             $table->timestamps();
@@ -28,7 +28,7 @@ class CreateTimeslotsTable extends Migration
             $table->foreign('location_id')
                   ->references('id')
                   ->on('locations')
-                  ->onDelete('restrict');
+                  ->onDelete('cascade');
         });
     }
 

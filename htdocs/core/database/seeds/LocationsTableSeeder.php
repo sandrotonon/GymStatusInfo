@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Location as Location;
 
 class LocationsTableSeeder extends Seeder {
 
@@ -14,32 +15,26 @@ class LocationsTableSeeder extends Seeder {
     {
         DB::table('locations')->delete();
 
-        DB::table('locations')->insert([
+        Location::create([
             'name' => 'Stadthalle Stühlingen',
             'slug' => 'stadthalle-stuehlingen',
             'country' => 'Deutschland',
             'city' => 'Stühlingen',
-            'street' => 'Straße X 1',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'street' => 'Straße X 1'
         ]);
-        DB::table('locations')->insert([
+        Location::create([
             'name' => 'Andere Sporthalle',
             'slug' => 'andere-sporthalle',
             'country' => 'Deutschland',
             'city' => 'Andere',
-            'street' => 'Straße Y 2',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'street' => 'Straße Y 2'
         ]);
-        DB::table('locations')->insert([
+        Location::create([
             'name' => 'Letzte Sporthalle',
             'slug' => 'letzte-sporthalle',
             'country' => 'Deutschland',
             'city' => 'Letzte',
-            'street' => 'Straße Z 3',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'street' => 'Straße Z 3'
         ]);
     }
 }

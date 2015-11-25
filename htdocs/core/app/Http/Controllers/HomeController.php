@@ -17,57 +17,37 @@ class HomeController extends Controller
      */
     public function index($date = null)
     {
+        $showNav = true;
         $date = $this->getBestDate($date);
         $timeslots = $this->getTimeslotsForDate($date);
 
         $locations = $this->getLocations($timeslots);
 
+        $locations->each(function ($location, $key) {
+            $times = collect();
+
+            $location->timeslots->each(function ($timeslot, $id) use ($times) {
+                array_add($times, $timeslot->time, collect([]));
+
+                // Check if current user already booked a slot at this time
+                if (\Auth::check() &&
+                    $timeslot->user !== null &&
+                    \Auth::user()->team === $timeslot->user->team) {
+                    array_add($times->get($timeslot->time), 'booked', true);
+                } else {
+                    array_add($times->get($timeslot->time), 'booked', false);
+                }
+
+                // TODO: sort times
+            });
+            $location->setTimes($times);
+        });
+
         $locations = $this->associateTimes($locations, $timeslots);
 
+        // dd($locations);
 
-        $showNav = true;
-
-
-        /*
-
-            $relevantDates should be:
-            $relevantDates = array of GYMS
-            GYMS = array of TIMES
-            TIMES = array of TIMESLOTIDs and its USER_ID
-
-            $relevantDates = array(
-                'Sporthalle Stühlingen' => array(
-                    'city' => 'Stühlingen',
-                    'street' => 'Straße 1',
-                    'times' => array(
-                        '16:00' => array(
-                            array('id' => '1', 'user_id' => '1'),
-                            array('id' => '2' => 'user_id' => '1'),
-                        ),
-                        '17:00' => array(
-                            array('id' => '3', 'user_id' => 1),
-                            array('id' => '4' => 'user_id' =>1),
-                        )
-                    )
-                ),
-                'Sporthalle Eggingen' => array(
-                    'city' => 'Stühlingen',
-                    'street' => 'Straße 1',
-                    'times' => array(
-                        '16:00' => array(
-                            array('id' => '5', 'user_id' => '1'),
-                        ),
-                        '17:00' => array(
-                            array('id' => '6', 'user_id' => null),
-                            array('id' => '7' => 'user_id' => null),
-                        )
-                    )
-                )
-            );
-
-        */
-
-        return view('index', compact('locations', 'showNav', 'timeslots', 'relevantLocations'));
+        return view('index', compact('locations', 'showNav'));
     }
 
     /**
@@ -102,17 +82,15 @@ class HomeController extends Controller
      * Helper class that collects the locations of timeslots
      *
      * @param $timeslots
-     * @return collection Collection of Location => LocationID pairs
+     * @return collection Collection of LocationName => Location pairs
      */
     private function getLocations($timeslots)
     {
-        $locations = array();
+        $locations = collect([]);
 
         foreach ($timeslots->all() as $timeslot) {
-            $locations = array_add($locations, $timeslot->location->name, null);
+            $locations->put($timeslot->location->name, $timeslot->location)->unique();
         }
-
-        $locations = collect($locations);
 
         return $locations;
     }
@@ -125,11 +103,61 @@ class HomeController extends Controller
      */
     private function associateTimes($locations, $timeslots)
     {
-        $tmp = array();
+        /*
+        Generates array like:
 
-        // TODO
+        $relevantDates should be:
 
+        $relevantDates = array(
+            'Sporthalle Stühlingen' => array(
+                'city' => 'Stühlingen',
+                'street' => 'Straße 1',
+                'times' => array(
+                    '16:00' => array(
+                        array('id' => '1', 'user_id' => '1'),
+                        array('id' => '2', 'user_id' => '1'),
+                    ),
+                    '17:00' => array(
+                        array('id' => '3', 'user_id' => 1),
+                        array('id' => '4', 'user_id' =>1),
+                    )
+                )
+            ),
+            'Sporthalle Eggingen' => array(
+                'city' => 'Stühlingen',
+                'street' => 'Straße 1',
+                'times' => array(
+                    '16:00' => array(
+                        array('id' => '5', 'user_id' => '1'),
+                    ),
+                    '17:00' => array(
+                        array('id' => '6', 'user_id' => null),
+                        array('id' => '7', 'user_id' => null),
+                    )
+                )
+            )
+        );
+        */
 
-        return $tmp;
+        foreach ($locations as $key => $location) {
+            $locationtimes = $location->getTimes();
+
+            foreach ($timeslots as $timeslot) {
+                foreach ($locationtimes as $locationtime => $content) {
+                    if ($content->get('timeslots') === null) {
+                        $content->put('timeslots', collect([]));
+                    }
+                    if ($timeslot->location->name === $key &&
+                        $timeslot->time === $locationtime) {
+                            // $content->get('timeslots')->put($timeslot->id, $timeslot);
+                            // $content->get('timeslots')->unique();
+                            array_add($content->get('timeslots'), $timeslot->id, $timeslot);
+                    }
+                }
+            }
+            $location->setTimes($locationtimes);
+        }
+
+        return $locations;
     }
 }
