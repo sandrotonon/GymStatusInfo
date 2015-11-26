@@ -13,7 +13,7 @@
 
         {!! Form::open(['action' => 'TeamsController@store', 'class' => 'form-horizontal form-loaction']) !!}
 
-            @include('teams._form', ['submitButtonText' => 'Mannschaft hinzufügen', 'editUser' => false])
+            @include('teams._form', ['submitButtonText' => '<i class="fa fa-plus"></i> Mannschaft hinzufügen', 'editUser' => false])
 
         {!! Form::close() !!}
     </div>

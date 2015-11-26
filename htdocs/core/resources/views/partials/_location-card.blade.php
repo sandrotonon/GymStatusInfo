@@ -1,14 +1,45 @@
-<div class="col-sm-6 col-md-4">
+<div class="col-xs-12 col-sm-6 col-md-4 location">
     <?php
         $type = 'book';
         if ($location->booked) {
             $type = 'unbook';
         }
     ?>
-    {!! Form::open(['method' => 'PATCH', 'route' => ['book', 'id' => $location->id, 'type' => $type], 'class' => 'panel panel-success']) !!}
+    {!! Form::open(['method' => 'PATCH', 'route' => ['book', 'id' => $location->id, 'type' => $type], 'class' => 'panel panel-primary']) !!}
 
+        <div class="overlay">
+            <div class="content-wrapper">
+                <div class="booking-progress">
+                    <p class="text-center">
+                        Wird reserviert ...
+                    </p>
+                    <div class="spinner">
+                        <div class="spinner__item1"></div>
+                        <div class="spinner__item2"></div>
+                        <div class="spinner__item3"></div>
+                        <div class="spinner__item4"></div>
+                    </div>
+                </div>
+                <div class="booking-progress-response text-center booking-progress-success">
+                    <div class="icon">
+                        <i class="fa fa-check-circle fa-4x"></i>
+                    </div>
+                    <p>Reservierung erfolgreich!</p>
+                </div>
+                <div class="booking-progress-response text-center booking-progress-error">
+                    <div class="icon">
+                        <i class="fa fa-times-circle fa-4x"></i>
+                    </div>
+                    <p>Reservierung fehlgeschlagen!</p>
+                </div>
+            </div>
+        </div>
+
+        <?php
+            $freeslotsSuffix = ($location->freeslots === 0 || $location->freeslots > 1) ? ' Freie Plätze' : ' Freier Platz';
+        ?>
         <div class="panel-heading">
-            <h2 class="panel-title text-center">{{ $location->name }}<br><small>(<span class="count-all">4</span> freie Plätze)</small></h2>
+            <h2 class="panel-title text-center">{{ $location->name }}<br><small>(<span class="count-all">{{ $location->freeslots }}</span>{{ $freeslotsSuffix }})</small></h2>
         </div><!-- Outer panel heading end -->
         <div class="panel-body">
             @foreach($location->getTimes() as $key => $times)
@@ -23,7 +54,7 @@
                         $status = 'warning';
                     }
                 ?>
-                <div class="panel panel-{{ $status }}" style="margin-bottom:15px;">
+                <div class="panel panel-{{ $status }}">
                     <!-- Default panel contents -->
                     <div class="panel-heading">
                         <h3 class="panel-title text-center">{{ $key }} Uhr</h3>
@@ -40,7 +71,8 @@
                             @foreach($times['timeslots'] as $timeslot)
                                 @if($timeslot->user_id !== null)
                                     <tr>
-                                        <td>{{ $timeslot->user->team }}</td>
+                                        <?php $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team; ?>
+                                        <td>{!! $teamname !!}</td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                             <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center">
                                                 @if($times['timeslots'][$i]->user_id !== null
@@ -54,7 +86,7 @@
                             @endforeach
                             @if(Auth::check() && !$location->booked && $times['freeslots'] !== 0)
                                 <tr class="active">
-                                    <td>{{ Auth::user()->team }}</td>
+                                    <td><strong>{{ Auth::user()->team }}</strong></td>
                                     @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                         <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center">
                                             @if($times['timeslots'][$i]->user_id === null)
@@ -75,10 +107,16 @@
         </div><!-- Outer panel body end -->
         @if(Auth::check())
             <div class="panel-footer text-center">
-                @if(!$location->booked)
-                    {!! Form::button('<i class="fa fa-check"></i> Reservierung speichern', ['type' => 'submit', 'class' => 'btn btn-primary', 'style' => 'margin-top:0;']) !!}
+                @if($location->freeslots === 0)
+                    @if($location->booked)
+                        {!! Form::button('<i class="fa fa-times"></i> Reservierung löschen', ['type' => 'submit', 'class' => 'btn btn-danger btn-book btn-book-unbook', 'style' => 'margin-top:0;']) !!}
+                    @endif
                 @else
-                    {!! Form::button('<i class="fa fa-times"></i> Reservierung löschen', ['type' => 'submit', 'class' => 'btn btn-danger', 'style' => 'margin-top:0;']) !!}
+                    @if($location->booked)
+                        {!! Form::button('<i class="fa fa-times"></i> Reservierung löschen', ['type' => 'submit', 'class' => 'btn btn-danger btn-book btn-book-unbook', 'style' => 'margin-top:0;']) !!}
+                    @else
+                        {!! Form::button('<i class="fa fa-check"></i> Reservierung speichern', ['type' => 'submit', 'class' => 'btn btn-primary btn-book btn-book-book', 'style' => 'margin-top:0;']) !!}
+                    @endif
                 @endif
             </div><!-- Outer panel footer end -->
         @endif

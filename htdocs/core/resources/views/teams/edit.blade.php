@@ -20,7 +20,7 @@
 
         {!! Form::model($user, ['method' => 'PATCH', 'action' => ['TeamsController@update', $user->slug], 'class' => 'form-horizontal form-location']) !!}
 
-            @include('teams._form', ['submitButtonText' => 'Mannschaft speichern', 'editUser' => true])
+            @include('teams._form', ['submitButtonText' => '<i class="fa fa-check"></i> Mannschaft speichern', 'editUser' => true])
 
         {!! Form::close() !!}
     </div>

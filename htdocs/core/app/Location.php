@@ -38,6 +38,8 @@ class Location extends Model
      */
     public $booked = false;
 
+    public $freeslots = 0;
+
     /**
      * A location can hold many timeslots
      *

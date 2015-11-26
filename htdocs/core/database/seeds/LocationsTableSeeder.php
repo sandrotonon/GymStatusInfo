@@ -36,5 +36,26 @@ class LocationsTableSeeder extends Seeder {
             'city' => 'Letzte',
             'street' => 'Straße Z 3'
         ]);
+        Location::create([
+            'name' => 'Und noch eine Sporthalle',
+            'slug' => 'und-noch-eine-sporthalle',
+            'country' => 'Deutschland',
+            'city' => 'Stadt',
+            'street' => 'Straße Z 4'
+        ]);
+        Location::create([
+            'name' => 'Star Trek Halle',
+            'slug' => 'star-trek-halle',
+            'country' => 'Space',
+            'city' => 'None',
+            'street' => 'Flur 1337'
+        ]);
+        Location::create([
+            'name' => 'Super Gym',
+            'slug' => 'super-gym',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
     }
 }

@@ -8,7 +8,7 @@
         <h1 class="text-center">Sporthallen</h1>
         <hr class="star-primary">
 
-        <div class="row">
+        <div class="row grid">
             @foreach($locations as $location)
                 @include('partials._location-card', ['location' => $location])
             @endforeach

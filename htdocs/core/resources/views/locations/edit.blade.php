@@ -20,7 +20,7 @@
 
         {!! Form::model($location, ['method' => 'PATCH', 'action' => ['LocationsController@update', $location->slug], 'class' => 'form-horizontal form-location']) !!}
 
-            @include('locations._form', ['submitButtonText' => 'Sporthalle speichern'])
+            @include('locations._form', ['submitButtonText' => '<i class="fa fa-check"></i> Sporthalle speichern'])
 
         {!! Form::close() !!}
     </div>

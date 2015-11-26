@@ -32,6 +32,6 @@
 <div class="row">
     <div class="col-sm-12 text-right">
         <a href="{{ route('Teams.index') }}" class="btn btn-default">Abbrechen</a>
-        {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
+        {!! Form::button($submitButtonText, ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
     </div>
 </div>

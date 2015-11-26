@@ -13,7 +13,7 @@
 
         {!! Form::open(['action' => 'LocationsController@store', 'class' => 'form-horizontal form-loaction']) !!}
 
-            @include('locations._form', ['submitButtonText' => 'Sporthalle hinzufügen'])
+            @include('locations._form', ['submitButtonText' => '<i class="fa fa-plus"></i> Sporthalle hinzufügen'])
 
         {!! Form::close() !!}
     </div>

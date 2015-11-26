@@ -43,7 +43,7 @@ class HomeController extends Controller
         foreach ($locations as $location) {
             $times = collect();
 
-            $timeslots = Timeslot::where('date', '>=', $date->format('Y-m-d'))
+            $timeslots = Timeslot::where('date', '=', $date->format('Y-m-d'))
                                     ->where('location_id', $location->id)
                                     ->get();
 
@@ -199,6 +199,7 @@ class HomeController extends Controller
                             $count++;
                             if ($timeslot->user_id === null) {
                                 $freeslots++;
+                                $location->freeslots = $location->freeslots + 1;
                             }
                     }
                 }
