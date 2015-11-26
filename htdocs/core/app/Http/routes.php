@@ -16,7 +16,8 @@
 | Home routes
 |--------------------------------------------------------------------------
 */
-Route::get('/{date?}', ['as' => 'index', 'uses' => 'HomeController@index']);
+Route::get('/', ['as' => 'index', 'uses' => 'HomeController@index']);
+Route::post('/', ['as' => 'index.filter', 'uses' => 'HomeController@filter']);
 Route::patch('/{id}/{type}', ['as' => 'book', 'uses' => 'HomeController@book']);
 
 

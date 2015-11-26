@@ -415,6 +415,9 @@ body {
   text-transform: uppercase;
   color: white;
 }
+.filter-locations {
+  margin-bottom: 30px;
+}
 .location > .panel {
   position: relative;
   margin-bottom: 30px;

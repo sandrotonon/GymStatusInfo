@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'index']);
+        $this->middleware('auth', ['except' => ['index', 'filter']]);
     }
 
     /**
@@ -25,15 +26,17 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function index($date = null)
+    public function index()
     {
         $showNav = true;
 
         if (Session::get('date') === null) {
-            $date = $this->getBestDate($date);
+            $date = $this->getBestDate();
         } else {
             $date = Session::get('date');
         }
+
+        $date = Carbon::createFromFormat('Y-m-d', $date);
 
         $timeslotsAll = $this->getTimeslotsForDate($date);
 
@@ -70,6 +73,19 @@ class HomeController extends Controller
     }
 
     /**
+     * Set date to filter locations
+     *
+     * @return Response
+     */
+    public function filter(Request $request)
+    {
+        $date = Carbon::createFromFormat('d.m.Y', $request['date']);
+        Session::put('date', $date->format('Y-m-d'));
+
+        return redirect()->action('HomeController@index');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -97,16 +113,13 @@ class HomeController extends Controller
     /**
      * Helper function to get the best matching date to display
      *
-     * @param $date null or given date
      * @return date
      */
-    private function getBestDate($date)
+    private function getBestDate()
     {
-        if ($date === null) {
-            // $now = Carbon::now();
-            $date = Timeslot::oldest('date')->first()->date;
-            Session::put('date', $date);
-        }
+        // $now = Carbon::now();
+        $date = Timeslot::oldest('date')->first()->date->format('Y-m-d');
+        Session::put('date', $date);
 
         return $date;
     }

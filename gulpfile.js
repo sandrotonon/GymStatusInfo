@@ -50,6 +50,7 @@ gulp.task('concatstyles', ['styles'], function() {
   return gulp.src([
         customThemeDir + 'css/vendor/normalize.css',
         customThemeDir + 'css/vendor/bootstrap.css',
+        customThemeDir + 'css/vendor/bootstrap-datepicker3.standalone.css',
         customThemeDir + 'dist/css/styles.css',
       ])
       .pipe(concat('main.out.css'))
@@ -63,11 +64,13 @@ gulp.task('scripts', function() {
   return gulp.src([
       customThemeDir + 'js/vendor/jquery.min.js',
       customThemeDir + 'js/vendor/bootstrap.js',
+      customThemeDir + 'js/vendor/bootstrap-datepicker.js',
+      customThemeDir + 'js/vendor/bootstrap-datepicker.de.min.js',
       customThemeDir + 'js/vendor/cbpAnimatedHeader.js',
       customThemeDir + 'js/vendor/classie.js',
       customThemeDir + 'js/vendor/jquery.easing.1.3.min.js',
       customThemeDir + 'js/vendor/freelancer.js',
-      customThemeDir + 'js/vendor/**/*.js',
+      customThemeDir + 'js/vendor/masonry.js',
       customThemeDir + 'js/custom/**/*.js'
     ])
     .pipe(concat('main.js'))
