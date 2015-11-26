@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LocationRequest;
 use App\Http\Controllers\Controller;
 use App\Location;
+use App\Timeslot;
 
 class LocationsController extends Controller
 {
@@ -26,6 +27,8 @@ class LocationsController extends Controller
     public function index()
     {
         $locations = Location::orderBy('name')->get();
+
+        $locations = $this->countTimes($locations);
 
         return view('locations.index', compact('locations'));
     }
@@ -91,10 +94,29 @@ class LocationsController extends Controller
     {
         $location = Location::findOrFail($id);
 
-        // TODO: timeslots constraints
-
         $location->delete();
 
         return redirect(route('Locations.index'));
+    }
+
+    /**
+     * Helper function to get the different times of timeslots for a location
+     *
+     * @param $locations
+     * @return $locations
+     */
+    private function countTimes($locations)
+    {
+        foreach ($locations as $location) {
+            $tmp = collect([]);
+
+            foreach ($location->timeslots as $timeslot) {
+                array_add($tmp, $timeslot->time, $timeslot->id);
+            }
+
+            $location->times = $tmp;
+        }
+
+        return $locations;
     }
 }

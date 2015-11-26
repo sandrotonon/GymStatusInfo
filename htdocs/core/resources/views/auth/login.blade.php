@@ -13,7 +13,7 @@
         <div class="col-md-8 col-md-offset-2">
             @if (count($errors) > 0)
             <div class="alert alert-danger">
-                <strong>Fehler!</strong> Anmelden fehlgeschlagen, bitte überprüfen Sie Ihre eingaben.<br><br>
+                <strong>Fehler!</strong> Anmelden fehlgeschlagen, bitte überprüfen Sie Ihre Eingaben.<br><br>
                 <ul>
                     @foreach ($errors->all() as $error)
                       <li>{{ $error }}</li>

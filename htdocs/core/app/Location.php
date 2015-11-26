@@ -31,7 +31,12 @@ class Location extends Model
      *
      * @var string
      */
-    protected $times;
+    public $times;
+
+    /**
+     * Holds the state if the authenticated user has booked a time at this location
+     */
+    public $booked = false;
 
     /**
      * A location can hold many timeslots

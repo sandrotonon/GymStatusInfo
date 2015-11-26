@@ -17,6 +17,7 @@
 |--------------------------------------------------------------------------
 */
 Route::get('/{date?}', ['as' => 'index', 'uses' => 'HomeController@index']);
+Route::patch('/{id}/{type}', ['as' => 'book', 'uses' => 'HomeController@book']);
 
 
 /*
@@ -50,11 +51,9 @@ Route::group(['prefix' => 'sporthallen', 'as' => 'Locations.'], function() {
     // Save edited location
     Route::patch('/{slug}', ['as' => 'update', 'uses' => 'LocationsController@update']);
 
-    Route::delete('/{slug}', ['as' => 'destroy', 'uses' => 'LocationsController@destroy']);
+    Route::delete('/{id}', ['as' => 'destroy', 'uses' => 'LocationsController@destroy']);
 
 });
-
-
 
 
 /*
@@ -81,13 +80,13 @@ Route::group(['prefix' => 'mannschaften', 'as' => 'Teams.'], function() {
 
 /*
 |--------------------------------------------------------------------------
-| Timeslot routes
+| Password forgotten routes
 |--------------------------------------------------------------------------
 */
+// Password reset link request routes...
+Route::get('password/email', 'Auth\PasswordController@getEmail');
+Route::post('password/email', 'Auth\PasswordController@postEmail');
 
-Route::group(['prefix' => 'zeitpunkt', 'as' => 'Timeslot.'], function() {
-
-    // Save booked timeslot
-    Route::patch('/{timeslot}/buchen', ['as' => '{timeslot}.book', 'uses' => 'TeamsController@book']);
-
-});
+// Password reset routes...
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
