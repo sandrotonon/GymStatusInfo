@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use App\Timeslot;
-use App\Http\Requests\LocationRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
@@ -29,6 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $showNav = true;
+        $availableDates = $this->getAvailableDates();
 
         if (Session::get('date') === null) {
             $date = $this->getBestDate();
@@ -62,14 +62,14 @@ class HomeController extends Controller
 
                 // TODO: sort times
             }
-            $location->setTimes($times);
+            $location->times = $times;
         }
 
         $locations = $this->associateTimes($locations, $timeslotsAll);
 
         // dd($locations);
 
-        return view('index', compact('locations', 'date', 'showNav'));
+        return view('index', compact('locations', 'date', 'showNav', 'availableDates'));
     }
 
     /**
@@ -106,8 +106,23 @@ class HomeController extends Controller
                 }
             });
         }
-
         return redirect(route('index'));
+    }
+
+    /**
+     * Helper function to get different dates at which Timeslots are
+     *
+     * @return array
+     */
+    private function getAvailableDates()
+    {
+        $timeslots = Timeslot::where('date', '>=', Carbon::now()->format('Y-m-d'))->groupBy('date')->get();
+
+        $timeslots->transform(function ($item, $key) {
+            return $item->date->format('d.m.Y');
+        });
+
+        return $timeslots->all();
     }
 
     /**
@@ -118,7 +133,7 @@ class HomeController extends Controller
     private function getBestDate()
     {
         // $now = Carbon::now();
-        $date = Timeslot::oldest('date')->first()->date->format('Y-m-d');
+        $date = Timeslot::where('date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('date')->first()->date->format('Y-m-d');
         Session::put('date', $date);
 
         return $date;
@@ -181,25 +196,12 @@ class HomeController extends Controller
                         array('id' => '4', 'user_id' =>1),
                     )
                 )
-            ),
-            'Sporthalle Eggingen' => array(
-                'city' => 'Stühlingen',
-                'street' => 'Straße 1',
-                'times' => array(
-                    '16:00' => array(
-                        array('id' => '5', 'user_id' => '1'),
-                    ),
-                    '17:00' => array(
-                        array('id' => '6', 'user_id' => null),
-                        array('id' => '7', 'user_id' => null),
-                    )
-                )
             )
         );
         */
 
         foreach ($locations as $key => $location) {
-            $times = $location->getTimes();
+            $times = $location->times;
 
             foreach ($times as $timestring => $time) {
                 $count = 0;
@@ -219,7 +221,7 @@ class HomeController extends Controller
                 array_add($time, 'freeslots', $freeslots);
                 array_add($time, 'totalslots', $count);
             }
-            $location->setTimes($times);
+            $location->times = $times;
         }
 
         return $locations;

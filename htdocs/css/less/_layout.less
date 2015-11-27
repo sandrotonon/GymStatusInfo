@@ -23,7 +23,32 @@ body {
 
 
 // Datepicker
-.datepicker {
+.datepicker.dropdown-menu {
+  .active.day,
+  .active.month,
+  .active.year {
+    background-color: @brand-primary !important;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: #1a242f !important;
+    }
+  }
+
+  .datepicker-days td {
+    &:not(.disabled) {
+      background-color: @brand-success;
+      color: #fff;
+      font-weight: bold;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: @status-success-hover;
+      }
+    }
+  }
 }
 
 

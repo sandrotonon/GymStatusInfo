@@ -42,7 +42,7 @@
             <h2 class="panel-title text-center">{{ $location->name }}<br><small>(<span class="count-all">{{ $location->freeslots }}</span>{{ $freeslotsSuffix }})</small></h2>
         </div><!-- Outer panel heading end -->
         <div class="panel-body">
-            @foreach($location->getTimes() as $key => $times)
+            @foreach($location->times as $time => $times)
                 <?php
                     $freeslots = $times['freeslots'];
                     $totalslots = $times['totalslots'];
@@ -57,7 +57,7 @@
                 <div class="panel panel-{{ $status }}">
                     <!-- Default panel contents -->
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">{{ $key }} Uhr</h3>
+                        <h3 class="panel-title text-center">{{ $time }} Uhr</h3>
                     </div>
                     <!-- Table -->
                     <table class="table table-bordered">
@@ -106,19 +106,21 @@
             @endforeach
         </div><!-- Outer panel body end -->
         @if(Auth::check())
-            <div class="panel-footer text-center">
-                @if($location->freeslots === 0)
-                    @if($location->booked)
+            @if($location->freeslots === 0)
+                @if($location->booked)
+                    <div class="panel-footer text-center">
                         {!! Form::button('<i class="fa fa-times"></i> Reservierung löschen', ['type' => 'submit', 'class' => 'btn btn-danger btn-book btn-book-unbook', 'style' => 'margin-top:0;']) !!}
-                    @endif
-                @else
+                    </div>
+                @endif
+            @else
+                <div class="panel-footer text-center">
                     @if($location->booked)
                         {!! Form::button('<i class="fa fa-times"></i> Reservierung löschen', ['type' => 'submit', 'class' => 'btn btn-danger btn-book btn-book-unbook', 'style' => 'margin-top:0;']) !!}
                     @else
                         {!! Form::button('<i class="fa fa-check"></i> Reservierung speichern', ['type' => 'submit', 'class' => 'btn btn-primary btn-book btn-book-book', 'style' => 'margin-top:0;']) !!}
                     @endif
-                @endif
-            </div><!-- Outer panel footer end -->
+                </div>
+            @endif
         @endif
 
     {!! Form::close() !!}

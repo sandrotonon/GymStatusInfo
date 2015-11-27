@@ -49,14 +49,4 @@ class Location extends Model
     {
         return $this->hasMany('App\Timeslot');
     }
-
-    public function setTimes($times)
-    {
-        $this->times = $times;
-    }
-
-    public function getTimes()
-    {
-        return $this->times;
-    }
 }

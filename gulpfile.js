@@ -13,7 +13,7 @@ var gulp         = require('gulp'),
     data_uri     = require('gulp-data-uri'),
     del          = require('del'),
     gutil        = require('gulp-util'),
-    ftp          = require('vinyl-ftp')
+    ftp          = require('vinyl-ftp'),
     passes       = fs.existsSync('./ftppass.json') ? require('./ftppass.json') : {};
 
 
@@ -71,6 +71,7 @@ gulp.task('scripts', function() {
       customThemeDir + 'js/vendor/jquery.easing.1.3.min.js',
       customThemeDir + 'js/vendor/freelancer.js',
       customThemeDir + 'js/vendor/masonry.js',
+      customThemeDir + 'js/vendor/moment.js',
       customThemeDir + 'js/custom/**/*.js'
     ])
     .pipe(concat('main.js'))

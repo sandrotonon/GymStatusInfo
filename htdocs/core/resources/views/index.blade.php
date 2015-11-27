@@ -15,7 +15,7 @@
                         <label for="date-chooser" class="col-sm-4 control-label">Sporthallen nach Datum filtern</label>
                         <div class="col-xs-8 col-sm-4">
                             <div class="input-group date">
-                                <input type="text" name="date" value="{{ $date->format('d.m.Y') }}" class="form-control"><span class="input-group-addon btn-primary"><i class="glyphicon glyphicon-th"></i></span>
+                                <input type="text" data-available-dates='["{{ implode('","', $availableDates) }}"]' name="date" value="{{ $date->format('d.m.Y') }}" class="form-control"><span class="input-group-addon btn-primary"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                         </div>
                         <div class="col-xs-4 col-sm-2">
@@ -25,6 +25,8 @@
                 {!! Form::close() !!}
             </div>
         </div>
+
+        @include('errors._list')
 
         <div class="row grid">
             @foreach($locations as $location)

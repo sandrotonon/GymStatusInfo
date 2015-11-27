@@ -387,6 +387,32 @@ body {
 .inline-form {
   display: inline-block;
 }
+.datepicker.dropdown-menu .active.day,
+.datepicker.dropdown-menu .active.month,
+.datepicker.dropdown-menu .active.year {
+  background-color: #2C3E50 !important;
+}
+.datepicker.dropdown-menu .active.day:hover,
+.datepicker.dropdown-menu .active.month:hover,
+.datepicker.dropdown-menu .active.year:hover,
+.datepicker.dropdown-menu .active.day:active,
+.datepicker.dropdown-menu .active.month:active,
+.datepicker.dropdown-menu .active.year:active,
+.datepicker.dropdown-menu .active.day:focus,
+.datepicker.dropdown-menu .active.month:focus,
+.datepicker.dropdown-menu .active.year:focus {
+  background-color: #1a242f !important;
+}
+.datepicker.dropdown-menu .datepicker-days td:not(.disabled) {
+  background-color: #18bc9c;
+  color: #fff;
+  font-weight: bold;
+}
+.datepicker.dropdown-menu .datepicker-days td:not(.disabled):hover,
+.datepicker.dropdown-menu .datepicker-days td:not(.disabled):active,
+.datepicker.dropdown-menu .datepicker-days td:not(.disabled):focus {
+  background-color: #128f76;
+}
 .navbar.navbar-default .navbar-header button.navbar-toggle {
   border: none;
   padding: 3px 15px;

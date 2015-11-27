@@ -12,7 +12,7 @@
         <div class="row search">
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Mannschaft suchen...">
+                    <input type="search" data-table="table-hover" class="light-table-filter form-control" placeholder="Mannschaft suchen...">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="button">Suchen!</button>
                     </span>
@@ -23,32 +23,29 @@
             </div>
         </div><!-- /.row -->
 
-
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Mannschaft</th>
+                    <th>Mannschaftsführer</th>
+                    <th class="text-right">Verwaltung</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $user)
                     <tr>
-                        <th>Mannschaft</th>
-                        <th>Mannschaftsführer</th>
-                        <th class="text-right">Verwaltung</th>
+                        <td scope="row">{{ $user->team }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td class="text-right">
+                            {!! Form::open(['method' => 'DELETE', 'action' => ['TeamsController@destroy', $user->id], 'class' => 'inline-form']) !!}
+                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => $user->team . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
+                            {!! Form::close() !!}
+                            <a href="{{ route('Teams.{slug}.edit', $user->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $user->team }} bearbeiten"><i class="fa fa-pencil"></i></a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td scope="row">{{ $user->team }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td class="text-right">
-                                {!! Form::open(['method' => 'DELETE', 'action' => ['TeamsController@destroy', $user->id], 'class' => 'inline-form']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => $user->team . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
-                                {!! Form::close() !!}
-                                <a href="{{ route('Teams.{slug}.edit', $user->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $user->team }} bearbeiten"><i class="fa fa-pencil"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </section>
 
