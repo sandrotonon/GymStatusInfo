@@ -5,7 +5,7 @@
             $type = 'unbook';
         }
     ?>
-    {!! Form::open(['method' => 'PATCH', 'route' => ['book', 'id' => $location->id, 'type' => $type], 'class' => 'panel panel-primary']) !!}
+    {!! Form::open(['method' => 'PATCH', 'route' => [$type, 'id' => $location->id], 'class' => 'panel panel-primary']) !!}
 
         <div class="overlay">
             <div class="content-wrapper">

@@ -57,3 +57,15 @@ Breadcrumbs::register('Teams.{slug}.edit', function($breadcrumbs, $user) {
     $breadcrumbs->parent('Teams.index');
     $breadcrumbs->push($user->team, route('Teams.{slug}.edit', $user->team));
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Profile routes
+|--------------------------------------------------------------------------
+*/
+// Startseite > *Benutzer X*
+Breadcrumbs::register('profile.{slug}.edit', function($breadcrumbs, $team) {
+    $breadcrumbs->parent('index');
+    $breadcrumbs->push($team, route('profile.{slug}.edit'));
+});

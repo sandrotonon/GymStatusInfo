@@ -18,7 +18,8 @@
 */
 Route::get('/', ['as' => 'index', 'uses' => 'HomeController@index']);
 Route::post('/', ['as' => 'index.filter', 'uses' => 'HomeController@filter']);
-Route::patch('/{id}/{type}', ['as' => 'book', 'uses' => 'HomeController@book']);
+Route::patch('/{id}/book', ['as' => 'book', 'uses' => 'HomeController@book']);
+Route::patch('/{id}/unbook', ['as' => 'unbook', 'uses' => 'HomeController@unbook']);
 
 
 /*
@@ -53,7 +54,6 @@ Route::group(['prefix' => 'sporthallen', 'as' => 'Locations.'], function() {
     Route::patch('/{slug}', ['as' => 'update', 'uses' => 'LocationsController@update']);
 
     Route::delete('/{id}', ['as' => 'destroy', 'uses' => 'LocationsController@destroy']);
-
 });
 
 
@@ -75,8 +75,16 @@ Route::group(['prefix' => 'mannschaften', 'as' => 'Teams.'], function() {
     Route::patch('/{slug}', ['as' => 'update', 'uses' => 'TeamsController@update']);
 
     Route::delete('/{slug}', ['as' => 'destroy', 'uses' => 'TeamsController@destroy']);
-
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Profile routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/profil/{slug}/bearbeiten', ['as' => 'profile.{slug}.edit', 'uses' => 'TeamsController@editProfile']);
+Route::patch('/profil/{id}', ['as' => 'profile.update', 'uses' => 'TeamsController@updateProfile']);
 
 
 /*

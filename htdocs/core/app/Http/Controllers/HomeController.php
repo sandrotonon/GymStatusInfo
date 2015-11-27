@@ -86,26 +86,36 @@ class HomeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Book a timeslot
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function book($id, $type, Request $request)
+    public function book($id, Request $request)
     {
-        if ($type === 'book') {
-            $timeslot = Timeslot::find($request['timeslot']);
-            $timeslot->user_id = Auth::user()->id;
-            $timeslot->save();
-        } elseif ($type === 'unbook') {
-            $timeslots = Location::find($id)->timeslots;
-            $timeslots->each(function($item, $key) {
-                if (Auth::user()->id === $item->user_id) {
-                    $item->user_id = null;
-                    $item->save();
-                }
-            });
-        }
+        $timeslot = Timeslot::find($request['timeslot']);
+        $timeslot->user_id = Auth::user()->id;
+        $timeslot->save();
+
+        return redirect(route('index'));
+    }
+
+    /**
+     * Unbook a booked timeslot
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unbook($id, Request $request)
+    {
+        $timeslots = Location::find($id)->timeslots;
+        $timeslots->each(function($item, $key) {
+            if (Auth::user()->id === $item->user_id) {
+                $item->user_id = null;
+                $item->save();
+            }
+        });
+
         return redirect(route('index'));
     }
 

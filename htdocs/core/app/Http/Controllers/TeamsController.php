@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TeamRequest;
 use App\Http\Controllers\Controller;
 use App\User;
+use \Auth;
+use \Validator;
 
 class TeamsController extends Controller
 {
@@ -56,7 +58,7 @@ class TeamsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function edit($slug)
@@ -70,7 +72,7 @@ class TeamsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function update($slug, TeamRequest $request)
@@ -98,5 +100,58 @@ class TeamsController extends Controller
         $user->delete();
 
         return redirect(route('Teams.index'));
+    }
+
+    /**
+     * Show view to change pw.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function editProfile($slug)
+    {
+        $user = User::where('slug', $slug)->first();
+
+        return view('teams.profile', compact('user'));
+    }
+
+    /**
+     * Update the users pw in the storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(Request $request, $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'oldpassword' => 'required',
+            'newpassword' => 'required|min:6|confirmed',
+            'newpassword_confirmation' => 'required|min:6',
+        ]);
+
+        $check = auth()->validate([
+            'email'    => Auth::user()->email,
+            'password' => $request->oldpassword
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('profile.{id}.edit')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $slug = User::find($id)->slug;
+
+        if (!$check) {
+            return redirect(route('profile.{slug}.edit', $slug))->withErrors(['"Aktuelles Passwort" ist falsch']);
+        }
+
+        $user = User::find($id)->first();
+
+        $user->password = bcrypt($request->newpassword);
+        $user->save();
+
+        return redirect(route('index'));
     }
 }
