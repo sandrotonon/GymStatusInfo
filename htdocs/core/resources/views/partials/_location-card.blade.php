@@ -57,7 +57,7 @@
                 <div class="panel panel-{{ $status }}">
                     <!-- Default panel contents -->
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">{{ $time }} Uhr</h3>
+                        <h3 class="panel-title text-center">{{ Carbon\Carbon::createFromFormat('H:i:s', $time)->format('H:i') }} Uhr</h3>
                     </div>
                     <!-- Table -->
                     <table class="table table-bordered">
@@ -70,11 +70,7 @@
                         <tbody>
                             @foreach($times['timeslots'] as $timeslot)
                                 @if($timeslot->user_id !== null)
-                                    @if(Auth::check() && $timeslot->user->team === Auth::user()->team)
-                                        <tr class="active">
-                                    @else
-                                        <tr>
-                                    @endif
+                                    <tr>
                                         <?php $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team; ?>
                                         <td>{!! $teamname !!}</td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
@@ -89,7 +85,7 @@
                                 @endif
                             @endforeach
                             @if(Auth::check() && !$location->booked && $times['freeslots'] !== 0)
-                                <tr class="active">
+                                <tr>
                                     <td><strong>{{ Auth::user()->team }}</strong></td>
                                     @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                         <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center">

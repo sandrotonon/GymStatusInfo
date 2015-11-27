@@ -410,6 +410,7 @@ body {
   background-color: #18bc9c;
   color: #fff;
   font-weight: bold;
+  border-radius: 50%;
 }
 .datepicker.dropdown-menu .datepicker-days td:not(.disabled):hover,
 .datepicker.dropdown-menu .datepicker-days td:not(.disabled):active,
