@@ -26,30 +26,44 @@
     </div>
 </div>
 
-<h3 class="text-center">Uhrzeiten</h3>
+<div class="pb-10"></div>
 
-<div class="row">
-    <div class="col-sm-offset-2 col-sm-8">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-4 text-center">Datum: 01.01.2016</div>
-                    <div class="col-sm-4 text-center">Uhrzeit: 17:00 Uhr</div>
-                    <div class="col-sm-4 text-center">Plätze: 4</div>
-                </div>
-            </div>
-            <div class="panel-footer text-center">
-                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Zeit Löschen</button>
-            </div>
-        </div>
-    </div>
-</div>
+<h3 class="text-center">Termine</h3>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Plätze</th>
+            <th class="text-right">Verwaltung</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="row">01.01.2016</td>
+            <td>10:00 Uhr</td>
+            <td>4</td>
+            <td class="text-right">
+                <a href="#" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="Termin löschen"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">01.01.2016</td>
+            <td>17:00 Uhr</td>
+            <td>2</td>
+            <td class="text-right">
+                <a href="#" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="Termin löschen"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <div class="row">
     <div class="col-sm-offset-2 col-sm-8">
       <div class="panel panel-success">
           <div class="panel-heading">
-              <h3 class="panel-title">Freie Zeit hinzufügen</h3>
+              <h3 class="panel-title">Termin hinzufügen</h3>
           </div>
           <div class="panel-body">
               <div class="form-group">
@@ -73,7 +87,7 @@
 
               <div class="form-group">
                   <div class="col-md-offset-4 col-md-6">
-                      {!! Form::button('<i class="fa fa-plus"></i> Zeit hinzufügen', ['id' => 'add-time', 'class' => 'btn btn-success']) !!}
+                      {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen', ['id' => 'add-time', 'class' => 'btn btn-success']) !!}
                   </div>
               </div>
           </div>
