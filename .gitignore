@@ -30,3 +30,5 @@ Temporary Items
 node_modules
 bower_components
 ftppass.json
+*.sublime-project
+*.sublime-workspace
