@@ -38,7 +38,7 @@
                         <td>{{ $location->times->count() }}</td>
                         <td class="text-right">
                             {!! Form::open(['method' => 'DELETE', 'action' => ['LocationsController@destroy', $location->id], 'class' => 'inline-form']) !!}
-                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => $location->name . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
+                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'confirmation tooltip', 'title' => $location->name . ' löschen', 'data-placement' => 'top', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                             <a href="{{ route('Locations.{slug}.edit', $location->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $location->name }} bearbeiten"><i class="fa fa-pencil"></i></a>
                         </td>

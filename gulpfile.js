@@ -66,6 +66,7 @@ gulp.task('scripts', function() {
       customThemeDir + 'js/vendor/bootstrap.js',
       customThemeDir + 'js/vendor/bootstrap-datepicker.js',
       customThemeDir + 'js/vendor/bootstrap-datepicker.de.min.js',
+      customThemeDir + 'js/vendor/bootstrap-confirmation.js',
       customThemeDir + 'js/vendor/cbpAnimatedHeader.js',
       customThemeDir + 'js/vendor/classie.js',
       customThemeDir + 'js/vendor/jquery.easing.1.3.min.js',

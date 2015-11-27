@@ -387,6 +387,9 @@ body {
 .inline-form {
   display: inline-block;
 }
+.popover {
+  width: 220px;
+}
 .datepicker.dropdown-menu .active.day,
 .datepicker.dropdown-menu .active.month,
 .datepicker.dropdown-menu .active.year {

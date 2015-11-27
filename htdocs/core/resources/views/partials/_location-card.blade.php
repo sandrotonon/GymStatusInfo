@@ -70,7 +70,11 @@
                         <tbody>
                             @foreach($times['timeslots'] as $timeslot)
                                 @if($timeslot->user_id !== null)
-                                    <tr>
+                                    @if(Auth::check() && $timeslot->user->team === Auth::user()->team)
+                                        <tr class="active">
+                                    @else
+                                        <tr>
+                                    @endif
                                         <?php $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team; ?>
                                         <td>{!! $teamname !!}</td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)

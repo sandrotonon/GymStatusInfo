@@ -38,7 +38,7 @@
                         <td>{{ $user->name }}</td>
                         <td class="text-right">
                             {!! Form::open(['method' => 'DELETE', 'action' => ['TeamsController@destroy', $user->id], 'class' => 'inline-form']) !!}
-                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => $user->team . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
+                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'confirmation tooltip', 'data-placement' => 'top', 'title' => $user->team . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                             <a href="{{ route('Teams.{slug}.edit', $user->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $user->team }} bearbeiten"><i class="fa fa-pencil"></i></a>
                         </td>
