@@ -52,6 +52,8 @@ class TeamsController extends Controller
     {
         User::create($request->all());
 
+        // TODO: Send notification mail to user
+
         return redirect(route('Teams.index'));
     }
 

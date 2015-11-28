@@ -11128,17 +11128,6 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    // tsModules.Booking.init();
-});
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.Booking = (function() {
 
   return {
@@ -11146,12 +11135,14 @@ tsModules.Booking = (function() {
     init: function() {
       var $bookButtons = $('button.btn-book');
 
-      var that = this;
-
       $bookButtons.each(function() {
         $(this).click(function(e) {
-          ($(this).hasClass('btn-book-book')) ? $method = 'book' : $method = 'unbook';
-          $overlay = $(this).closest('.panel').find('.overlay');
+          e.preventDefault();
+
+          var method = ($(this).hasClass('btn-book-book')) ? 'book' : 'unbook';
+          var token = $(this).closest('form').find('input[name="_token"]').val();
+          var selected = $(this).closest('form').find('input:checked').val();
+          var $overlay = $(this).closest('.panel').find('.overlay');
 
           $overlay.fadeTo(300, 0.92);
           setTimeout(function(){
@@ -11161,6 +11152,26 @@ tsModules.Booking = (function() {
 
           // TODO:
           // Send AJAX request
+          $.ajax({
+            type: 'POST',
+            cache: false,
+            url : selected + '/' + method,
+            data: {
+              _token: token,
+              _method: 'PATCH',
+              timeslot: selected
+            },
+            success: function(data) {
+              // var obj = $.parseJSON(data);
+              console.log(data);
+            }
+          })
+          .done(function(data) {
+              console.log('done: ' + data);
+          })
+          .fail(function(jqXHR, ajaxOptions, thrownError) {
+              console.log('No response from server');
+          });
 
           // success
           setTimeout(function(){
@@ -11322,3 +11333,14 @@ tsModules.TimeSlots = (function() {
     }
   };
 })();
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.TimeSlots.init();
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+});

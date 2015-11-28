@@ -53,6 +53,8 @@ class LocationsController extends Controller
     {
         Location::create($request->all());
 
+        $this->editDates($request['timeslotdates']);
+
         return redirect(route('Locations.index'));
     }
 
@@ -66,6 +68,9 @@ class LocationsController extends Controller
     {
         $location = Location::where('slug', $slug)->first();
 
+        // timeslotdates sind die Termine (Datum und Uhrzeit) in JSON Format
+        // $location->timeslotdates = $this->getDates($location->id);
+
         return view('locations.edit', compact('location'));
     }
 
@@ -78,6 +83,8 @@ class LocationsController extends Controller
     public function update($slug, LocationRequest $request)
     {
         $location = Location::where('slug', $slug)->first();
+
+        $this->editDates($request['timeslotdates']);
 
         $location->update($request->all());
 
@@ -118,5 +125,18 @@ class LocationsController extends Controller
         }
 
         return $locations;
+    }
+
+    private function editDates($dates)
+    {
+        // TODO: JSON_decode and save/delete in database
+    }
+
+    /**
+     * @param $id ID of the location to get its corresponding dates
+     */
+    private function getDates($id)
+    {
+        // TODO: Return dates as JSON
     }
 }

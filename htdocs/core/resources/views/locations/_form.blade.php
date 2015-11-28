@@ -30,6 +30,8 @@
 
 <h3 class="text-center">Termine</h3>
 
+{!! Form::hidden('timeslotdates'); !!}
+
 <table class="table table-hover table-striped">
     <thead>
         <tr>

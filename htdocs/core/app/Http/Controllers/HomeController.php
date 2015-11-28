@@ -93,6 +93,12 @@ class HomeController extends Controller
      */
     public function book($id, Request $request)
     {
+        $_request = null;
+        if ($request->ajax()) {
+            $_request = 'ajax!';
+        }
+        return $_request;
+
         $timeslot = Timeslot::find($request['timeslot']);
         $timeslot->user_id = Auth::user()->id;
         $timeslot->save();
@@ -108,6 +114,7 @@ class HomeController extends Controller
      */
     public function unbook($id, Request $request)
     {
+        return 'drin';
         $timeslots = Location::find($id)->timeslots;
         $timeslots->each(function($item, $key) {
             if (Auth::user()->id === $item->user_id) {

@@ -41,6 +41,11 @@ class Location extends Model
     public $freeslots = 0;
 
     /**
+     * Temporary filled with dates for the timeslots, named timeslotdates cuz dates is reserved
+     */
+    public $timeslotdates;
+
+    /**
      * A location can hold many timeslots
      *
      * @return HasMany
