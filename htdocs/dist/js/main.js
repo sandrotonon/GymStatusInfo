@@ -11128,6 +11128,17 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
+$(function () {
+    tsModules.TimeSlots.init();
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+});
+'use strict';
+
+var tsModules = tsModules || {};
+
 tsModules.Booking = (function() {
 
   return {
@@ -11143,52 +11154,58 @@ tsModules.Booking = (function() {
           var token = $(this).closest('form').find('input[name="_token"]').val();
           var selected = $(this).closest('form').find('input:checked').val();
           var $overlay = $(this).closest('.panel').find('.overlay');
+          var responseStatus = 'success';
 
           $overlay.fadeTo(300, 0.92);
           setTimeout(function(){
             $overlay.find('.booking-progress').fadeIn(500);
           }, 300);
 
-
-          // TODO:
           // Send AJAX request
           $.ajax({
             type: 'POST',
             cache: false,
-            url : selected + '/' + method,
+            url : 'timeslot/' + selected + '/' + method,
             data: {
               _token: token,
               _method: 'PATCH',
               timeslot: selected
-            },
-            success: function(data) {
-              // var obj = $.parseJSON(data);
-              console.log(data);
             }
           })
           .done(function(data) {
-              console.log('done: ' + data);
+            // Serverantwort bekommen
+
+            // TODO
+            if (data.status === 'error') {
+              responseStatus = 'error';
+              console.log('error');
+            }
           })
           .fail(function(jqXHR, ajaxOptions, thrownError) {
-              console.log('No response from server');
+            // Server sendet keine Antwort
+              responseStatus = 'error';
+          })
+          .always(function() {
+            // Spinner ausblenden
+            setTimeout(function(){
+              $overlay.find('.booking-progress').fadeOut(500);
+            }, 600);
+
+            // Reservierungsprozess-Antwort anzeigen
+            setTimeout(function(){
+              $overlay.find('.booking-progress-' + responseStatus).fadeIn(500);
+            }, 800);
+
+            // Reservierungsprozess-Antwort ausblenden
+            setTimeout(function(){
+              $overlay.find('.booking-progress-' + responseStatus).fadeOut(0);
+            }, 2100);
+
+            // Overlay ausblenden
+            setTimeout(function(){
+              $overlay.fadeOut(500);
+            }, 2100);
           });
-
-          // success
-          setTimeout(function(){
-            $overlay.find('.booking-progress').fadeOut(500);
-          }, 1600);
-
-          setTimeout(function(){
-            $overlay.find('.booking-progress-success').fadeIn(500);
-          }, 1800);
-
-          // failure
-
-
-          setTimeout(function(){
-            $overlay.fadeOut(500);
-            $overlay.find('.booking-progress-success').fadeOut(0);
-          }, 3300);
 
           return false;
         });
@@ -11333,14 +11350,3 @@ tsModules.TimeSlots = (function() {
     }
   };
 })();
-'use strict';
-
-var tsModules = tsModules || {};
-
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-});

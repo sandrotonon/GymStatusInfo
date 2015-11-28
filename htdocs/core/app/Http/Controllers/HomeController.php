@@ -86,47 +86,6 @@ class HomeController extends Controller
     }
 
     /**
-     * Book a timeslot
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function book($id, Request $request)
-    {
-        $_request = null;
-        if ($request->ajax()) {
-            $_request = 'ajax!';
-        }
-        return $_request;
-
-        $timeslot = Timeslot::find($request['timeslot']);
-        $timeslot->user_id = Auth::user()->id;
-        $timeslot->save();
-
-        return redirect(route('index'));
-    }
-
-    /**
-     * Unbook a booked timeslot
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function unbook($id, Request $request)
-    {
-        return 'drin';
-        $timeslots = Location::find($id)->timeslots;
-        $timeslots->each(function($item, $key) {
-            if (Auth::user()->id === $item->user_id) {
-                $item->user_id = null;
-                $item->save();
-            }
-        });
-
-        return redirect(route('index'));
-    }
-
-    /**
      * Helper function to get different dates at which Timeslots are
      *
      * @return array
@@ -150,6 +109,7 @@ class HomeController extends Controller
     private function getBestDate()
     {
         // $now = Carbon::now();
+        // TODO: catch empty result
         $date = Timeslot::where('date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('date')->first()->date->format('Y-m-d');
         Session::put('date', $date);
 

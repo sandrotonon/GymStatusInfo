@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Timeslot;
+use App\Location;
+use \Auth;
 
 class TimeslotsController extends Controller
 {
@@ -15,16 +18,6 @@ class TimeslotsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -41,40 +34,6 @@ class TimeslotsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -86,15 +45,47 @@ class TimeslotsController extends Controller
     }
 
     /**
-     * Book a specific timeslot.
+     * Book a timeslot
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function book(Request $request)
+    public function book($id, Request $request)
     {
-        $timeslot = new Timeslot($request->all());
+        $_request = null;
+        if ($request->ajax()) {
+            // falls buchung okay:
+            $data = array('status' => 'error');
 
-        Auth::user()->timeslots()->save($timeslot);
+            // Falls buchung nicht okay:
+            // $data = array('status' => 'success', 'message' => 'Fehlermeldung');
+
+            return $data;
+        }
+
+        $timeslot = Timeslot::find($request['timeslot']);
+        $timeslot->user_id = Auth::user()->id;
+        $timeslot->save();
+
+        return redirect(route('index'));
+    }
+
+    /**
+     * Unbook a booked timeslot
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unbook($id, Request $request)
+    {
+        $timeslots = Location::find($id)->timeslots;
+        $timeslots->each(function($item, $key) {
+            if (Auth::user()->id === $item->user_id) {
+                $item->user_id = null;
+                $item->save();
+            }
+        });
+
+        return redirect(route('index'));
     }
 }
