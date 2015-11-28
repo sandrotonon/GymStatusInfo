@@ -11128,17 +11128,6 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    // tsModules.Booking.init();
-});
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.Booking = (function() {
 
   return {
@@ -11322,3 +11311,14 @@ tsModules.TimeSlots = (function() {
     }
   };
 })();
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.TimeSlots.init();
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+});
