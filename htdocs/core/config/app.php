@@ -140,6 +140,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+        * Entrust Role Provider
+        */
+        'Zizaco\Entrust\EntrustServiceProvider',
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -199,6 +204,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Entrust'   => 'Zizaco\Entrust\EntrustFacade',
 
         'Form'      => 'Collective\Html\FormFacade',
         'Html'      => 'Collective\Html\HtmlFacade',

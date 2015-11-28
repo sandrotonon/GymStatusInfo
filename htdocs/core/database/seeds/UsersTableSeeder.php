@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder {
         DB::table('users')->delete();
 
         User::create([
-          'name' => 'Test Admin User',
+          'name' => 'Default Admin User',
           'team' => 'Mannschaft 1',
           'slug' => 'mannschaft-1',
           'email' => 'admin@bar.com',
