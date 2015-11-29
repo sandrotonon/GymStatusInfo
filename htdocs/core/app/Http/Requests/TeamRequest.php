@@ -36,7 +36,8 @@ class TeamRequest extends Request
             return [
                 'name' => 'required',
                 'team' => 'required|unique:users,team',
-                'email' => 'required|unique:users,email'
+                'email' => 'required|unique:users,email',
+                'password' => 'required|min:6'
             ];
         }
     }
@@ -49,7 +50,10 @@ class TeamRequest extends Request
     {
         $request = parent::all();
         $request['slug'] = str_slug($request['team']);
-        $request['password'] = bcrypt($request['password']);
+
+        if ($this->method === 'POST') {
+            $request['password'] = bcrypt($request['password']);
+        }
 
         return $request;
     }
