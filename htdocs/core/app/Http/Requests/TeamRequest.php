@@ -28,7 +28,8 @@ class TeamRequest extends Request
             return [
                 'name' => 'required',
                 'team' => 'required|unique:users,team,' . $this->team . ',team',
-                'email' => 'required|unique:users,email,' . $this->email . ',email'
+                'email' => 'required|unique:users,email,' . $this->email . ',email',
+                'role' => 'required'
             ];
         }
         else
@@ -36,7 +37,8 @@ class TeamRequest extends Request
             return [
                 'name' => 'required',
                 'team' => 'required|unique:users,team',
-                'email' => 'required|unique:users,email'
+                'email' => 'required|unique:users,email',
+                'role' => 'required'
             ];
         }
     }
