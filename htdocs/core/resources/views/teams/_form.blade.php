@@ -28,6 +28,12 @@
     </div>
 @endif
 
+<div class="form-group">
+    {!! Form::label('role', 'Rolle*', ['class' => 'col-sm-4 control-label']) !!}
+    <div class="col-sm-8">
+        {!! Form::select('role', $roles, $role, ['class' => 'form-control']) !!}
+    </div>
+</div>
 
 <div class="row">
     <div class="col-sm-12 text-right">

@@ -55,4 +55,24 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Timeslot');
     }
+
+    /**
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
+    /**
+     * Detach all roles from a user
+     * 
+     * @return object
+     */
+    public function detachAllRoles()
+    {
+        DB::table('role_user')->where('user_id', $this->id)->delete();
+
+        return $this;
+    }
 }

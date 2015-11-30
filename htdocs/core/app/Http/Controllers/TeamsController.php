@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Input;
+
 use App\Http\Requests\TeamRequest;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
 use \Auth;
 use \Validator;
 
@@ -39,7 +42,12 @@ class TeamsController extends Controller
      */
     public function create()
     {
-        return view('teams.create');
+        // I think it's also possible in PHP to define $roles as property and access this from view
+        // like this we have duplicate code :-(
+        $roles = array('' => 'Bitte Rolle wählen') + Role::lists('display_name', 'id')->all();
+        $role = "Bitte Rolle wählen";
+
+        return view('teams.create', compact('role'))->with('roles', $roles);
     }
 
     /**
@@ -52,6 +60,13 @@ class TeamsController extends Controller
     {
         User::create($request->all());
 
+        /**
+        * Find last inserted user and attach the selected role.
+        */
+        $insertedUser = User::where('email', '=', $request->email)->first();
+        $role = Input::get('role');
+        $insertedUser->attachRole($role);
+
         return redirect(route('Teams.index'));
     }
 
@@ -63,9 +78,14 @@ class TeamsController extends Controller
      */
     public function edit($slug)
     {
+        // I think it's also possible in PHP to define $roles as property and access this from view
+        // like this we have duplicate code :-(
+        $roles = array('' => 'Bitte Rolle wählen') + Role::lists('display_name', 'id')->all();
         $user = User::where('slug', $slug)->first();
 
-        return view('teams.edit', compact('user'));
+        $role = User::find( $user->id )->roles->first()->id;
+
+        return view('teams.edit', compact('user', 'role'))->with('roles', $roles);
     }
 
     /**
@@ -79,8 +99,13 @@ class TeamsController extends Controller
     {
         $user = User::where('slug', $slug)->first();
 
+        // Delete all role references from user
         $user->update($request->all());
+        $user>detachRoles($user->roles);
 
+        // Attach new role to user
+        $role = Input::get('role');
+        $user->attachRole($role);
 
         return redirect(route('Teams.index'));
     }
