@@ -15,7 +15,7 @@ class LocationsTableSeeder extends Seeder {
     {
         DB::table('locations')->delete();
 
-        /*Location::create([
+        Location::create([
             'name' => 'Stadthalle Stühlingen',
             'slug' => 'stadthalle-stuehlingen',
             'country' => 'Deutschland',
@@ -35,6 +35,6 @@ class LocationsTableSeeder extends Seeder {
             'country' => 'Deutschland',
             'city' => 'Super City',
             'street' => 'Superstraße S 1'
-        ]);*/
+        ]);
     }
 }

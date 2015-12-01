@@ -88,6 +88,7 @@ class TeamsController extends Controller
         } catch(Exception $ex) {
             // Inform the user that the welcome email has not been sent. But the user was created anyway.
             // [TODO]
+            session()->flash('error', trans('messages.email_error'));
         }
 
         return redirect(route('Teams.index'));
@@ -144,10 +145,11 @@ class TeamsController extends Controller
         $user = User::findOrFail($id);
 
         // The default admin user can not delete himself
-        if($user->id == 1)
-            return redirect(route('Teams.index'));
+        if($user->id == 1) {
+            session()->flash('error', trans('messages.delete_admin_error', ['team' => $user->team]));
 
-        // TODO: timeslots constraints
+            return redirect(route('Teams.index'));
+        }
 
         $user->delete();
 
@@ -175,7 +177,6 @@ class TeamsController extends Controller
      */
     public function updateProfile(Request $request, $id)
     {
-
         $validator = Validator::make($request->all(), [
             'oldpassword' => 'required',
             'newpassword' => 'required|min:6|confirmed',
@@ -187,16 +188,16 @@ class TeamsController extends Controller
             'password' => $request->oldpassword
         ]);
 
+        $slug = User::find($id)->slug;
+
         if ($validator->fails()) {
-            return redirect('profile.{id}.edit')
+            return redirect(route('profile.{slug}.edit', $slug))
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        $slug = User::find($id)->slug;
-
         if (!$check) {
-            return redirect(route('profile.{slug}.edit', $slug))->withErrors(['"Aktuelles Passwort" ist falsch']);
+            return redirect(route('profile.{slug}.edit', $slug))->withErrors([trans('messages.authentication_error')]);
         }
 
         $user = User::find($id)->first();

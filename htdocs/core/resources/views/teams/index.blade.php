@@ -9,6 +9,8 @@
         <h1 class="text-center">Mannschaften</h1>
         <hr class="star-primary">
 
+        @include('partials._session')
+
         <div class="row search">
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <div class="input-group">
