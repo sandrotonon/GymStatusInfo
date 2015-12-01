@@ -143,6 +143,10 @@ class TeamsController extends Controller
     {
         $user = User::findOrFail($id);
 
+        // The default admin user can not delete himself
+        if($user->id == 1)
+            return redirect(route('Teams.index'));
+
         // TODO: timeslots constraints
 
         $user->delete();
