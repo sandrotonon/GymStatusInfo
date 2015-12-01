@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 use App\Http\Requests\TeamRequest;
 use App\Http\Controllers\Controller;
@@ -64,8 +65,29 @@ class TeamsController extends Controller
         * Find last inserted user and attach the selected role.
         */
         $insertedUser = User::where('email', '=', $request->email)->first();
+
         $role = Input::get('role');
         $insertedUser->attachRole($role);
+
+        /**
+        * Prepare data we would like to bind in our welcome email template.
+        */
+        $viewInputData = [
+           'name' => Input::get('name'),
+           'email' => Input::get('email'),
+           'password' => Input::get('password'),
+           'role' => $role
+        ];
+
+        try {
+            // Send an notification email to the newly created user
+            Mail::send('emails.welcome', $viewInputData, function($message) {
+                $message->to(Input::get('email'), Input::get('name'))->subject('Willkommen zur Hallenbuchung des TTF Stühlingen!');
+            });
+        } catch(Exception $ex) {
+            // Inform the user that the welcome email has not been sent. But the user was created anyway.
+            // [TODO]
+        }
 
         return redirect(route('Teams.index'));
     }

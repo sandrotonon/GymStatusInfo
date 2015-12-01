@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
+
 class TeamRequest extends Request
 {
     /**
@@ -38,7 +39,7 @@ class TeamRequest extends Request
                 'name' => 'required',
                 'team' => 'required|unique:users,team',
                 'email' => 'required|unique:users,email',
-                'role' => 'required'
+                'role' => 'required',
                 'password' => 'required|min:6'
             ];
         }
