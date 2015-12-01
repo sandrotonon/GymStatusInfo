@@ -74,9 +74,10 @@ class TeamsController extends Controller
         */
         $viewInputData = [
            'name' => Input::get('name'),
+           'team' => Input::get('team'),
            'email' => Input::get('email'),
            'password' => Input::get('password'),
-           'role' => $role
+           'role' => Role::find($role)->name
         ];
 
         try {

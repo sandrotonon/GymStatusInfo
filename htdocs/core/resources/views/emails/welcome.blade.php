@@ -1,7 +1,7 @@
 <p>
 Hallo {{$name}} :-)</p>
 <p>
-Du wurdest als Benutzer zur Hallenbuchung des TTF St&uuml;hlingen hinzugef&uuml;gt.<br />
+Du wurdest als Mannschaftsführer(in) der <strong>{{$team}}</strong> zur Hallenbuchung des TTF St&uuml;hlingen hinzugef&uuml;gt.<br />
 <br />
 Mit folgenden Zugangsdaten kannst Du Dich auf der Webseite anmelden:</p>
 <p>
