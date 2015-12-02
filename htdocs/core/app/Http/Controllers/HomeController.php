@@ -110,8 +110,9 @@ class HomeController extends Controller
     {
         // $now = Carbon::now();
         $date = Timeslot::where('date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('date')->first();
+
         if ($date !== null) {
-            $date->date->format('Y-m-d');
+            $date = $date->date->format('Y-m-d');
         } else {
             $date = Carbon::now()->format('Y-m-d');
         }
