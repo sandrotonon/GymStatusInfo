@@ -28,7 +28,7 @@ class RolesAndUsersTableSeeder extends Seeder {
 
         $contributor = new Role();
         $contributor->name = 'contributors';
-        $contributor->display_name = 'Mitwirkende';
+        $contributor->display_name = 'Mannschaftsführer(innen)';
         $contributor->description = 'Darf Hallenbelegungen verwalten!';
         $contributor->save();
 

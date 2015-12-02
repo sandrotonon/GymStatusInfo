@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'server15.configcenter.info'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'webmaster@ttf-stuehlingen.de', 'name' => 'TTF -Stühlingen'],
+    'from' => ['address' => 'hallenbuchung@ttf-stuehlingen.de', 'name' => 'Hallenbuchung'],
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', '51315c2e11b4009ed'),
+    'username' => env('MAIL_USERNAME', 'web495p2'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', 'f36f8d98ad7090'),
+    'password' => env('MAIL_PASSWORD', 'jgLZYOtv'),
 
     /*
     |--------------------------------------------------------------------------

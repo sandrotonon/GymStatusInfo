@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
+
 class TeamRequest extends Request
 {
     /**
@@ -28,7 +29,8 @@ class TeamRequest extends Request
             return [
                 'name' => 'required',
                 'team' => 'required|unique:users,team,' . $this->team . ',team',
-                'email' => 'required|unique:users,email,' . $this->email . ',email'
+                'email' => 'required|unique:users,email,' . $this->email . ',email',
+                'role' => 'required'
             ];
         }
         else
@@ -36,7 +38,9 @@ class TeamRequest extends Request
             return [
                 'name' => 'required',
                 'team' => 'required|unique:users,team',
-                'email' => 'required|unique:users,email'
+                'email' => 'required|unique:users,email',
+                'role' => 'required',
+                'password' => 'required|min:6'
             ];
         }
     }
@@ -49,7 +53,10 @@ class TeamRequest extends Request
     {
         $request = parent::all();
         $request['slug'] = str_slug($request['team']);
-        $request['password'] = bcrypt($request['password']);
+
+        if ($this->method === 'POST') {
+            $request['password'] = bcrypt($request['password']);
+        }
 
         return $request;
     }
