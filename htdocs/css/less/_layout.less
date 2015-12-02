@@ -105,6 +105,18 @@ body {
   position: relative;
   margin-bottom: 30px;
 
+  .panel-body .panel {
+    -webkit-transition: border-color ease-in-out .4s,-webkit-box-shadow ease-in-out .4s;
+    -o-transition: border-color ease-in-out .4s,box-shadow ease-in-out .4s;
+    transition: border-color ease-in-out .4s,box-shadow ease-in-out .4s;
+
+    & > .panel-heading {
+      -webkit-transition: background-color ease-in-out .4s,-webkit-box-shadow ease-in-out .4s,border-color ease-in-out .4s;
+      -o-transition: background-color ease-in-out .4s,box-shadow ease-in-out .4s,border-color ease-in-out .4s;
+      transition: background-color ease-in-out .4s,box-shadow ease-in-out .4s,border-color ease-in-out .4s;
+    }
+  }
+
   .overlay {
     position: absolute;
     pointer-events: none;
@@ -164,18 +176,18 @@ body {
         }
       }
 
-      .booking-progress-response {
+      .booking-response {
         display: none;
         position: absolute;
         width: 100%;
         top: 50%;
         margin-top: -50px;
 
-        &.booking-progress-success {
+        &.booking-success {
           color: @status-success;
         }
 
-        &.booking-progress-error {
+        &.booking-error {
           color: @status-danger;
         }
       }
@@ -189,6 +201,18 @@ body {
       &:last-of-type {
         margin-bottom: 0;
       }
+
+      input {
+        margin-top: 3px;
+      }
+    }
+  }
+
+  .panel-footer {
+    button {
+      -webkit-transition: background-color ease-in-out .4s,border-color ease-in-out .4s;
+      -o-transition: background-color ease-in-out .4s,border-color ease-in-out .4s;
+      transition: background-color ease-in-out .4s,border-color ease-in-out .4s;
     }
   }
 }
@@ -219,6 +243,37 @@ div.breadcrumbs {
 
     & > div {
       margin-bottom: 5px;
+    }
+
+    .input-group {
+      width: 100%;
+
+      .form-control {
+        border-radius: 4px;
+
+        &:focus + span {
+          color: @brand-primary;
+        }
+
+        & + span {
+          -webkit-transition: color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+          -o-transition: color ease-in-out .15s,box-shadow ease-in-out .15s;
+          transition: color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+      }
+    }
+
+    .right-inner-addon input {
+      padding-right: 30px;
+    }
+    .right-inner-addon span {
+      color: @gray;
+      z-index: 3;
+      top: 2px;
+      position: absolute;
+      right: 0px;
+      padding: 13px;
+      pointer-events: none;
     }
   }
 

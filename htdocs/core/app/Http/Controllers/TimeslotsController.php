@@ -13,16 +13,6 @@ use \Auth;
 class TimeslotsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,20 +42,19 @@ class TimeslotsController extends Controller
      */
     public function book($id, Request $request)
     {
-        $_request = null;
-        if ($request->ajax()) {
-            // falls buchung okay:
-            $data = array('status' => 'error');
+        $timeslot = Timeslot::find($id);
+        $timeslot->user_id = Auth::user()->id;
+        $saved = $timeslot->save();
 
-            // Falls buchung nicht okay:
-            // $data = array('status' => 'success', 'message' => 'Fehlermeldung');
+        if ($request->ajax()) {
+            if ($saved) {
+                $data = array('status' => 'success', 'message' => 'Reservierung erfolgreich!');
+            } else {
+                $data = array('status' => 'error', 'message' => 'Reservieren fehlgeschlagen!');
+            }
 
             return $data;
         }
-
-        $timeslot = Timeslot::find($request['timeslot']);
-        $timeslot->user_id = Auth::user()->id;
-        $timeslot->save();
 
         return redirect(route('index'));
     }
@@ -78,13 +67,19 @@ class TimeslotsController extends Controller
      */
     public function unbook($id, Request $request)
     {
-        $timeslots = Location::find($id)->timeslots;
-        $timeslots->each(function($item, $key) {
-            if (Auth::user()->id === $item->user_id) {
-                $item->user_id = null;
-                $item->save();
+        $timeslot = Timeslot::find($id);
+        $timeslot->user_id = null;
+        $saved = $timeslot->save();
+
+        if ($request->ajax()) {
+            if ($saved) {
+                $data = array('status' => 'success', 'message' => 'Reservierung gelöscht!');
+            } else {
+                $data = array('status' => 'error', 'message' => 'Löschen fehlgeschlagen!');
             }
-        });
+
+            return $data;
+        }
 
         return redirect(route('index'));
     }

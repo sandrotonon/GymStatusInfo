@@ -455,6 +455,12 @@ body {
   position: relative;
   margin-bottom: 30px;
 }
+.location > .panel .panel-body .panel {
+  transition: border-color ease-in-out 0.4s, box-shadow ease-in-out 0.4s;
+}
+.location > .panel .panel-body .panel > .panel-heading {
+  transition: background-color ease-in-out 0.4s, box-shadow ease-in-out 0.4s, border-color ease-in-out 0.4s;
+}
 .location > .panel .overlay {
   position: absolute;
   pointer-events: none;
@@ -530,17 +536,17 @@ body {
     opacity: 1;
   }
 }
-.location > .panel .overlay .content-wrapper .booking-progress-response {
+.location > .panel .overlay .content-wrapper .booking-response {
   display: none;
   position: absolute;
   width: 100%;
   top: 50%;
   margin-top: -50px;
 }
-.location > .panel .overlay .content-wrapper .booking-progress-response.booking-progress-success {
+.location > .panel .overlay .content-wrapper .booking-response.booking-success {
   color: #18bc9c;
 }
-.location > .panel .overlay .content-wrapper .booking-progress-response.booking-progress-error {
+.location > .panel .overlay .content-wrapper .booking-response.booking-error {
   color: #e74c3c;
 }
 .location > .panel .panel-body > .panel {
@@ -548,6 +554,12 @@ body {
 }
 .location > .panel .panel-body > .panel:last-of-type {
   margin-bottom: 0;
+}
+.location > .panel .panel-body > .panel input {
+  margin-top: 3px;
+}
+.location > .panel .panel-footer button {
+  transition: background-color ease-in-out 0.4s, border-color ease-in-out 0.4s;
 }
 .btn.btn-success {
   margin-top: 20px;
@@ -563,6 +575,30 @@ div.breadcrumbs .breadcrumb {
 }
 .management .search > div {
   margin-bottom: 5px;
+}
+.management .search .input-group {
+  width: 100%;
+}
+.management .search .input-group .form-control {
+  border-radius: 4px;
+}
+.management .search .input-group .form-control:focus + span {
+  color: #2C3E50;
+}
+.management .search .input-group .form-control + span {
+  transition: color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.management .search .right-inner-addon input {
+  padding-right: 30px;
+}
+.management .search .right-inner-addon span {
+  color: #dce4ec;
+  z-index: 3;
+  top: 2px;
+  position: absolute;
+  right: 0px;
+  padding: 13px;
+  pointer-events: none;
 }
 .management .table > thead > tr > th {
   border-bottom: 2px solid #eeeeee;

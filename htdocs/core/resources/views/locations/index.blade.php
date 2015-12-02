@@ -11,11 +11,9 @@
 
         <div class="row search">
             <div class="col-xs-12 col-sm-8 col-md-9">
-                <div class="input-group">
+                <div class="input-group right-inner-addon">
                     <input type="search" data-table="table-hover" class="light-table-filter form-control" placeholder="Sporthalle suchen...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button">Suchen!</button>
-                    </span>
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </div><!-- /input-group -->
             </div><!-- /.col-xs-6 -->
             <div class="col-xs-12 col-sm-4 col-md-3">

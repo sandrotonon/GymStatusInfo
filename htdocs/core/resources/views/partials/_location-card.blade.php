@@ -11,7 +11,6 @@
             <div class="content-wrapper">
                 <div class="booking-progress">
                     <p class="text-center">
-                        Wird reserviert ...
                     </p>
                     <div class="spinner">
                         <div class="spinner__item1"></div>
@@ -20,17 +19,17 @@
                         <div class="spinner__item4"></div>
                     </div>
                 </div>
-                <div class="booking-progress-response text-center booking-progress-success">
+                <div class="booking-response text-center booking-success">
                     <div class="icon">
                         <i class="fa fa-check-circle fa-4x"></i>
                     </div>
-                    <p>Reservierung erfolgreich!</p>
+                    <p class="response"></p>
                 </div>
-                <div class="booking-progress-response text-center booking-progress-error">
+                <div class="booking-response text-center booking-error">
                     <div class="icon">
                         <i class="fa fa-times-circle fa-4x"></i>
                     </div>
-                    <p>Reservierung fehlgeschlagen!</p>
+                    <p class="response"></p>
                 </div>
             </div>
         </div>
@@ -38,8 +37,8 @@
         <?php
             $freeslotsSuffix = ($location->freeslots === 0 || $location->freeslots > 1) ? ' Freie Plätze' : ' Freier Platz';
         ?>
-        <div class="panel-heading">
-            <h2 class="panel-title text-center">{{ $location->name }}<br><small>(<span class="count-all">{{ $location->freeslots }}</span>{{ $freeslotsSuffix }})</small></h2>
+        <div class="panel-heading" data-free-slots="{{ $location->freeslots }}">
+            <h2 class="panel-title text-center">{{ $location->name }}<br><small class="count-all">({{ $location->freeslots }}{{ $freeslotsSuffix }})</small></h2>
         </div><!-- Outer panel heading end -->
         <div class="panel-body">
             @foreach($location->times as $time => $times)
@@ -50,11 +49,11 @@
 
                     if ($freeslots === 0) {
                         $status = 'danger';
-                    } elseif ($freeslots / $totalslots * 100 < 50) {
+                    } elseif ($freeslots / $totalslots * 100 <= 50) {
                         $status = 'warning';
                     }
                 ?>
-                <div class="panel panel-{{ $status }}">
+                <div class="panel panel-{{ $status }}" data-free-slots="{{ $freeslots = $times['freeslots'] }}" data-total-slots="{{ $totalslots = $times['totalslots'] }}">
                     <!-- Default panel contents -->
                     <div class="panel-heading">
                         <h3 class="panel-title text-center">{{ Carbon\Carbon::createFromFormat('H:i:s', $time)->format('H:i') }} Uhr</h3>
@@ -74,10 +73,18 @@
                                         <?php $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team; ?>
                                         <td>{!! $teamname !!}</td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
-                                            <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center">
+                                            <?php
+                                                $available = ($times['timeslots'][$i]->user_id === null) ? 1 : 0;
+                                                $bookedByUser = (Auth::check() && $times['timeslots'][$i]->user_id === Auth::user()->id && $timeslot->user->team === Auth::user()->team) ? 1 : 0;
+                                            ?>
+                                            <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center" data-available="{{ $available }}" data-timeslot-id="{{ $times['timeslots'][$i]->id }}" data-booked-by-user="{{ $bookedByUser }}">
                                                 @if($times['timeslots'][$i]->user_id !== null
                                                     && $timeslot->user->team === $times['timeslots'][$i]->user->team)
-                                                    <i class="fa fa-check"></i><span class="sr-only">belegt</span>
+                                                    <i class="fa fa-check"></i><span class="sr-only">Platz belegt</span>
+                                                @elseif($available === 0)
+                                                    <span class="sr-only">Platz belegt</span>
+                                                @else
+                                                    <span class="sr-only">Platz noch nicht belegt</span>
                                                 @endif
                                             </td>
                                         @endfor
@@ -88,9 +95,15 @@
                                 <tr>
                                     <td><strong>{{ Auth::user()->team }}</strong></td>
                                     @for($i = 0; $i < $times['timeslots']->count(); $i++)
-                                        <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center">
+                                        <?php
+                                            $available = ($times['timeslots'][$i]->user_id === null) ? 1 : 0;
+                                            $bookedByUser = (Auth::check() && $times['timeslots'][$i]->user_id === Auth::user()->id) ? 1 : 0;
+                                        ?>
+                                        <td width="{{ 100 / $times['timeslots']->count() }}" class="text-center" data-available="{{ $available }}" data-timeslot-id="{{ $times['timeslots'][$i]->id }}" data-booked-by-user="{{ $bookedByUser }}">
                                             @if($times['timeslots'][$i]->user_id === null)
                                                 <input type="radio" value="{{ $times['timeslots'][$i]->id }}" name="timeslot">
+                                            @else
+                                                <span class="sr-only">Platz belegt</span>
                                             @endif
                                         </td>
                                     @endfor
