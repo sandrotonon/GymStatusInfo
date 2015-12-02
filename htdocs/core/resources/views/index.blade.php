@@ -25,9 +25,15 @@
         @include('errors._list')
 
         <div class="row grid">
-            @foreach($locations as $location)
-                @include('partials._location-card', ['location' => $location])
-            @endforeach
+            @if ($locations->count() !== 0)
+                @foreach($locations as $location)
+                    @include('partials._location-card', ['location' => $location])
+                @endforeach
+            @else
+                <div class="col-xs-12">
+                    <p class="text-center">Es sind noch keine freien Plätze verfügbar!</p>
+                </div>
+            @endif
         </div>
     </div>
 </section>
