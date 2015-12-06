@@ -67,11 +67,12 @@ class LocationsController extends Controller
     public function edit($slug)
     {
         $location = Location::where('slug', $slug)->first();
+        $timeSlots = Timeslot::where('location_id', '=', $location->id)->get();
 
         // timeslotdates sind die Termine (Datum und Uhrzeit) in JSON Format
         // $location->timeslotdates = $this->getDates($location->id);
 
-        return view('locations.edit', compact('location'));
+        return view('locations.edit', compact('location', 'timeSlots'));
     }
 
     /**

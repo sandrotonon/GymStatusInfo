@@ -15,14 +15,14 @@ class LocationsTableSeeder extends Seeder {
     {
         DB::table('locations')->delete();
 
-        /*Location::create([
+        Location::create([
             'name' => 'Stadthalle Stühlingen',
             'slug' => 'stadthalle-stuehlingen',
             'country' => 'Deutschland',
             'city' => 'Stühlingen',
             'street' => 'Straße X 1'
         ]);
-        Location::create([
+        /*Location::create([
             'name' => 'Star Trek Halle',
             'slug' => 'star-trek-halle',
             'country' => 'Space',
