@@ -46,7 +46,7 @@
             <tr>
                 <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
                 <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
-                <td>99</td>
+                <td>{{ $timeSlot->places }}</td>‚
                 <td class="text-right"><a href='javascript:void(0);' onClick='deleteRow(this);'; class='btn btn-xs btn-link' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
             </tr>
         @endforeach
