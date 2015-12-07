@@ -18,7 +18,7 @@ class Timeslot extends Model
      *
      * @var integer
      */
-    public $places = 0;
+    protected $places = 0;
 
     /**
      * The attributes that are mass assignable.

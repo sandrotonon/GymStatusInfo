@@ -78,6 +78,9 @@ class LocationsController extends Controller
                         ->groupBy('date', 'time', 'location_id')->count();
             }
 
+        // Convert to json and initialize hidden field.
+        $timeslotdates = $timeSlots->toJson();
+
         return view('locations.edit', compact('location', 'timeSlots'));
     }
 
