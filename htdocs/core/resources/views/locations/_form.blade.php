@@ -32,7 +32,7 @@
 
 {!! Form::hidden('timeslotdates'); !!}
 
-<table class="table table-hover table-striped">
+<table class="table table-hover table-striped" id="timeSlotTable">
     <thead>
         <tr>
             <th>Datum</th>
@@ -42,22 +42,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td scope="row">01.01.2016</td>
-            <td>10:00 Uhr</td>
-            <td>4</td>
-            <td class="text-right">
-                <a href="#" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="Termin löschen"><i class="fa fa-trash"></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row">01.01.2016</td>
-            <td>17:00 Uhr</td>
-            <td>2</td>
-            <td class="text-right">
-                <a href="#" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="Termin löschen"><i class="fa fa-trash"></i></a>
-            </td>
-        </tr>
+        @foreach ($timeSlots as $timeSlot)
+            <tr>
+                <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
+                <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
+                <td>{{ $timeSlot->places }}</td>‚
+                <td class="text-right"><a href='javascript:void(0);' onClick='deleteRow(this);'; class='btn btn-xs btn-link' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
+            </tr>
+        @endforeach
     </tbody>
 </table>
 
@@ -89,7 +81,9 @@
 
               <div class="form-group">
                   <div class="col-md-offset-4 col-md-6">
-                      {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen', ['id' => 'add-time', 'class' => 'btn btn-success']) !!}
+                      {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen', 
+                      ['id' => 'add-time', 'class' => 'btn btn-success', 
+                        'onclick' => 'addRow()']) !!}
                   </div>
               </div>
           </div>
@@ -97,6 +91,8 @@
     </div>
 </div>
 
+<script type="text/javascript" src="{{ URL::asset('js/custom/_timeSlotTable.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/vendor/jquery.min.js') }}"></script>
 
 <div class="row">
     <div class="col-sm-12 text-right">

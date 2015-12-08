@@ -22,7 +22,7 @@ class LocationsTableSeeder extends Seeder {
             'city' => 'Stühlingen',
             'street' => 'Straße X 1'
         ]);
-        Location::create([
+        /*Location::create([
             'name' => 'Star Trek Halle',
             'slug' => 'star-trek-halle',
             'country' => 'Space',
@@ -77,6 +77,6 @@ class LocationsTableSeeder extends Seeder {
             'country' => 'Deutschland',
             'city' => 'Super City',
             'street' => 'Superstraße S 1'
-        ]);
+        ]);*/
     }
 }

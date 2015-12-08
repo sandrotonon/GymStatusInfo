@@ -40,7 +40,8 @@ class LocationsController extends Controller
      */
     public function create()
     {
-        return view('locations.create');
+        $timeSlots = [];
+        return view('locations.create', compact('timeSlots'));
     }
 
     /**
@@ -67,11 +68,20 @@ class LocationsController extends Controller
     public function edit($slug)
     {
         $location = Location::where('slug', $slug)->first();
+        $timeSlots = Timeslot::where('location_id', '=', $location->id)->groupBy('date', 'time', 'location_id')->get();
+        
+        foreach ($timeSlots as $timeSlot) {
+                $timeSlot->places = 
+                    Timeslot::where('location_id', '=', $location->id)
+                        ->where('date', '=', $timeSlot->date)
+                        ->where('time', '=', $timeSlot->time)
+                        ->groupBy('date', 'time', 'location_id')->count();
+            }
 
-        // timeslotdates sind die Termine (Datum und Uhrzeit) in JSON Format
-        // $location->timeslotdates = $this->getDates($location->id);
+        // Convert to json and initialize hidden field.
+        $timeslotdates = $timeSlots->toJson();
 
-        return view('locations.edit', compact('location'));
+        return view('locations.edit', compact('location', 'timeSlots'));
     }
 
     /**
