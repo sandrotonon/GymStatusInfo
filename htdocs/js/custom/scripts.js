@@ -8,4 +8,5 @@ $(function () {
     tsModules.Initialisation.init();
     tsModules.LightTableFilter.init();
     tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
 });

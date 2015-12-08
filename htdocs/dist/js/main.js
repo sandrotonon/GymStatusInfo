@@ -11128,17 +11128,6 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-});
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.Booking = (function() {
 
   return {
@@ -11434,6 +11423,117 @@ tsModules.Initialisation = (function() {
 
 var tsModules = tsModules || {};
 
+tsModules.TimeSlotTable = (function () {
+
+    return {
+
+        init: function () {
+            var deleteButtons = $('.deleteRow');
+            var addButton = $('.addRow');
+
+            $('#timeSlotTable tbody').on('click', 'a', function (e) {
+                e.preventDefault();
+                $(this).closest('tr').remove();
+            });
+
+            addButton.click(function (e) {
+                e.preventDefault();
+
+                var date = $('#date').val();
+                var time = $('#time').val();
+                var places = $('#places').val();
+                
+                // TODO: Validation!
+                if (!date) {
+                    alert("Datum fehlt");
+                    return;
+                }
+
+                if (!time) {
+                    alert("Zeit fehlt");
+                    return;
+                }
+
+                if (!places) {
+                    alert("Plätze fehlen");
+                    return;
+                }
+
+                var tdDate = "<td>" + date + "</td>";
+                var tdTime = "<td>" + time + "</td>";
+                var tdPlaces = "<td>" + places + "</td>";
+
+                var tdDeleteButton = "<td class='text-right'><a href='#' class='btn btn-xs btn-link myClass' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>";
+
+                $('#timeSlotTable tbody').append('<tr>' + tdDate + tdTime + tdPlaces + tdDeleteButton + '</tr>');
+
+                $('#date').val(null);
+                $('#time').val(null);
+                $('#places').val(null);
+            });
+        },
+    };
+})();
+
+/*function addRow() {
+
+	var date = document.getElementById('date').value;
+    var time = document.getElementById('time').value;
+    var places = document.getElementById('places').value;
+
+    // TODO: Validation!
+    if(!date) {
+    	alert("Datum fehlt");
+    	return;
+    }
+
+    if(!time) {
+    	alert("Zeit fehlt");
+    	return;
+    }
+
+    if(!places) {
+    	alert("Plätze fehlen");
+    	return;
+    }
+
+    // Add new row to table -> Assume this could be handled nicer
+    var table = document.getElementById('timeSlotTable');
+    var rows = table.rows.length;
+
+    var row = table.insertRow(rows);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+
+    cell1.innerHTML = date; // change format to dd.MM.yyyy
+    cell2.innerHTML = time; // change format to HH:MM (24h)
+    cell3.innerHTML = places;
+    cell4.innerHTML = "<a href='javascript:void(0);' onClick='deleteRow(this);'; class='btn btn-xs btn-link myClass' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a>";
+    cell4.className = "text-right";
+
+    // Clear inputs
+    document.getElementById('date').value = null;
+    document.getElementById('time').value = null;
+    document.getElementById('places').value = null;
+}
+
+function getRowIndex( el ) {
+    while( (el = el.parentNode) && el.nodeName.toLowerCase() !== 'tr' );
+
+    if( el ) 
+        return el.rowIndex;
+}
+
+function deleteRow(button) {
+	var index = getRowIndex(button);
+	document.getElementById("timeSlotTable").deleteRow(index);
+}*/
+'use strict';
+
+var tsModules = tsModules || {};
+
 tsModules.TimeSlots = (function() {
 
   return {
@@ -11456,3 +11556,15 @@ tsModules.TimeSlots = (function() {
     }
   };
 })();
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.TimeSlots.init();
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
+});

@@ -81,7 +81,7 @@ class LocationsController extends Controller
         // Convert to json and initialize hidden field.
         $timeslotdates = $timeSlots->toJson();
 
-        return view('locations.edit', compact('location', 'timeSlots'));
+        return view('locations.edit', compact('location', 'timeSlots', 'timeslotdates'));
     }
 
     /**
