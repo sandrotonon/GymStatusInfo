@@ -30,7 +30,7 @@
 
 <h3 class="text-center">Termine</h3>
 
-{!! Form::hidden('timeslotdates', $timeslotdates); !!}
+{!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
 
 <table class="table table-hover table-striped" id="timeSlotTable">
     <thead>

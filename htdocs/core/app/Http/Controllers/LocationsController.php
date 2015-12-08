@@ -41,7 +41,9 @@ class LocationsController extends Controller
     public function create()
     {
         $timeSlots = [];
-        return view('locations.create', compact('timeSlots'));
+        $timeslotdates = "[]";
+        
+        return view('locations.create', compact('timeSlots', 'timeslotdates'));
     }
 
     /**
@@ -52,9 +54,9 @@ class LocationsController extends Controller
      */
     public function store(LocationRequest $request)
     {
-        Location::create($request->all());
-
-        $this->editDates($request['timeslotdates']);
+        $location = Location::create($request->all());
+        
+        $this->editDates($request['timeslotdates'], $location->id);
 
         return redirect(route('Locations.index'));
     }
@@ -137,11 +139,21 @@ class LocationsController extends Controller
         return $locations;
     }
 
-    private function editDates($dates)
+    private function editDates($dates, $id)
     {
-        // TODO: JSON_decode and save/delete in database
+        $json = json_decode($dates);
+        
+        foreach($json as $entry) {
+            if($entry->id == 0) {
+                for($i = 0; $i < $entry->places; $i++) {
+                DB::table('timeslots')->insert(
+                    array('date' => $entry->date, 'time' => $entry->time, 'location_id' => $id)
+                );
+                }
+            }
+        }                
     }
-
+    
     /**
      * @param $id ID of the location to get its corresponding dates
      */
