@@ -66,8 +66,11 @@
                             <tbody>
                                 @foreach($times['timeslots'] as $timeslot)
                                     @if($timeslot->user_id !== null)
-                                        <tr>
-                                            <?php $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team; ?>
+                                        <?php $inputRow = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? 'input-row' : ''; ?>
+                                        <tr class="{{ $inputRow }}">
+                                            <?php
+                                                $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team;
+                                            ?>
                                             <td width="45%">{!! $teamname !!}</td>
                                             @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                                 <?php
@@ -88,8 +91,25 @@
                                         </tr>
                                     @endif
                                 @endforeach
-                                @if(Auth::check() && !$location->booked && $times['freeslots'] !== 0)
-                                    <tr>
+                                <?php
+                                    $nobookings = 'hidden';
+                                    $inputRow = 'hidden';
+
+                                    if (Auth::check()) {
+                                        if ($location->booked && $freeslots == $totalslots) {
+                                            $nobookings = '';
+                                        } else if (!$location->booked && $freeslots > 0) {
+                                            $inputRow = '';
+                                        }
+                                    } else {
+                                        if ($freeslots === $totalslots) {
+                                            $nobookings = '';
+                                        }
+                                    }
+                                ?>
+
+                                @if(Auth::check())
+                                    <tr class="input-row {{ $inputRow }}">
                                         <td width="45%"><strong>{{ Auth::user()->team }}</strong></td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                             <?php
@@ -105,11 +125,11 @@
                                             </td>
                                         @endfor
                                     </tr>
-                                @elseif($freeslots === $totalslots)
-                                    <tr>
-                                        <td colspan="2" class="text-center"><strong>Noch keine Reservierungen vorhanden!</strong></td>
-                                    </tr>
                                 @endif
+
+                                <tr class="no-bookings {{$nobookings}}">
+                                    <td colspan="2" class="text-center"><strong>Noch keine Reservierungen vorhanden!</strong></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

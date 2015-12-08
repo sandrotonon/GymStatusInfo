@@ -129,6 +129,7 @@ class HomeController extends Controller
      */
     private function getTimeslotsForDate($date)
     {
+        // TODO: Order timeslots by user->team
         $timeslots = Timeslot::where('date', $date->format('Y-m-d'))->get();
 
         return $timeslots;

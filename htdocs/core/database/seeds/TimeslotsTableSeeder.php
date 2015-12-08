@@ -54,6 +54,12 @@ class TimeslotsTableSeeder extends Seeder
             'time' => date('H:i:s', strtotime('8:00 PM')),
         ]);
         Timeslot::create([
+            'user_id' => '2',
+            'location_id' => '3',
+            'date' => date('Y-m-d', strtotime('2016-01-01')),
+            'time' => date('H:i:s', strtotime('8:00 PM')),
+        ]);
+        Timeslot::create([
             'user_id' => '1',
             'location_id' => '4',
             'date' => date('Y-m-d', strtotime('2016-01-01')),

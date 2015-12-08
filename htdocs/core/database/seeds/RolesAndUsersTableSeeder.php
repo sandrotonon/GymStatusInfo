@@ -74,7 +74,10 @@ class RolesAndUsersTableSeeder extends Seeder {
         $guest->attachPermission($canRead);
 
         /* Give user a role */
-        $defaultAdminUser = User::where('email', '=', 'admin@bar.com')->first();       
+        $defaultAdminUser = User::where('email', '=', 'admin@bar.com')->first();
         $defaultAdminUser->attachRole($admin);
+
+        $defaultTestUser = User::where('email', 'test@bar.com')->first();
+        $defaultTestUser->attachRole($contributor);
     }
 }

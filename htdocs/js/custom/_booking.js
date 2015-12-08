@@ -81,6 +81,23 @@ tsModules.Booking = (function() {
     },
 
     changeToBooked: function(button, $field, timeslot) {
+      var $timepanels = $field.closest('form').find('.panel-body .panel');
+
+      $timepanels.each(function(index, $timepanel) {
+        if ($timepanel == $field.closest('.panel')[0]) {
+          return;
+        }
+        if ($($timepanel).attr('data-free-slots') > 0) {
+          var $inputRow = $($timepanel).find('.input-row');
+          var $noBookings = $($timepanel).find('.no-bookings');
+          $inputRow.addClass('hidden');
+
+          if ($($timepanel).attr('data-free-slots') == $($timepanel).attr('data-total-slots')) {
+            $noBookings.removeClass('hidden');
+          }
+        }
+      });
+
       var $row = $field.closest('tr');
 
       // Change radios to empty fields and booked field
@@ -105,9 +122,31 @@ tsModules.Booking = (function() {
       $(button).removeClass('btn-book-book btn-primary').addClass('btn-book-unbook btn-danger').html('<i class="fa fa-times"></i> Reservierung löschen');
 
       this.calculateFreeSlots(button, $field, 'decrease');
+
+      // Masonry reload
+      $('.grid').masonry('reloadItems');
+      $('.grid').masonry();
     },
 
     changeToAvailable: function(button, $field) {
+      var $timepanels = $field.closest('form').find('.panel-body .panel');
+
+      $timepanels.each(function(index, $timepanel) {
+
+        if ($timepanel == $field.closest('.panel')[0]) {
+          return;
+        }
+        if ($($timepanel).attr('data-free-slots') > 0) {
+          var $inputRow = $($timepanel).find('.input-row');
+          var $noBookings = $($timepanel).find('.no-bookings');
+          $inputRow.removeClass('hidden');
+
+          if (!$noBookings.hasClass('hidden')) {
+            $noBookings.addClass('hidden');
+          }
+        }
+      });
+
       var $row = $field.closest('tr');
 
       $row.find('td').each(function(index, element) {
@@ -125,6 +164,10 @@ tsModules.Booking = (function() {
       $(button).removeClass('btn-book-unbook btn-danger').addClass('btn-book-book btn-primary').html('<i class="fa fa-check"></i> Reservierung speichern');
 
       this.calculateFreeSlots(button, $field, 'increase');
+
+      // Masonry reload
+      $('.grid').masonry('reloadItems');
+      $('.grid').masonry();
     },
 
     hideOverlay: function(responseStatus, responseText) {
