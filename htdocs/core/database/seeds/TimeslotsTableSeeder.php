@@ -15,7 +15,7 @@ class TimeslotsTableSeeder extends Seeder
     {
         DB::table('timeslots')->delete();
 
-        Timeslot::create([
+        /*Timeslot::create([
             'user_id' => '1',
             'location_id' => '1',
             'date' => date('Y-m-d', strtotime('2016-01-01')),
@@ -38,6 +38,12 @@ class TimeslotsTableSeeder extends Seeder
             'location_id' => '1',
             'date' => date('Y-m-d', strtotime('2016-01-01')),
             'time' => date('H:i:s', strtotime('6:00 PM')),
-        ]);
+        ]);*/
+        /*Timeslot::create([
+            'user_id' => '1',
+            'location_id' => '1',
+            'date' => date('Y-m-d', strtotime('2016-01-08')),
+            'time' => date('H:i:s', strtotime('7:00 PM')),
+        ]);*/
     }
 }

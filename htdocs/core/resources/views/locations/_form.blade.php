@@ -30,7 +30,7 @@
 
 <h3 class="text-center">Termine</h3>
 
-{!! Form::hidden('timeslotdates'); !!}
+{!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
 
 <table class="table table-hover table-striped" id="timeSlotTable">
     <thead>
@@ -47,7 +47,7 @@
                 <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
                 <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
                 <td>{{ $timeSlot->places }}</td>‚
-                <td class="text-right"><a href='javascript:void(0);' onClick='deleteRow(this);'; class='btn btn-xs btn-link' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
+                <td class="text-right"><a href='javascript:void(0);' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
             </tr>
         @endforeach
     </tbody>
@@ -82,8 +82,7 @@
               <div class="form-group">
                   <div class="col-md-offset-4 col-md-6">
                       {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen', 
-                      ['id' => 'add-time', 'class' => 'btn btn-success', 
-                        'onclick' => 'addRow()']) !!}
+                      ['id' => 'add-time', 'class' => 'btn btn-success addRow']) !!}
                   </div>
               </div>
           </div>
@@ -92,7 +91,6 @@
 </div>
 
 <script type="text/javascript" src="{{ URL::asset('js/custom/_timeSlotTable.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/vendor/jquery.min.js') }}"></script>
 
 <div class="row">
     <div class="col-sm-12 text-right">
