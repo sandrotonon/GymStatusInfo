@@ -6,10 +6,10 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta quaerat nostrum iure nobis corporis nesciunt animi voluptate optio maiores dolores, quis rem quia officiis perspiciatis provident atque quo eaque itaque!</p>
+                <p>Die TTF Stühlingen werden, wie viele andere auch, von der Flüchtlingssituation in Deutschland direkt beeinflusst. Die Halle ist belegt und für weitere Sportaktivitäten müssen alternative Sporthallen gefunden und organisiert werden.</p>
             </div>
             <div class="col-sm-6">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem cumque, dolorum laborum veritatis! Sapiente ut commodi ducimus neque blanditiis natus, similique libero! Labore voluptates sint quasi voluptatem? Animi, modi, reprehenderit?</p>
+                <p>Diese Webseite soll dabei helfen, alternative Spielstätten und Austragungsorte unserer Spiele zu organisieren. Unsere Mannschaftsführer können Informationen über die Verfügbarkeit der Spielstätten in der Umgebung einsehen und bedarfsweise buchen.</p>
             </div>
         </div>
     </div>

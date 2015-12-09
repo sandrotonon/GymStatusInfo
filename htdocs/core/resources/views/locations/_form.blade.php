@@ -81,7 +81,7 @@
 
               <div class="form-group">
                   <div class="col-md-offset-4 col-md-6">
-                      {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen', 
+                      {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen',
                       ['id' => 'add-time', 'class' => 'btn btn-success addRow']) !!}
                   </div>
               </div>
@@ -89,8 +89,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="{{ URL::asset('js/custom/_timeSlotTable.js') }}"></script>
 
 <div class="row">
     <div class="col-sm-12 text-right">
