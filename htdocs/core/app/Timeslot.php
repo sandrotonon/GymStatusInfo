@@ -19,6 +19,13 @@ class Timeslot extends Model
      * @var integer
      */
     protected $places = 0;
+    
+    /**
+     * Database state of the current timeslot.
+     * 1 - Added, 2 - Removed, 0 - Default
+     * @var integer
+     */
+    protected $dbState = 0;
 
     /**
      * The attributes that are mass assignable.

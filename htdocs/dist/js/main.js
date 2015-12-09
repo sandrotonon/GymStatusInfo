@@ -11497,15 +11497,12 @@ tsModules.TimeSlotTable = (function () {
             var hiddenField = $('#timeSlotDates');
             var timeSlotJson = JSON.parse(hiddenField.val());
             var timeSlot = new Object();
-
+            
             timeSlot.date = date;
             timeSlot.time = time;
             timeSlot.places = places;
-
-            if (timeSlotJson.length > 0)
-                timeSlot.id = timeSlotJson[0].id;
-            else
-                timeSlot.id = 0;
+            timeSlot.dbState = 1;
+            timeSlot.id = 0;
 
             timeSlotJson.push(timeSlot);
             hiddenField.val(JSON.stringify(timeSlotJson));
@@ -11515,29 +11512,35 @@ tsModules.TimeSlotTable = (function () {
 
             var row = element.closest('tr');
 
-            var date = row.find('td:eq(0)').text();
-            var time = row.find('td:eq(1)').text();
+            var dateParts = row.find('td:eq(0)').text().split(".");
+            var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
+            var time = new Date().setHours(
+                row.find('td:eq(1)').text().split(':')[0],
+                row.find('td:eq(1)').text().split(':')[1],
+                0,
+                0);
             var places = row.find('td:eq(2)').text();
-            var currentIndex = -1;
 
             var hiddenField = $('#timeSlotDates');
             var timeSlotJson = JSON.parse(hiddenField.val());
+            var index = 0;
 
-            for (var index = 0; index < timeSlotJson.length; index++) {
+            timeSlotJson.forEach(function (timeSlot) {
+                var timeSlotDate = new Date(timeSlot.date);
+                var timeSlotTime = new Date().setHours(
+                    timeSlot.time.split(':')[0],
+                    timeSlot.time.split(':')[1],
+                    0,
+                    0);
 
-                if (timeSlotJson[index].date == date &&
-                    timeSlotJson[index].time == time &&
-                    timeSlotJson[index].places == places) {
+                if (timeSlotDate.getDate() == date.getDate() &&
+                    timeSlotTime == time &&
+                    timeSlot.places == places) {
 
-                    currentIndex = index;
-                    break;
+                    timeSlot.dbState = 2;
                 }
-
-                currentIndex++;
-            }
-
-            if (currentIndex > -1)
-                timeSlotJson.splice(currentIndex, 1);
+                index++;
+            }, this);
 
             hiddenField.val(JSON.stringify(timeSlotJson));
         }
