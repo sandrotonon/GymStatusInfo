@@ -7,12 +7,13 @@ tsModules.Initialisation = (function() {
   return {
 
     init: function() {
+
       // Init tooltips
       $('[data-toggle="tooltip"], [data-toggle="confirmation tooltip"]').tooltip({
         trigger: 'hover focus click'
       });
 
-      // Init masonry
+      // Init masonry.js
       $('.grid').masonry({
         itemSelector: '.location'
       });
@@ -32,6 +33,7 @@ tsModules.Initialisation = (function() {
           element.closest('form').submit();
         }
       });
+
     }
   };
 })();

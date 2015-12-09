@@ -11128,6 +11128,18 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
+$(function () {
+    tsModules.TimeSlots.init();
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
+});
+'use strict';
+
+var tsModules = tsModules || {};
+
 tsModules.Booking = (function() {
 
   return {
@@ -11433,12 +11445,13 @@ tsModules.Initialisation = (function() {
   return {
 
     init: function() {
+
       // Init tooltips
       $('[data-toggle="tooltip"], [data-toggle="confirmation tooltip"]').tooltip({
         trigger: 'hover focus click'
       });
 
-      // Init masonry
+      // Init masonry.js
       $('.grid').masonry({
         itemSelector: '.location'
       });
@@ -11458,10 +11471,37 @@ tsModules.Initialisation = (function() {
           element.closest('form').submit();
         }
       });
+
     }
   };
 })();
 
+'use strict';
+
+var tsModules = tsModules || {};
+
+tsModules.TimeSlots = (function() {
+
+  return {
+
+    init: function() {
+      var $addButton = $('button#add-time');
+
+      var that = this;
+
+      $addButton.click(function() {
+        that.validate($(this));
+      });
+    },
+
+    validate: function(el) {
+      var panel = el.parentsUntil('.panel');
+      console.log(panel);
+
+      return true;
+    }
+  };
+})();
 'use strict';
 
 var tsModules = tsModules || {};
@@ -11502,26 +11542,33 @@ tsModules.TimeSlotTable = (function () {
                 var date = $('#date').val();
                 var time = $('#time').val();
                 var places = $('#places').val();
-                
+
                 // TODO: Validation!
                 if (!date) {
-                    alert("Datum fehlt");
+                    alert('Datum fehlt');
+                    return;
+                }
+
+                if (moment(date, 'YYYY-MM-DD').isBefore(moment())) {
+                    alert('Das Datum muss in der Zukunft liegen!');
                     return;
                 }
 
                 if (!time) {
-                    alert("Zeit fehlt");
+                    alert('Zeit fehlt');
                     return;
                 }
 
                 if (!places) {
-                    alert("Plätze fehlen");
+                    alert('Plätze fehlen');
                     return;
                 }
 
-                var tdDate = "<td>" + date + "</td>";
-                var tdTime = "<td>" + time + "</td>";
-                var tdPlaces = "<td>" + places + "</td>";
+                var datetime = moment(date + 'T' + time, 'YYYY-MM-DDThh:mm');
+
+                var tdDate = '<td>' + datetime.format('DD.MM.YYYY') + '</td>';
+                var tdTime = '<td>' + datetime.format('hh:mm') + '</td>';
+                var tdPlaces = '<td>' + places + '</td>';
 
                 var tdDeleteButton = "<td class='text-right'><a href='#' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>";
 
@@ -11531,18 +11578,18 @@ tsModules.TimeSlotTable = (function () {
                 $('#time').val(null);
                 $('#places').val(null);
 
-                that.addJson(date, time, places);
+                that.addJson(datetime, places);
             });
         },
 
-        addJson: function (date, time, places) {
+        addJson: function (datetime, places) {
 
             var hiddenField = $('#timeSlotDates');
             var timeSlotJson = JSON.parse(hiddenField.val());
-            var timeSlot = new Object();
-            
-            timeSlot.date = date;
-            timeSlot.time = time;
+            var timeSlot = {};
+
+            timeSlot.date = datetime.format('YYYY-MM-DD');
+            timeSlot.time = datetime.format('hh:mm');
             timeSlot.places = places;
             timeSlot.dbState = 1;
             timeSlot.id = 0;
@@ -11554,76 +11601,26 @@ tsModules.TimeSlotTable = (function () {
         deleteJson: function (element) {
 
             var row = element.closest('tr');
-
-            var dateParts = row.find('td:eq(0)').text().split(".");
-            var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
-            var time = new Date().setHours(
-                row.find('td:eq(1)').text().split(':')[0],
-                row.find('td:eq(1)').text().split(':')[1],
-                0,
-                0);
+            var dateString = row.find('td:eq(0)').text();
+            var timeString = row.find('td:eq(1)').text();
             var places = row.find('td:eq(2)').text();
+
+            var date = moment(dateString + 'T' + timeString, 'DD.MM.YYYYThh:mm');
 
             var hiddenField = $('#timeSlotDates');
             var timeSlotJson = JSON.parse(hiddenField.val());
-            var index = 0;
 
             timeSlotJson.forEach(function (timeSlot) {
-                var timeSlotDate = new Date(timeSlot.date);
-                var timeSlotTime = new Date().setHours(
-                    timeSlot.time.split(':')[0],
-                    timeSlot.time.split(':')[1],
-                    0,
-                    0);
 
-                if (timeSlotDate.getDate() == date.getDate() &&
-                    timeSlotTime == time &&
-                    timeSlot.places == places) {
+                var timeSlotDateTime = moment(timeSlot.date + 'T' + timeSlot.time, 'YYYY-MM-DDThh:mm');
 
+                if (timeSlotDateTime.isSame(date) && timeSlot.places == places) {
                     timeSlot.dbState = 2;
                 }
-                index++;
+
             }, this);
 
             hiddenField.val(JSON.stringify(timeSlotJson));
         }
     };
 })();
-'use strict';
-
-var tsModules = tsModules || {};
-
-tsModules.TimeSlots = (function() {
-
-  return {
-
-    init: function() {
-      var $addButton = $('button#add-time');
-
-      var that = this;
-
-      $addButton.click(function() {
-        that.validate($(this));
-      });
-    },
-
-    validate: function(el) {
-      var panel = el.parentsUntil('.panel');
-      console.log(panel);
-
-      return true;
-    }
-  };
-})();
-'use strict';
-
-var tsModules = tsModules || {};
-
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-    tsModules.TimeSlotTable.init();
-});

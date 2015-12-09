@@ -18,7 +18,7 @@ class LocationsController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
     * Show all locations
     *
@@ -27,12 +27,12 @@ class LocationsController extends Controller
     public function index()
     {
         $locations = Location::orderBy('name')->get();
-        
+
         $locations = $this->countTimes($locations);
-        
+
         return view('locations.index', compact('locations'));
     }
-    
+
     /**
     * Show page to create a new location
     *
@@ -42,10 +42,10 @@ class LocationsController extends Controller
     {
         $timeSlots = [];
         $timeslotdates = "[]";
-        
+
         return view('locations.create', compact('timeSlots', 'timeslotdates'));
     }
-    
+
     /**
     * Save new location
     *
@@ -55,12 +55,12 @@ class LocationsController extends Controller
     public function store(LocationRequest $request)
     {
         $location = Location::create($request->all());
-        
+
         $this->editDates($request['timeslotdates'], $location->id);
-        
+
         return redirect(route('Locations.index'));
     }
-    
+
     /**
     * Show page to edit a location
     *
@@ -71,7 +71,7 @@ class LocationsController extends Controller
     {
         $location = Location::where('slug', $slug)->first();
         $timeSlots = Timeslot::where('location_id', '=', $location->id)->groupBy('date', 'time', 'location_id')->get();
-        
+
         foreach ($timeSlots as $timeSlot) {
             $timeSlot->places =
             Timeslot::where('location_id', '=', $location->id)
@@ -80,13 +80,13 @@ class LocationsController extends Controller
             ->groupBy('date', 'time', 'location_id')->count();
             $timeSlot->dbState = 0;
         }
-        
+
         // Convert to json and initialize hidden field.
         $timeslotdates = $timeSlots->toJson();
-        
+
         return view('locations.edit', compact('location', 'timeSlots', 'timeslotdates'));
     }
-    
+
     /**
     * Save edited location
     *
@@ -96,14 +96,14 @@ class LocationsController extends Controller
     public function update($slug, LocationRequest $request)
     {
         $location = Location::where('slug', $slug)->first();
-        
+
         $this->editDates($request['timeslotdates'], $location->id);
-        
+
         $location->update($request->all());
-        
+
         return redirect(route('Locations.index'));
     }
-    
+
     /**
     * Remove the specified resource from storage.
     *
@@ -113,12 +113,12 @@ class LocationsController extends Controller
     public function destroy($id)
     {
         $location = Location::findOrFail($id);
-        
+
         $location->delete();
-        
+
         return redirect(route('Locations.index'));
     }
-    
+
     /**
     * Helper function to get the different times of timeslots for a location
     *
@@ -129,47 +129,47 @@ class LocationsController extends Controller
     {
         foreach ($locations as $location) {
             $tmp = collect([]);
-            
+
             foreach ($location->timeslots as $timeslot) {
                 array_add($tmp, $timeslot->time, $timeslot->id);
             }
-            
+
             $location->times = $tmp;
         }
-        
+
         return $locations;
     }
-    
+
     private function editDates($dates, $id)
     {
         $json = json_decode($dates);
-        
+
         foreach($json as $entry) {
             switch($entry->dbState) {
                 case 0:
-                // We are not interested in this!
-                break;
+                    // We are not interested in this!
+                    break;
                 case 1:
-                // Add new timeslot
-                for($i = 0; $i < $entry->places; $i++) {
-                    $dbTimeSlot = TimeSlot::
-                    create(array('date' => $entry->date, 'time' => $entry->time, 'location_id' => $id));
-                }
-                break;
+                    // Add new timeslot
+                    for($i = 0; $i < $entry->places; $i++) {
+                        $dbTimeSlot = TimeSlot::
+                        create(array('date' => $entry->date, 'time' => $entry->time, 'location_id' => $id));
+                    }
+                    break;
                 case 2:
-                // remove timeslot
-                Timeslot::where('location_id', '=', $id)
-                ->where('date', '=', $entry->date)
-                ->where('time', '=', $entry->time)->delete();
-                break;
+                    // remove timeslot
+                    Timeslot::where('location_id', '=', $id)
+                    ->where('date', '=', $entry->date)
+                    ->where('time', '=', $entry->time)->delete();
+                    break;
                 default:
-                // Should never happen, but when, we really want to know this
-                throw new Exception('TimeSlot with DbState: 0');
-                break;
+                    // Should never happen, but when, we really want to know this
+                    throw new Exception('TimeSlot with DbState: 0');
+                    break;
             }
         }
     }
-    
+
     /**
     * @param $id ID of the location to get its corresponding dates
     */
