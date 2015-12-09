@@ -35,6 +35,48 @@ class LocationsTableSeeder extends Seeder {
             'country' => 'Deutschland',
             'city' => 'Super City',
             'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym2',
+            'slug' => 'super-gym-2',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym3',
+            'slug' => 'super-gym-3',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym4',
+            'slug' => 'super-gym-4',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym5',
+            'slug' => 'super-gym-5',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym6',
+            'slug' => 'super-gym-6',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
+        ]);
+        Location::create([
+            'name' => 'Super Gym7',
+            'slug' => 'super-gym-7',
+            'country' => 'Deutschland',
+            'city' => 'Super City',
+            'street' => 'Superstraße S 1'
         ]);*/
     }
 }

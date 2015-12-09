@@ -555,6 +555,9 @@ body {
 .location > .panel .panel-body > .panel:last-of-type {
   margin-bottom: 0;
 }
+.location > .panel .panel-body > .panel tr td:first-of-type {
+  white-space: nowrap;
+}
 .location > .panel .panel-body > .panel input {
   margin-top: 3px;
 }

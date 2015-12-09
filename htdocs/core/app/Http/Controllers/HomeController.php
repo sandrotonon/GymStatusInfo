@@ -129,7 +129,19 @@ class HomeController extends Controller
      */
     private function getTimeslotsForDate($date)
     {
-        $timeslots = Timeslot::where('date', $date->format('Y-m-d'))->get();
+        // Make a query to sort the timelslots by its related teamname
+        $timeslotIDs = \DB::table('timeslots')
+                        ->leftJoin('users', 'timeslots.user_id', '=', 'users.id')
+                        ->select('timeslots.id')
+                        ->where('timeslots.date', '=', $date->format('Y-m-d'))
+                        ->orderBy('users.team')
+                        ->get();
+
+        $timeslots = collect([]);
+
+        foreach ($timeslotIDs as $timeslotID) {
+            $timeslots->push(Timeslot::find($timeslotID->id));
+        }
 
         return $timeslots;
     }
