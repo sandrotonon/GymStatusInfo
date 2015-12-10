@@ -57,19 +57,51 @@
                     <!-- Table -->
                     <div class="table-responsive">
                         <table class="table table-bordered">
+                            <?php
+                                $nobookings = 'hidden';
+                                $inputRow = 'hidden';
+                                $colspan = $times['timeslots']->count();
+
+                                if (Auth::check()) {
+                                    if ($location->booked && $freeslots == $totalslots) {
+                                        $nobookings = '';
+                                    } else if (!$location->booked && $freeslots > 0) {
+                                        $inputRow = '';
+                                    }
+                                } else {
+                                    if ($freeslots === $totalslots) {
+                                        $nobookings = '';
+                                    }
+                                }
+                            ?>
+
                             <thead>
                                 <tr>
-                                    <th width="45%">Mannschaft</th>
-                                    <th colspan="{{ $times['timeslots']->count() }}">Platz</th>
+                                    <th width="45%"></th>
+                                    <th colspan="{{ $colspan }}" class="text-center"><small>Platz</small></th>
+                                </tr>
+                                <tr>
+                                    <th width="45%"><small>Mannschaft</small></th>
+                                    @for ($i = 1; $i <= $totalslots; $i++)
+                                        <th class="text-center"><small>{{ $i }}</small></th>
+                                    @endfor
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                    $viewed = false;
+                                ?>
                                 @foreach($times['timeslots'] as $timeslot)
                                     @if($timeslot->user_id !== null)
-                                        <?php $inputRow = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? 'input-row' : ''; ?>
-                                        <tr class="{{ $inputRow }}">
+                                        <?php
+                                            $userRow = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? 'input-row' : '';
+                                        ?>
+                                        <tr class="{{ $userRow }}">
                                             <?php
                                                 $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team;
+                                                if (Auth::check() && $timeslot->user->team === Auth::user()->team) {
+                                                    $viewed = true;
+                                                }
                                             ?>
                                             <td width="45%">{!! $teamname !!}</td>
                                             @for($i = 0; $i < $times['timeslots']->count(); $i++)
@@ -91,26 +123,10 @@
                                         </tr>
                                     @endif
                                 @endforeach
-                                <?php
-                                    $nobookings = 'hidden';
-                                    $inputRow = 'hidden';
 
-                                    if (Auth::check()) {
-                                        if ($location->booked && $freeslots == $totalslots) {
-                                            $nobookings = '';
-                                        } else if (!$location->booked && $freeslots > 0) {
-                                            $inputRow = '';
-                                        }
-                                    } else {
-                                        if ($freeslots === $totalslots) {
-                                            $nobookings = '';
-                                        }
-                                    }
-                                ?>
-
-                                @if(Auth::check())
+                                @if(Auth::check() && !$viewed)
                                     <tr class="input-row {{ $inputRow }}">
-                                        <td width="45%"><strong>{{ Auth::user()->team }}</strong></td>
+                                        <td><strong>{{ Auth::user()->team }}</strong></td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                             <?php
                                                 $available = ($times['timeslots'][$i]->user_id === null) ? 1 : 0;
@@ -128,7 +144,7 @@
                                 @endif
 
                                 <tr class="no-bookings {{$nobookings}}">
-                                    <td colspan="2" class="text-center"><strong>Noch keine Reservierungen vorhanden!</strong></td>
+                                    <td colspan="{{ $totalslots + 1 }}" class="text-center"><strong>Noch keine Reservierungen vorhanden!</strong></td>
                                 </tr>
                             </tbody>
                         </table>

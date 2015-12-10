@@ -46,6 +46,7 @@ tsModules.TimeSlotTable = (function () {
                 }
 
                 if (moment(date, 'YYYY-MM-DD').isBefore(moment())) {
+                    // If the date is before "now" (moment())
                     alert('Das Datum muss in der Zukunft liegen!');
                     return;
                 }
@@ -88,7 +89,6 @@ tsModules.TimeSlotTable = (function () {
             timeSlot.time = datetime.format('hh:mm');
             timeSlot.places = places;
             timeSlot.dbState = 1;
-            timeSlot.id = 0;
 
             timeSlotJson.push(timeSlot);
             hiddenField.val(JSON.stringify(timeSlotJson));

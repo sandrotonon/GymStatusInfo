@@ -28,7 +28,6 @@ Temporary Items
 # Project stuff
 .vagrant
 node_modules
-bower_components
 ftppass.json
 *.sublime-project
 *.sublime-workspace

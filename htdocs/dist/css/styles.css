@@ -552,6 +552,10 @@ body {
 .location > .panel .panel-body > .panel {
   margin-bottom: 15px;
 }
+.location > .panel .panel-body > .panel thead th {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 .location > .panel .panel-body > .panel:last-of-type {
   margin-bottom: 0;
 }

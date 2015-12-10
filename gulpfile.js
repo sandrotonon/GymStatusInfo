@@ -95,7 +95,7 @@ gulp.task('watch', function() {
 
 
 gulp.task('deploy', function(){
-  if (passes != 'undefined') {
+  if (passes == 'undefined') {
     return process.stdout.write('\nYou have to set up the ftppass.json before you can deploy!\n');
   }
 
@@ -108,13 +108,11 @@ gulp.task('deploy', function(){
   });
 
   var globs = [
-    // customThemeDir + 'core/**',
-    // customThemeDir + 'dist/**',
-    // customThemeDir + 'font-awesome/**',
-    // customThemeDir + 'fonts/**',
-    // customThemeDir + '.htaccess',
-    // customThemeDir + 'favicon.ico',
-    // customThemeDir + 'index.php',
+    customThemeDir + 'core/**',
+    customThemeDir + 'dist/**',
+    customThemeDir + '.htaccess',
+    customThemeDir + 'favicon.ico',
+    customThemeDir + 'index.php',
     customThemeDir + 'infos.php',
     customThemeDir + 'robots.txt'
   ];
@@ -122,6 +120,6 @@ gulp.task('deploy', function(){
   // turn off buffering in gulp.src for best performance
 
   return gulp.src(globs, {base: 'htdocs', buffer: false})
-    .pipe(conn.newer('/')) // only upload newer files
-    .pipe(conn.dest('/'));
+    .pipe(conn.newer('/html/GymStatusInfo')) // only upload newer files
+    .pipe(conn.dest('/html/GymStatusInfo'));
 });

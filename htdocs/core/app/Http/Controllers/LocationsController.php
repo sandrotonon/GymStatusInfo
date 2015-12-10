@@ -169,12 +169,4 @@ class LocationsController extends Controller
             }
         }
     }
-
-    /**
-    * @param $id ID of the location to get its corresponding dates
-    */
-    private function getDates($id)
-    {
-        // TODO: Return dates as JSON
-    }
 }

@@ -82,6 +82,7 @@ tsModules.Booking = (function() {
 
     changeToBooked: function(button, $field, timeslot) {
       var $timepanels = $field.closest('form').find('.panel-body .panel');
+      var that = this;
 
       $timepanels.each(function(index, $timepanel) {
         if ($timepanel == $field.closest('.panel')[0]) {
@@ -94,6 +95,7 @@ tsModules.Booking = (function() {
 
           if ($($timepanel).attr('data-free-slots') == $($timepanel).attr('data-total-slots')) {
             $noBookings.removeClass('hidden');
+            that.calculateColspan($($timepanel), 1);
           }
         }
       });
@@ -130,6 +132,7 @@ tsModules.Booking = (function() {
 
     changeToAvailable: function(button, $field) {
       var $timepanels = $field.closest('form').find('.panel-body .panel');
+      var that = this;
 
       $timepanels.each(function(index, $timepanel) {
 
@@ -143,6 +146,8 @@ tsModules.Booking = (function() {
 
           if (!$noBookings.hasClass('hidden')) {
             $noBookings.addClass('hidden');
+            var count = $($timepanel).find('.input-row td').length;
+            that.calculateColspan($($timepanel), count);
           }
         }
       });
@@ -222,6 +227,12 @@ tsModules.Booking = (function() {
       }
 
       $timePanel.removeClass().addClass('panel ' + panelStatus).attr('data-free-slots', freeSlots);
-    }
+    },
+
+    calculateColspan: function($panel, colspan) {
+      var $th = $panel.find('thead').first().find('th').last();
+
+      $th.attr('colspan', colspan);
+    },
   };
 })();
