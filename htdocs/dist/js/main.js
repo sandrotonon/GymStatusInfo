@@ -11128,18 +11128,6 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
-$(function () {
-    tsModules.TimeSlots.init();
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-    tsModules.TimeSlotTable.init();
-});
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.Booking = (function() {
 
   return {
@@ -11480,32 +11468,6 @@ tsModules.Initialisation = (function() {
 
 var tsModules = tsModules || {};
 
-tsModules.TimeSlots = (function() {
-
-  return {
-
-    init: function() {
-      var $addButton = $('button#add-time');
-
-      var that = this;
-
-      $addButton.click(function() {
-        that.validate($(this));
-      });
-    },
-
-    validate: function(el) {
-      var panel = el.parentsUntil('.panel');
-      console.log(panel);
-
-      return true;
-    }
-  };
-})();
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.TimeSlotTable = (function () {
 
     return {
@@ -11564,10 +11526,10 @@ tsModules.TimeSlotTable = (function () {
                     return;
                 }
 
-                var datetime = moment(date + 'T' + time, 'YYYY-MM-DDThh:mm');
+                var datetime = moment(date + 'T' + time, 'YYYY-MM-DDTHH:mm');
 
                 var tdDate = '<td>' + datetime.format('DD.MM.YYYY') + '</td>';
-                var tdTime = '<td>' + datetime.format('hh:mm') + '</td>';
+                var tdTime = '<td>' + datetime.format('HH:mm') + '</td>';
                 var tdPlaces = '<td>' + places + '</td>';
 
                 var tdDeleteButton = "<td class='text-right'><a href='#' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>";
@@ -11589,7 +11551,7 @@ tsModules.TimeSlotTable = (function () {
             var timeSlot = {};
 
             timeSlot.date = datetime.format('YYYY-MM-DD');
-            timeSlot.time = datetime.format('hh:mm');
+            timeSlot.time = datetime.format('HH:mm');
             timeSlot.places = places;
             timeSlot.dbState = 1;
             timeSlot.id = 0;
@@ -11605,14 +11567,14 @@ tsModules.TimeSlotTable = (function () {
             var timeString = row.find('td:eq(1)').text();
             var places = row.find('td:eq(2)').text();
 
-            var date = moment(dateString + 'T' + timeString, 'DD.MM.YYYYThh:mm');
+            var date = moment(dateString + 'T' + timeString, 'DD.MM.YYYYTHH:mm');
 
             var hiddenField = $('#timeSlotDates');
             var timeSlotJson = JSON.parse(hiddenField.val());
 
             timeSlotJson.forEach(function (timeSlot) {
 
-                var timeSlotDateTime = moment(timeSlot.date + 'T' + timeSlot.time, 'YYYY-MM-DDThh:mm');
+                var timeSlotDateTime = moment(timeSlot.date + 'T' + timeSlot.time, 'YYYY-MM-DDTHH:mm');
 
                 if (timeSlotDateTime.isSame(date) && timeSlot.places == places) {
                     timeSlot.dbState = 2;
@@ -11624,3 +11586,14 @@ tsModules.TimeSlotTable = (function () {
         }
     };
 })();
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
+});

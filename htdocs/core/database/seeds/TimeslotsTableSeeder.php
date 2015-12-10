@@ -15,35 +15,35 @@ class TimeslotsTableSeeder extends Seeder
     {
         DB::table('timeslots')->delete();
 
-        /*Timeslot::create([
-            'user_id' => '1',
-            'location_id' => '1',
-            'date' => date('Y-m-d', strtotime('2016-01-01')),
-            'time' => date('H:i:s', strtotime('2:00 PM')),
-        ]);
         Timeslot::create([
             'user_id' => '1',
             'location_id' => '1',
-            'date' => date('Y-m-d', strtotime('2016-01-01')),
-            'time' => date('H:i:s', strtotime('2:00 PM')),
-        ]);
-        Timeslot::create([
-            'user_id' => '1',
-            'location_id' => '1',
-            'date' => date('Y-m-d', strtotime('2016-01-01')),
-            'time' => date('H:i:s', strtotime('6:00 PM')),
-        ]);
-        Timeslot::create([
-            'user_id' => '1',
-            'location_id' => '1',
-            'date' => date('Y-m-d', strtotime('2016-01-01')),
-            'time' => date('H:i:s', strtotime('6:00 PM')),
+            'date' => date('Y-m-d', strtotime('01.01.2016')),
+            'time' => date('H:i:s', strtotime('14:00:00')),
         ]);
         /*Timeslot::create([
-            'user_id' => '1',
+            'user_id' => '2',
             'location_id' => '1',
-            'date' => date('Y-m-d', strtotime('2016-01-08')),
-            'time' => date('H:i:s', strtotime('7:00 PM')),
+            'date' => date('Y-m-d', strtotime('01.01.2016')),
+            'time' => date('H:i:s', strtotime('14:00:00')),
+        ]);
+        Timeslot::create([
+            'user_id' => null,
+            'location_id' => '1',
+            'date' => date('Y-m-d', strtotime('01.01.2016')),
+            'time' => date('H:i:s', strtotime('18:00:00')),
+        ]);
+        Timeslot::create([
+            'user_id' => null,
+            'location_id' => '1',
+            'date' => date('Y-m-d', strtotime('01.01.2016')),
+            'time' => date('H:i:s', strtotime('18:00:00')),
+        ]);
+        /*Timeslot::create([
+            'user_id' => null,
+            'location_id' => '1',
+            'date' => date('Y-m-d', strtotime('08.01.2016')),
+            'time' => date('H:i:s', strtotime('17:00:00')),
         ]);*/
     }
 }
