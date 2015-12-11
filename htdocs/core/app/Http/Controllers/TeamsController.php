@@ -200,7 +200,7 @@ class TeamsController extends Controller
             return redirect(route('profile.{slug}.edit', $slug))->withErrors([trans('messages.authentication_error')]);
         }
 
-        $user = User::find($id)->first();
+        $user = User::find($id);
 
         $user->password = bcrypt($request->newpassword);
         $user->save();
