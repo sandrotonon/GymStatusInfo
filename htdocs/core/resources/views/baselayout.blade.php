@@ -77,7 +77,7 @@
         </nav>
 
         <div class="content">
-            @yield('content');
+            @yield('content')
         </div>
 
         <!-- Footer -->
