@@ -21,29 +21,33 @@
             </div>
         </div><!-- /.row -->
 
-        <table class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Sporthalle</th>
-                    <th>Verfügbare Termine</th>
-                    <th class="text-right">Verwaltung</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($locations as $location)
+        @if ($locations->count() == 0)
+            <p class="text-center">Es sind noch keine Sporthallen vorhanden.</p>
+        @else
+            <table class="table table-hover table-striped">
+                <thead>
                     <tr>
-                        <td scope="row">{{ $location->name }}</td>
-                        <td>{{ $location->times->count() }}</td>
-                        <td class="text-right">
-                            {!! Form::open(['method' => 'DELETE', 'action' => ['LocationsController@destroy', $location->id], 'class' => 'inline-form']) !!}
-                                {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'confirmation tooltip', 'title' => $location->name . ' löschen', 'data-placement' => 'top', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
-                            {!! Form::close() !!}
-                            <a href="{{ route('Locations.{slug}.edit', $location->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $location->name }} bearbeiten"><i class="fa fa-pencil"></i></a>
-                        </td>
+                        <th>Sporthalle</th>
+                        <th>Verfügbare Termine</th>
+                        <th class="text-right">Verwaltung</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($locations as $location)
+                        <tr>
+                            <td scope="row">{{ $location->name }}</td>
+                            <td>{{ $location->times->count() }}</td>
+                            <td class="text-right">
+                                {!! Form::open(['method' => 'DELETE', 'action' => ['LocationsController@destroy', $location->id], 'class' => 'inline-form']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'confirmation tooltip', 'title' => $location->name . ' löschen', 'data-placement' => 'top', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
+                                {!! Form::close() !!}
+                                <a href="{{ route('Locations.{slug}.edit', $location->slug) }}" class="btn btn-xs btn-link" data-toggle="tooltip" data-placement="top" title="{{ $location->name }} bearbeiten"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 </section>
 

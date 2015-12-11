@@ -15,7 +15,7 @@ tsModules.Datepicker = (function() {
         startdate = (availableDates.length !== 0) ? availableDates[0] : null;
       }
 
-      $('#hallen .input-group.date').datepicker({
+      $('#hallen .date input').datepicker({
         beforeShowDay: function (date) {
           var day = ('0' + date.getDate()).slice(-2);
           var month = ('0' + (date.getMonth() + 1)).slice(-2);

@@ -144,7 +144,7 @@
                                 @endif
 
                                 <tr class="no-bookings {{$nobookings}}">
-                                    <td colspan="{{ $totalslots + 1 }}" class="text-center"><strong>Noch keine Reservierungen vorhanden!</strong></td>
+                                    <td colspan="{{ $totalslots + 1 }}" class="text-center"><strong>Keine Reservierungen vorhanden!</strong></td>
                                 </tr>
                             </tbody>
                         </table>

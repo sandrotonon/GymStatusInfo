@@ -11128,17 +11128,6 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
-$(function () {
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-    tsModules.TimeSlotTable.init();
-});
-'use strict';
-
-var tsModules = tsModules || {};
-
 tsModules.Booking = (function() {
 
   return {
@@ -11391,7 +11380,7 @@ tsModules.Datepicker = (function() {
         startdate = (availableDates.length !== 0) ? availableDates[0] : null;
       }
 
-      $('#hallen .input-group.date').datepicker({
+      $('#hallen .date input').datepicker({
         beforeShowDay: function (date) {
           var day = ('0' + date.getDate()).slice(-2);
           var month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -11608,3 +11597,14 @@ tsModules.TimeSlotTable = (function () {
         }
     };
 })();
+'use strict';
+
+var tsModules = tsModules || {};
+
+$(function () {
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
+});

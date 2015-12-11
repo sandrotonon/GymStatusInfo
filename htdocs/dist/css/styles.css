@@ -422,7 +422,6 @@ body {
 }
 .navbar.navbar-default .navbar-header button.navbar-toggle {
   border: none;
-  padding: 3px 15px;
 }
 .navbar.navbar-default .navbar-header button.navbar-toggle:hover,
 .navbar.navbar-default .navbar-header button.navbar-toggle:focus,
@@ -433,20 +432,6 @@ body {
 .navbar.navbar-default .navbar-header button.navbar-toggle:focus .icon-bar,
 .navbar.navbar-default .navbar-header button.navbar-toggle:active .icon-bar {
   background-color: #18bc9c;
-}
-.navbar.navbar-default .navbar-header button.navbar-toggle:hover .button-text,
-.navbar.navbar-default .navbar-header button.navbar-toggle:focus .button-text,
-.navbar.navbar-default .navbar-header button.navbar-toggle:active .button-text {
-  color: #18bc9c;
-}
-.navbar.navbar-default .navbar-header button.navbar-toggle .hamburger-menu {
-  display: inline-block;
-}
-.navbar.navbar-default .navbar-header button.navbar-toggle .button-text {
-  font-size: 19px;
-  display: inline-block;
-  text-transform: uppercase;
-  color: white;
 }
 .filter-locations {
   margin-bottom: 30px;

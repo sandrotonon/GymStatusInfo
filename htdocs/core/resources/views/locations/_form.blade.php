@@ -30,28 +30,33 @@
 
 <h3 class="text-center">Termine</h3>
 
-{!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
+@if (empty($timeSlots))
+    <p class="text-center">Es sind noch keine Termine vorhanden.</p>
+    <div class="pb-10"></div>
+@else
+    {!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
 
-<table class="table table-hover table-striped" id="timeSlotTable">
-    <thead>
-        <tr>
-            <th>Datum</th>
-            <th>Uhrzeit</th>
-            <th>Plätze</th>
-            <th class="text-right">Verwaltung</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($timeSlots as $timeSlot)
+    <table class="table table-hover table-striped" id="timeSlotTable">
+        <thead>
             <tr>
-                <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
-                <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
-                <td>{{ $timeSlot->places }}</td>
-                <td class="text-right"><a href='javascript:void(0);' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Plätze</th>
+                <th class="text-right">Verwaltung</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($timeSlots as $timeSlot)
+                <tr>
+                    <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
+                    <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
+                    <td>{{ $timeSlot->places }}</td>
+                    <td class="text-right"><a href='javascript:void(0);' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
 
 <div class="row">
     <div class="col-sm-offset-2 col-sm-8">

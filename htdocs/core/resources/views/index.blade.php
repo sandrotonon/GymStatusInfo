@@ -10,13 +10,11 @@
 
         {!! Form::open(['method' => 'POST', 'action' => 'HomeController@filter', 'class' => 'form-horizontal']) !!}
             <div class="form-group filter-locations">
-                <label for="date-chooser" class="col-sm-4 control-label">Sporthallen nach Datum filtern</label>
-                <div class="col-xs-8 col-sm-4">
-                    <div class="input-group date">
-                        <input type="text" data-available-dates='["{{ implode('","', $availableDates) }}"]' name="date" value="{{ $date->format('d.m.Y') }}" class="form-control"><span class="input-group-addon btn-primary"><i class="glyphicon glyphicon-th"></i></span>
-                    </div>
+                <label for="date-chooser" class="col-xs-12 col-sm-4 control-label">Sporthallen nach Datum filtern</label>
+                <div class="col-xs-7 col-sm-4 date">
+                    <input type="text" data-available-dates='["{{ implode('","', $availableDates) }}"]' name="date" value="{{ $date->format('d.m.Y') }}" class="form-control">
                 </div>
-                <div class="col-xs-4 col-sm-2">
+                <div class="col-xs-5 col-sm-2">
                     <button type="submit" class="btn btn-primary btn-block">Filtern <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>

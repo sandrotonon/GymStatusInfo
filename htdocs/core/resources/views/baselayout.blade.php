@@ -37,7 +37,6 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </div>
-                        <div class="button-text">Menü</div>
                     </button>
                     <a class="navbar-brand" href="{{ route('index') }}" tabindex="1">Hallenbelegungen</a>
                 </div>
