@@ -33,9 +33,6 @@ class Location extends Model
      */
     public $times;
 
-    /**
-     * Holds the state if the authenticated user has booked a time at this location
-     */
     public $booked = false;
 
     public $freeslots = 0;

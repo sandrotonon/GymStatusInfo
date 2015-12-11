@@ -19,7 +19,7 @@ class Timeslot extends Model
      * @var integer
      */
     protected $places = 0;
-    
+
     /**
      * Database state of the current timeslot.
      * 1 - Added, 2 - Removed, 0 - Default
@@ -59,5 +59,19 @@ class Timeslot extends Model
     public function location()
     {
         return $this->belongsTo('App\Location');
+    }
+
+    public function unbook()
+    {
+        return $this->update(['user_id' => null]);
+    }
+
+    public function book($user_id)
+    {
+        if ($user_id === null) {
+            return false;
+        }
+
+        return $this->update(['user_id' => $user_id]);
     }
 }

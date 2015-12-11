@@ -22,13 +22,13 @@ class RolesAndUsersTableSeeder extends Seeder {
 
         $admin = new Role();
         $admin->name = 'admins';
-        $admin->display_name = 'Administratoren';
+        $admin->display_name = 'AdministratorIn';
         $admin->description = 'Darf wirklich alles!';
         $admin->save();
 
         $contributor = new Role();
         $contributor->name = 'contributors';
-        $contributor->display_name = 'Mannschaftsführer(innen)';
+        $contributor->display_name = 'MannschaftsführerIn';
         $contributor->description = 'Darf Hallenbelegungen verwalten!';
         $contributor->save();
 

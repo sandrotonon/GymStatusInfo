@@ -8,6 +8,7 @@ use App\Http\Requests\LocationRequest;
 use App\Http\Controllers\Controller;
 use App\Location;
 use App\Timeslot;
+use Auth;
 
 class LocationsController extends Controller
 {
@@ -168,5 +169,78 @@ class LocationsController extends Controller
                     break;
             }
         }
+    }
+
+    /**
+     * Book a timeslot
+     *
+     * @param  \Illuminate\Http\Request  $id ID of the location where to book
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function book($id, Request $request)
+    {
+        // id is currently not used, maybe check if the timeslots of the request
+        // are timeslots of the location with id $id
+        $success = true;
+
+        if ($request->ajax()) {
+            $toBook = $request->timeslots;
+        } else {
+            $toBook = $request->except(['_method', '_token']);
+        }
+
+        foreach ($toBook as $timeslot) {
+            if (Timeslot::find($timeslot)->user !== null) {
+                $success = false;
+                break;
+            }
+            if (!Timeslot::find($timeslot)->book(Auth::user()->id)) {
+                $success = false;
+            }
+        }
+
+        if ($request->ajax()) {
+            if ($success) {
+                $data = array('status' => 'success', 'message' => 'Reservierung gebucht!');
+            } else {
+                $data = array('status' => 'error', 'message' => 'Reservieren fehlgeschlagen!');
+            }
+
+            return $data;
+        }
+
+        return redirect(route('index'));
+    }
+
+    /**
+     * Unbook a booked timeslot
+     *
+     * @param  \Illuminate\Http\Request  $id ID of the location to unbook the timeslots
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unbook($id, Request $request)
+    {
+        $timeslots = Location::find($id)->timeslots;
+        $success = true;
+
+        foreach ($timeslots as $timeslot) {
+            if ($timeslot->user_id === Auth::user()->id) {
+                $success = $timeslot->unbook();
+            }
+        }
+
+        if ($request->ajax()) {
+            if ($success) {
+                $data = array('status' => 'success', 'message' => 'Reservierung gelöscht!');
+            } else {
+                $data = array('status' => 'error', 'message' => 'Löschen fehlgeschlagen!');
+            }
+
+            return $data;
+        }
+
+        return redirect(route('index'));
     }
 }
