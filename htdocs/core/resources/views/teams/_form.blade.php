@@ -36,7 +36,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12 text-right">
+    <div class="col-sm-12 text-right edit-save">
         <a href="{{ route('Teams.index') }}" class="btn btn-default">Abbrechen</a>
         {!! Form::button($submitButtonText, ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
     </div>

@@ -59,14 +59,9 @@
                         </ul>
                     </div>
                 @elseif (Auth::check())
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" id="mobile-menu">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="hidden">
-                                <a href="#page-top"></a>
-                            </li>
-                            @if (Auth::check())
-                                @include('partials._nav_management')
-                            @endif
+                            @include('partials._nav_management')
                         </ul>
                     </div>
                 @endif

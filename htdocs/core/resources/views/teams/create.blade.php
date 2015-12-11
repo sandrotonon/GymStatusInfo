@@ -4,7 +4,7 @@
 
 @include('partials._breadcrumbs')
 
-<section>
+<section class="management">
     <div class="container">
         <h1 class="text-center">Mannschaft hinzufügen</h1>
         <hr class="star-primary">

@@ -30,33 +30,29 @@
 
 <h3 class="text-center">Termine</h3>
 
-@if (empty($timeSlots))
-    <p class="text-center">Es sind noch keine Termine vorhanden.</p>
-    <div class="pb-10"></div>
-@else
-    {!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
+{!! Form::hidden('timeslotdates', $timeslotdates, ['id' => 'timeSlotDates']); !!}
 
-    <table class="table table-hover table-striped" id="timeSlotTable">
-        <thead>
+<table class="table table-hover table-striped" id="timeSlotTable">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Plätze</th>
+            <th class="text-right">Löschen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($timeSlots as $timeSlot)
             <tr>
-                <th>Datum</th>
-                <th>Uhrzeit</th>
-                <th>Plätze</th>
-                <th class="text-right">Verwaltung</th>
+                <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
+                <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
+                <td>{{ $timeSlot->places }}</td>
+                <td class="text-right"><a href='javascript:void(0);' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach ($timeSlots as $timeSlot)
-                <tr>
-                    <td>{{ date('d.m.Y', strtotime($timeSlot->date)) }}</td>
-                    <td>{{ date('H:i', strtotime($timeSlot->time)) }}</td>
-                    <td>{{ $timeSlot->places }}</td>
-                    <td class="text-right"><a href='javascript:void(0);' class='btn btn-xs btn-link deleteRow' data-toggle='tooltip' data-placement='top' title='Termin löschen'><i class='fa fa-trash'></i></a></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endif
+        @endforeach
+    </tbody>
+</table>
+<div class="pb-10"></div>
 
 <div class="row">
     <div class="col-sm-offset-2 col-sm-8">
@@ -66,26 +62,26 @@
           </div>
           <div class="panel-body">
               <div class="form-group">
-                  {!! Form::label('date', 'Datum', ['class' => 'col-md-4 control-label']) !!}
-                  <div class="col-md-6">
+                  {!! Form::label('date', 'Datum', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
+                  <div class="col-xs-12 col-sm-8 col-md-6">
                       {!! Form::date('date', null, ['class' => 'form-control']) !!}
                   </div>
               </div>
               <div class="form-group">
-                  {!! Form::label('time', 'Uhrzeit', ['class' => 'col-md-4 control-label']) !!}
-                  <div class="col-md-6">
+                  {!! Form::label('time', 'Uhrzeit', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
+                  <div class="col-xs-12 col-sm-8 col-md-6">
                       {!! Form::time('time', null, ['class' => 'form-control']) !!}
                   </div>
               </div>
               <div class="form-group">
-                  {!! Form::label('places', 'Plätze', ['class' => 'col-md-4 control-label']) !!}
-                  <div class="col-md-6">
+                  {!! Form::label('places', 'Plätze', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
+                  <div class="col-xs-12 col-sm-8 col-md-6">
                       {!! Form::number('places', null, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
               <div class="form-group">
-                  <div class="col-md-offset-4 col-md-6">
+                  <div class="col-xs-12 col-sm-offset-4 col-md-6">
                       {!! Form::button('<i class="fa fa-plus"></i> Termin hinzufügen',
                       ['id' => 'add-time', 'class' => 'btn btn-success addRow']) !!}
                   </div>
@@ -96,7 +92,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12 text-right">
+    <div class="col-sm-12 text-right edit-save">
         <a href="{{ route('Locations.index') }}" class="btn btn-default">Abbrechen</a>
         {!! Form::button($submitButtonText, ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
     </div>

@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<section>
+<section class="management">
     <div class="container">
         <h3 class="text-center">Mannschaft bearbeiten:</h3>
         <h1 class="text-center">{{ $user->team }}</h1>
