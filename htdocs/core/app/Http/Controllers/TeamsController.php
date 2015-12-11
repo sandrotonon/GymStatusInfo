@@ -33,6 +33,11 @@ class TeamsController extends Controller
     {
         $users = User::orderBy('name')->get();
 
+        // Hide admin accounts with starting teamname 'verwaltung'-x
+        $users = $users->filter(function ($user) {
+            return substr($user->slug, 0, 10) !== 'verwaltung';
+        });
+
         return view('teams.index', compact('users'));
     }
 

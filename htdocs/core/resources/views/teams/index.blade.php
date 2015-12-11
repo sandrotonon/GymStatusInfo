@@ -29,6 +29,7 @@
                     <tr>
                         <th>Mannschaft</th>
                         <th>Mannschaftsführer</th>
+                        <th>Rolle</th>
                         <th class="text-right">Verwaltung</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
                         <tr>
                             <td scope="row">{{ $user->team }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>{{ $user->roles->first()->display_name }}</td>
                             <td class="text-right">
                                 {!! Form::open(['method' => 'DELETE', 'action' => ['TeamsController@destroy', $user->id], 'class' => 'inline-form']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>', ['data-toggle' => 'confirmation tooltip', 'data-placement' => 'top', 'title' => $user->team . ' löschen', 'class' => 'btn btn-xs btn-link', 'type' => 'submit']) !!}
