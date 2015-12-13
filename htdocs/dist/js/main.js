@@ -11128,6 +11128,17 @@ return Outlayer;
 
 var tsModules = tsModules || {};
 
+$(function () {
+    tsModules.Datepicker.init();
+    tsModules.Initialisation.init();
+    tsModules.LightTableFilter.init();
+    tsModules.Booking.init();
+    tsModules.TimeSlotTable.init();
+});
+'use strict';
+
+var tsModules = tsModules || {};
+
 tsModules.Booking = (function() {
 
   return {
@@ -11138,7 +11149,7 @@ tsModules.Booking = (function() {
 
     init: function() {
       var $bookButtons = $('button.btn-book');
-      var form, method;
+      var form, method, token;
       var that = this;
 
       $bookButtons.each(function() {
@@ -11147,21 +11158,25 @@ tsModules.Booking = (function() {
 
           that.globals.$overlay = $(this).closest('.panel').find('.overlay');
 
-          method = ($(this).hasClass('btn-book-book')) ? 'book' : 'unbook';
           form = $(this).closest('form');
+          token = form.find('input[name="_token"]').val();
+          method = ($(this).hasClass('btn-book-book')) ? 'book' : 'unbook';
           var message = (method === 'book') ? 'Wird reserviert...' : 'Reservierung wird gelöscht...' ;
-          var token = form.find('input[name="_token"]').val();
-          var timeslot = (form.find('input:checked').length !== 0) ? form.find('input:checked').val() : form.find('td[data-booked-by-user="1"]').attr('data-timeslot-id');
-          var responseStatus, responseText;
+          var location = form.attr('data-location');
+          var responseStatus = 'error', responseText;
+
+          var timeslots = [];
+          form.find('input:checked').each(function() {
+            timeslots.push($(this).val());
+          });
 
           that.globals.$overlay.find('.booking-progress p').text(message);
-
           that.globals.$overlay.fadeTo(300, 0.92);
           setTimeout(function(){
             that.globals.$overlay.find('.booking-progress').fadeIn(500);
           }, 300);
 
-          if (timeslot === undefined) {
+          if (method === 'book' && timeslots.length === 0) {
             setTimeout(function(){
               that.hideOverlay('error', 'Bitte einen Platz auswählen!');
             }, 500);
@@ -11173,192 +11188,163 @@ tsModules.Booking = (function() {
           $.ajax({
             type: 'POST',
             cache: false,
-            url : 'timeslot/' + timeslot + '/' + method,
+            url : 'location/' + location + '/' + method,
             data: {
               _token: token,
               _method: 'PATCH',
-              timeslot: timeslot
+              timeslots: timeslots
             }
           })
           .done(function(data) {
             // Serverantwort bekommen
             if (data.status === 'success') {
-              responseStatus = 'success';
+              responseStatus = data.status;
+
               if (method === 'book') {
-                that.changeToBooked(e.target, form.find('input:checked').closest('td'), timeslot);
+                that.changeToBooked(form, timeslots);
               } else {
-                that.changeToAvailable(e.target, form.find('td[data-booked-by-user="1"]').closest('td'));
+                that.changeToAvailable(form);
               }
             }
             responseText = data.message;
           })
           .fail(function(jqXHR, ajaxOptions, thrownError) {
             // Server sendet keine Antwort
-            responseStatus = 'error';
             responseText = 'Der Server antwortet nicht, bitte versuchen Sie es später noch einmal!';
           })
           .always(function() {
             that.hideOverlay(responseStatus, responseText);
           });
 
+          // Masonry reload
+          $('.grid').masonry('reloadItems');
+          $('.grid').masonry();
+
           return false;
         });
       });
     },
 
-    changeToBooked: function(button, $field, timeslot) {
-      var $timepanels = $field.closest('form').find('.panel-body .panel');
-      var that = this;
+    changeToBooked: function(form, timeslots) {
+      var $timepanels = form.find('.panel-body .panel');
 
       $timepanels.each(function(index, $timepanel) {
-        if ($timepanel == $field.closest('.panel')[0]) {
-          return;
-        }
-        if ($($timepanel).attr('data-free-slots') > 0) {
-          var $inputRow = $($timepanel).find('.input-row');
-          var $noBookings = $($timepanel).find('.no-bookings');
-          $inputRow.addClass('hidden');
+        var $row = $($timepanel).find('.input-row');
+        var $tds = $row.find('td');
+        var timeBooked = false;
 
-          if ($($timepanel).attr('data-free-slots') == $($timepanel).attr('data-total-slots')) {
-            $noBookings.removeClass('hidden');
-            that.calculateColspan($($timepanel), 1);
+        $tds.each(function() {
+          if ($.inArray($(this).attr('data-timeslot-id'), timeslots) !== -1) {
+            timeBooked = true;
+            // Change input field to icon check
+            $(this).attr('data-available', 0);
+            $(this).attr('data-booked-by-user', 1);
           }
-        }
-      });
+        });
+        $tds.each(function() {
+          if ($(this).attr('data-booked-by-user') === '1') {
+            $(this).html('<i class="fa fa-check"></i><span class="sr-only">Platz belegt</span>');
 
-      var $row = $field.closest('tr');
+          } else if (timeBooked && $(this).attr('data-available') == '0') {
+            // Change input to booked field
+            $(this).html('<span class="sr-only">Platz belegt</span>');
 
-      // Change radios to empty fields and booked field
-      $row.find('td').each(function(index, element) {
-        if ($(element).attr('data-timeslot-id') == timeslot) {
-
-          // Change input field to icon check
-          $field.attr('data-available', 0);
-          $field.attr('data-booked-by-user', 1);
-          $(element).html('<i class="fa fa-check"></i><span class="sr-only">Platz belegt</span>');
-
-        } else if ($(element).attr('data-available') == '0') {
-          // Change input to empty field
-          $(element).html('<span class="sr-only">Platz belegt</span>');
-        } else if ($(element).attr('data-available') == '1') {
-          // Change input to booked field
-          $(element).html('<span class="sr-only">Platz noch nicht belegt</span>');
-        }
+          } else if (timeBooked && $(this).attr('data-available') == '1') {
+            // Change input to available field
+            $(this).html('<span class="sr-only">Platz noch nicht belegt</span>');
+          }
+        });
       });
 
       // Change button
-      $(button).removeClass('btn-book-book btn-primary').addClass('btn-book-unbook btn-danger').html('<i class="fa fa-times"></i> Reservierung löschen');
+      form.find('button').removeClass('btn-book-book btn-primary').addClass('btn-book-unbook btn-danger').html('<i class="fa fa-times"></i> Reservierung löschen');
 
-      this.calculateFreeSlots(button, $field, 'decrease');
-
-      // Masonry reload
-      $('.grid').masonry('reloadItems');
-      $('.grid').masonry();
+      this.calculateFreeSlots(form, 'decrease', timeslots.length);
     },
 
-    changeToAvailable: function(button, $field) {
-      var $timepanels = $field.closest('form').find('.panel-body .panel');
-      var that = this;
-
-      $timepanels.each(function(index, $timepanel) {
-
-        if ($timepanel == $field.closest('.panel')[0]) {
-          return;
-        }
-        if ($($timepanel).attr('data-free-slots') > 0) {
-          var $inputRow = $($timepanel).find('.input-row');
-          var $noBookings = $($timepanel).find('.no-bookings');
-          $inputRow.removeClass('hidden');
-
-          if (!$noBookings.hasClass('hidden')) {
-            $noBookings.addClass('hidden');
-            var count = $($timepanel).find('.input-row td').length;
-            that.calculateColspan($($timepanel), count);
-          }
+    changeToAvailable: function(form) {
+      var $tds = form.find('td');
+      var timeslots = [];
+      $tds.each(function() {
+        if ($(this).attr('data-booked-by-user') === '1') {
+          timeslots.push($(this).attr('data-timeslot-id'));
         }
       });
+      var $timepanels = form.find('.panel-body .panel');
 
-      var $row = $field.closest('tr');
+      $timepanels.each(function(index, $timepanel) {
+        var time = $(this).attr('data-time');
+        var $row = $($timepanel).find('.input-row');
+        var $tds = $row.find('td');
 
-      $row.find('td').each(function(index, element) {
-        if ($(element).attr('data-booked-by-user') == '1' || $(element).attr('data-available') == '1') {
-
-          // Change icon checked to input
-          $field.attr('data-available', 1);
-          $field.attr('data-booked-by-user', 0);
-          $(element).html('<input type="radio" name="timeslot" value="' + $(element).attr('data-timeslot-id') + '"></input>');
-
-        }
+        $tds.each(function() {
+          if ($.inArray($(this).attr('data-timeslot-id'), timeslots) !== -1 || $(this).attr('data-available') === '1') {
+            // Change icon check field to input
+            $(this).attr('data-available', 1);
+            $(this).attr('data-booked-by-user', 0);
+            $(this).html('<input type="radio" name="timeslot-' + time + '" value="' + $(this).attr('data-timeslot-id') + '"></input>');
+          }
+        });
       });
 
       // Change button
-      $(button).removeClass('btn-book-unbook btn-danger').addClass('btn-book-book btn-primary').html('<i class="fa fa-check"></i> Reservierung speichern');
+      form.find('button').removeClass('btn-book-unbook btn-danger').addClass('btn-book-book btn-primary').html('<i class="fa fa-check"></i> Reservierung speichern');
 
-      this.calculateFreeSlots(button, $field, 'increase');
-
-      // Masonry reload
-      $('.grid').masonry('reloadItems');
-      $('.grid').masonry();
+      this.calculateFreeSlots(form, 'increase', timeslots.length);
     },
 
     hideOverlay: function(responseStatus, responseText) {
       var $overlay = this.globals.$overlay;
-      // Spinner ausblenden
+      // Hide spinner
       $overlay.find('.booking-progress').fadeOut(500);
 
-      // Reservierungsprozess-Antwort anzeigen
+      // Display booking-process response
       setTimeout(function(){
         $overlay.find('.booking-' + responseStatus).find('.response').text(responseText);
         $overlay.find('.booking-' + responseStatus).fadeIn(500);
       }, 300);
 
-      // Overlay ausblenden
+      // Hide overlay
       setTimeout(function(){
         $overlay.find('.booking-' + responseStatus).fadeOut(0);
         $overlay.fadeOut(500);
       }, 2000);
     },
 
-    calculateFreeSlots: function(button, $field, method) {
-      // TODO
-      var $locationHeading = $(button).closest('.panel').find('> .panel-heading');
-      var $timePanel = $field.closest('.panel');
-
-      // Calculate total free slots
-      var totalFreeSlots = $locationHeading.attr('data-free-slots');
-      if (method === 'increase') {
-        totalFreeSlots++;
+    calculateFreeSlots: function(form, method, count) {
+      // Recalculate freeslots at the top of the location
+      var $locationHeading = form.children('.panel-heading');
+      var totalFreeSlots = parseInt($locationHeading.attr('data-free-slots'));
+      if (method === 'decrease') {
+        totalFreeSlots -= count;
       } else {
-        totalFreeSlots--;
+        totalFreeSlots = totalFreeSlots + count;
       }
+
       var totalFreeslotsSuffix = (totalFreeSlots === 0 || totalFreeSlots > 1) ? ' Freie Plätze' : ' Freier Platz';
+      $locationHeading.attr('data-free-slots', totalFreeSlots).find('.count-all').text('(' + totalFreeSlots + totalFreeslotsSuffix + ')');
 
-      $locationHeading.attr('data-free-slots', totalFreeSlots).find('.count-all').text(totalFreeSlots + totalFreeslotsSuffix);
+      // Calculate color of time-panels
+      var $timepanels = form.find('.panel-body .panel');
+      $timepanels.each(function() {
+        var freeSlots = $(this).attr('data-free-slots');
+        var totalSlots = $(this).attr('data-total-slots');
+        var panelStatus = 'panel-success';
 
-      // Calculate color of time-panel
-      var freeSlots = $timePanel.attr('data-free-slots');
-      var totalSlots = $timePanel.attr('data-total-slots');
-      var panelStatus = 'panel-success';
+        if (method === 'increase') {
+          freeSlots++;
+        } else {
+          freeSlots--;
+        }
 
-      if (method === 'increase') {
-        freeSlots++;
-      } else {
-        freeSlots--;
-      }
+        if (freeSlots === 0) {
+            panelStatus = 'panel-danger';
+        } else if (freeSlots / totalSlots * 100 <= 50) {
+            panelStatus = 'panel-warning';
+        }
 
-      if (freeSlots === 0) {
-          panelStatus = 'panel-danger';
-      } else if (freeSlots / totalSlots * 100 <= 50) {
-          panelStatus = 'panel-warning';
-      }
-
-      $timePanel.removeClass().addClass('panel ' + panelStatus).attr('data-free-slots', freeSlots);
-    },
-
-    calculateColspan: function($panel, colspan) {
-      var $th = $panel.find('thead').first().find('th').last();
-
-      $th.attr('colspan', colspan);
+        $(this).removeClass().addClass('panel ' + panelStatus).attr('data-free-slots', freeSlots);
+      });
     },
   };
 })();
@@ -11597,14 +11583,3 @@ tsModules.TimeSlotTable = (function () {
         }
     };
 })();
-'use strict';
-
-var tsModules = tsModules || {};
-
-$(function () {
-    tsModules.Datepicker.init();
-    tsModules.Initialisation.init();
-    tsModules.LightTableFilter.init();
-    tsModules.Booking.init();
-    tsModules.TimeSlotTable.init();
-});

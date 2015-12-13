@@ -52,15 +52,6 @@ class HomeController extends Controller
 
             foreach ($timeslots as $timeslot) {
                 array_add($times, $timeslot->time, collect([]));
-
-                // Check if current user already booked a slot at this location
-                if (Auth::check() &&
-                    $timeslot->user !== null &&
-                    Auth::user()->id === $timeslot->user->id) {
-                    $location->booked = true;
-                }
-
-                // TODO: sort times
             }
             $location->times = $times;
         }
@@ -200,6 +191,7 @@ class HomeController extends Controller
             foreach ($times as $timestring => $time) {
                 $count = 0;
                 $freeslots = 0;
+                array_add($time, 'booked', false);
                 foreach ($timeslots as $timeslot) {
                     array_add($time, 'timeslots', collect([]));
                     if ($timeslot->location->name === $key &&
@@ -209,6 +201,9 @@ class HomeController extends Controller
                             if ($timeslot->user_id === null) {
                                 $freeslots++;
                                 $location->freeslots = $location->freeslots + 1;
+                            } else if (Auth::check() && $timeslot->user_id === Auth::user()->id) {
+                                $time['booked'] = true;
+                                $location->booked = true;
                             }
                     }
                 }

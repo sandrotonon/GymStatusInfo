@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 location">
     <?php $type = ($location->booked) ? 'unbook' : 'book'; ?>
 
-    {!! Form::open(['method' => 'PATCH', 'route' => [$type, 'id' => $location->id], 'class' => 'panel panel-primary']) !!}
+    {!! Form::open(['method' => 'PATCH', 'route' => [$type, 'id' => $location->id], 'class' => 'panel panel-primary', 'data-location' => $location->id]) !!}
 
         <div class="overlay">
             <div class="content-wrapper">
@@ -49,7 +49,7 @@
                         $status = 'warning';
                     }
                 ?>
-                <div class="panel panel-{{ $status }}" data-free-slots="{{ $freeslots = $times['freeslots'] }}" data-total-slots="{{ $totalslots = $times['totalslots'] }}">
+                <div class="panel panel-{{ $status }}" data-free-slots="{{ $freeslots = $times['freeslots'] }}" data-total-slots="{{ $totalslots }}" data-time="{{ Carbon\Carbon::createFromFormat('H:i:s', $time)->format('H:i') }}">
                     <!-- Default panel contents -->
                     <div class="panel-heading">
                         <h3 class="panel-title text-center">{{ Carbon\Carbon::createFromFormat('H:i:s', $time)->format('H:i') }} Uhr</h3>
@@ -58,21 +58,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <?php
-                                $nobookings = 'hidden';
-                                $inputRow = 'hidden';
                                 $colspan = $times['timeslots']->count();
-
-                                if (Auth::check()) {
-                                    if ($location->booked && $freeslots == $totalslots) {
-                                        $nobookings = '';
-                                    } else if (!$location->booked && $freeslots > 0) {
-                                        $inputRow = '';
-                                    }
-                                } else {
-                                    if ($freeslots === $totalslots) {
-                                        $nobookings = '';
-                                    }
-                                }
                             ?>
 
                             <thead>
@@ -82,26 +68,22 @@
                                 </tr>
                                 <tr>
                                     <th width="45%"><small>Mannschaft</small></th>
-                                    @for ($i = 1; $i <= $totalslots; $i++)
+                                    @for($i = 1; $i <= $totalslots; $i++)
                                         <th class="text-center"><small>{{ $i }}</small></th>
                                     @endfor
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    $viewed = false;
-                                ?>
+                                <?php $booked = ($times['booked']) ? 'hidden' : '' ?>
+
                                 @foreach($times['timeslots'] as $timeslot)
                                     @if($timeslot->user_id !== null)
                                         <?php
-                                            $userRow = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? 'input-row' : '';
+                                            $inputRow = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? 'input-row' : '';
                                         ?>
-                                        <tr class="{{ $userRow }}">
+                                        <tr class="{{ $inputRow }}">
                                             <?php
                                                 $teamname = (Auth::check() && $timeslot->user->team === Auth::user()->team) ? '<strong>' . $timeslot->user->team . '</strong>' : $timeslot->user->team;
-                                                if (Auth::check() && $timeslot->user->team === Auth::user()->team) {
-                                                    $viewed = true;
-                                                }
                                             ?>
                                             <td width="45%">{!! $teamname !!}</td>
                                             @for($i = 0; $i < $times['timeslots']->count(); $i++)
@@ -124,8 +106,8 @@
                                     @endif
                                 @endforeach
 
-                                @if(Auth::check() && !$viewed)
-                                    <tr class="input-row {{ $inputRow }}">
+                                @if(!$times['booked'] && $freeslots > 0 && Auth::check())
+                                    <tr class="input-row {{ $booked }}">
                                         <td><strong>{{ Auth::user()->team }}</strong></td>
                                         @for($i = 0; $i < $times['timeslots']->count(); $i++)
                                             <?php
@@ -134,7 +116,7 @@
                                             ?>
                                             <td class="text-center" data-available="{{ $available }}" data-timeslot-id="{{ $times['timeslots'][$i]->id }}" data-booked-by-user="{{ $bookedByUser }}">
                                                 @if($times['timeslots'][$i]->user_id === null)
-                                                    <input type="radio" value="{{ $times['timeslots'][$i]->id }}" name="timeslot">
+                                                    <input type="radio" value="{{ $times['timeslots'][$i]->id }}" name="timeslot-{{ $time }}">
                                                 @else
                                                     <span class="sr-only">Platz belegt</span>
                                                 @endif
@@ -143,9 +125,11 @@
                                     </tr>
                                 @endif
 
-                                <tr class="no-bookings {{$nobookings}}">
-                                    <td colspan="{{ $totalslots + 1 }}" class="text-center"><strong>Keine Reservierungen vorhanden!</strong></td>
-                                </tr>
+                                @if(!Auth::check() && $totalslots == $freeslots)
+                                    <tr class="no-bookings {{ $booked }}">
+                                        <td colspan="{{ $totalslots + 1 }}" class="text-center"><strong>Keine Reservierungen vorhanden!</strong></td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

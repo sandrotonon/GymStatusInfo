@@ -90,8 +90,8 @@ Route::patch('/profil/{id}', ['as' => 'profile.update', 'uses' => 'TeamsControll
 | Timeslot routes
 |--------------------------------------------------------------------------
 */
-Route::patch('timeslot/{id}/book', ['as' => 'book', 'uses' => 'TimeslotsController@book']);
-Route::patch('timeslot/{id}/unbook', ['as' => 'unbook', 'uses' => 'TimeslotsController@unbook']);
+Route::patch('location/{id}/book', ['as' => 'book', 'uses' => 'LocationsController@book']);
+Route::patch('location/{id}/unbook', ['as' => 'unbook', 'uses' => 'LocationsController@unbook']);
 
 
 /*
