@@ -109,6 +109,10 @@ return [
         'oldpassword' => 'Altes Passwort',
         'newpassword' => 'Neues Passwort',
         'newpassword_confirmation' => 'Neues Passwort bestätigen',
+        'name' => 'Name',
+        'team' => 'Mannschaftsführer',
+        'email' => 'E-Mail',
+        'role' => 'Rolle'
     ],
 
 ];

@@ -150,7 +150,7 @@ class TeamsController extends Controller
         $user = User::findOrFail($id);
 
         // The default admin user can not delete himself
-        if($user->id == 1) {
+        if(in_array($user->id, [1, 2, 3])) {
             session()->flash('error', trans('messages.delete_admin_error', ['team' => $user->team]));
 
             return redirect(route('Teams.index'));
