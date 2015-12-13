@@ -130,7 +130,7 @@ class TeamsController extends Controller
 
         // Delete all role references from user
         $user->update($request->all());
-        $user>detachRoles($user->roles);
+        $user->detachRoles($user->roles);
 
         // Attach new role to user
         $role = Input::get('role');
