@@ -132,7 +132,7 @@ class LocationsController extends Controller
             $tmp = collect([]);
 
             foreach ($location->timeslots as $timeslot) {
-                array_add($tmp, $timeslot->time, $timeslot->id);
+                array_add($tmp, $timeslot->date->format('d-m-Y'), $timeslot->id);
             }
 
             $location->times = $tmp;
