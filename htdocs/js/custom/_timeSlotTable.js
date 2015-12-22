@@ -37,6 +37,8 @@ tsModules.TimeSlotTable = (function () {
 
                 var date = $('#date').val();
                 var time = $('#time').val();
+                var datetime = moment(date + 'T' + time, 'DD.MM.YYYYTHH:mm');
+
                 var places = $('#places').val();
 
                 // TODO: Validation!
@@ -45,7 +47,7 @@ tsModules.TimeSlotTable = (function () {
                     return;
                 }
 
-                if (moment(date, 'YYYY-MM-DD').isBefore(moment())) {
+                if (datetime.isBefore(moment())) {
                     // If the date is before "now" (moment())
                     alert('Das Datum muss in der Zukunft liegen!');
                     return;
@@ -60,8 +62,6 @@ tsModules.TimeSlotTable = (function () {
                     alert('Plätze fehlen');
                     return;
                 }
-
-                var datetime = moment(date + 'T' + time, 'YYYY-MM-DDTHH:mm');
 
                 var tdDate = '<td>' + datetime.format('DD.MM.YYYY') + '</td>';
                 var tdTime = '<td>' + datetime.format('HH:mm') + '</td>';

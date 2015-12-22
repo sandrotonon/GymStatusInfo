@@ -64,19 +64,19 @@
               <div class="form-group">
                   {!! Form::label('date', 'Datum', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
                   <div class="col-xs-12 col-sm-8 col-md-6">
-                      {!! Form::date('date', null, ['class' => 'form-control']) !!}
+                      {!! Form::text('date', null, ['class' => 'form-control', 'placeholder' => 'Beispiel: 01.01.2019']) !!}
                   </div>
               </div>
               <div class="form-group">
                   {!! Form::label('time', 'Uhrzeit', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
                   <div class="col-xs-12 col-sm-8 col-md-6">
-                      {!! Form::time('time', null, ['class' => 'form-control']) !!}
+                      {!! Form::text('time', null, ['class' => 'form-control', 'placeholder' => 'Beispiel: 19:00']) !!}
                   </div>
               </div>
               <div class="form-group">
                   {!! Form::label('places', 'Plätze', ['class' => 'col-xs-12 col-sm-4 col-md-4 control-label']) !!}
                   <div class="col-xs-12 col-sm-8 col-md-6">
-                      {!! Form::number('places', null, ['class' => 'form-control']) !!}
+                      {!! Form::text('places', null, ['class' => 'form-control', 'placeholder' => 'Beispiel: 4']) !!}
                   </div>
               </div>
 

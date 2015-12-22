@@ -82,7 +82,7 @@ class TeamsController extends Controller
            'team' => Input::get('team'),
            'email' => Input::get('email'),
            'password' => Input::get('password'),
-           'role' => Role::find($role)->name
+           'role' => Role::find($role)->display_name
         ];
 
         try {
