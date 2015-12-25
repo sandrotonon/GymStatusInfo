@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Location;
 use App\Timeslot;
 use Auth;
+use Carbon\Carbon;
 
 class LocationsController extends Controller
 {
@@ -71,7 +72,7 @@ class LocationsController extends Controller
     public function edit($slug)
     {
         $location = Location::where('slug', $slug)->first();
-        $timeSlots = Timeslot::where('location_id', '=', $location->id)->groupBy('date', 'time', 'location_id')->get();
+        $timeSlots = Timeslot::where('location_id', '=', $location->id)->where('date', '>=', Carbon::now()->format('Y-m-d'))->groupBy('date', 'time', 'location_id')->get();
 
         foreach ($timeSlots as $timeSlot) {
             $timeSlot->places =
